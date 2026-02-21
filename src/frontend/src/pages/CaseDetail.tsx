@@ -1,10 +1,11 @@
 import { useParams, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, Phone, MessageSquare, Mail, User } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Mail } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import StatusBadge from '../components/StatusBadge';
-import CopyButton from '../components/CopyButton';
 import ActivitySection from '../components/ActivitySection';
 import DocumentsSection from '../components/DocumentsSection';
+import CopyButton from '../components/CopyButton';
+import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
 
 // Dummy case data lookup
@@ -251,6 +252,18 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
   },
 };
 
+function getDpdBadgeClasses(dpd: bigint): string {
+  const dpdNumber = Number(dpd);
+  
+  if (dpdNumber <= 30) {
+    return 'bg-green-100 text-green-800';
+  } else if (dpdNumber <= 60) {
+    return 'bg-amber-100 text-amber-800';
+  } else {
+    return 'bg-red-100 text-red-800';
+  }
+}
+
 export default function CaseDetail() {
   const { caseId } = useParams({ from: '/case/$caseId' });
   const navigate = useNavigate();
@@ -258,136 +271,140 @@ export default function CaseDetail() {
 
   if (!caseData) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <button
-          onClick={() => navigate({ to: '/' })}
-          className="mb-4 flex items-center gap-2 text-gray-600 hover:text-gray-900"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Dashboard
-        </button>
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-800">
-          <p className="font-medium">Error loading case</p>
-          <p className="text-sm mt-1">Case not found</p>
+      <PhoneMockup>
+        <div className="p-3">
+          <button
+            onClick={() => navigate({ to: '/' })}
+            className="mb-3 flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+          >
+            <ArrowLeft className="w-3 h-3" />
+            Back to Dashboard
+          </button>
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800">
+            <p className="font-medium text-sm">Error loading case</p>
+            <p className="text-xs mt-1">Case not found</p>
+          </div>
         </div>
-      </div>
+      </PhoneMockup>
     );
   }
 
   const dpdValue = Number(caseData.dpd);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <button
-        onClick={() => navigate({ to: '/' })}
-        className="mb-6 flex items-center gap-2 text-gray-600 hover:text-gray-900"
-      >
-        <ArrowLeft className="w-4 h-4" />
-        Back to Dashboard
-      </button>
+    <PhoneMockup>
+      <div className="p-3 pb-3">
+        <button
+          onClick={() => navigate({ to: '/' })}
+          className="mb-3 flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+        >
+          <ArrowLeft className="w-3 h-3" />
+          Back to Dashboard
+        </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Column - Debtor Info + Documents */}
-        <div className="space-y-6">
-          {/* Debtor Information Card */}
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-                <User className="w-5 h-5 text-gray-600" />
-              </div>
-              <h1 className="text-xl font-bold text-gray-900">{caseData.debtorName}</h1>
+        {/* Debtor Info Section */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <h1 className="text-base font-bold text-gray-900">{caseData.debtorName}</h1>
               <StatusBadge status={caseData.status} />
             </div>
-
-            <div className="flex gap-2 mb-6">
-              <button className="w-10 h-10 rounded-full bg-teal-dark text-white flex items-center justify-center hover:bg-teal-darker transition-colors">
-                <Phone className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-teal-dark text-white flex items-center justify-center hover:bg-teal-darker transition-colors">
-                <MessageSquare className="w-4 h-4" />
-              </button>
-              <button className="w-10 h-10 rounded-full bg-teal-dark text-white flex items-center justify-center hover:bg-teal-darker transition-colors">
-                <Mail className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 mb-6">
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Customer ID</p>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-gray-900">{caseData.customerId}</p>
-                  <CopyButton text={caseData.customerId} />
-                </div>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Mobile Number</p>
-                <div className="flex items-center gap-2">
-                  <Phone className="w-3 h-3 text-gray-400" />
-                  <p className="text-sm font-medium text-gray-900">{caseData.phoneNumber}</p>
-                </div>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Name of account</p>
-                <p className="text-sm font-medium text-gray-900">{caseData.debtorName}</p>
-              </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Contract ID</p>
-                <div className="flex items-center gap-2">
-                  <p className="text-sm font-medium text-gray-900">{caseData.contractId}</p>
-                  <CopyButton text={caseData.contractId} />
-                </div>
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200 pt-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Amount Due</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    KES {caseData.amountDue.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Days Past Due</p>
-                  <span className="inline-flex items-center px-3 py-1 rounded-md text-sm font-semibold bg-red-600 text-white">
-                    DPD {dpdValue} days
-                  </span>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Paid Amount</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    KES {caseData.paidAmount.toLocaleString()}
-                  </p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Payoff Balance</p>
-                  <p className="text-lg font-bold text-gray-900">
-                    KES {caseData.payoffBalance.toLocaleString()}
-                  </p>
-                </div>
-              </div>
+            <div className="flex gap-1">
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
+                <Phone className="w-3 h-3" />
+              </Button>
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
+                <MessageSquare className="w-3 h-3" />
+              </Button>
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
+                <Mail className="w-3 h-3" />
+              </Button>
             </div>
           </div>
 
-          {/* Documents Section */}
-          <DocumentsSection caseId={caseId} />
+          <div className="space-y-1.5 text-xs">
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-600 font-medium">Customer ID:</span>
+              <div className="flex items-center gap-1">
+                <span className="font-mono">{caseData.customerId}</span>
+                <CopyButton text={caseData.customerId} />
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-1.5">
+              <span className="text-gray-600 font-medium">Mobile:</span>
+              <span>{caseData.phoneNumber}</span>
+            </div>
+          </div>
         </div>
 
-        {/* Right Column - Activity */}
-        <div className="space-y-6">
-          <ActivitySection caseId={caseId} />
+        {/* Financial Metrics */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
+          <div className="grid grid-cols-2 gap-2 mb-2">
+            <div>
+              <p className="text-[10px] text-gray-600 mb-0.5">Amount Due</p>
+              <p className="text-sm font-semibold text-gray-900">
+                KES {caseData.amountDue.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-600 mb-0.5">Paid Amount</p>
+              <p className="text-sm font-semibold text-gray-900">
+                KES {caseData.paidAmount.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-600 mb-0.5">Payoff Balance</p>
+              <p className="text-sm font-semibold text-gray-900">
+                KES {caseData.payoffBalance.toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-600 mb-0.5">Days Past Due</p>
+              <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold ${getDpdBadgeClasses(caseData.dpd)}`}>
+                {dpdValue} days
+              </span>
+            </div>
+          </div>
+          
+          <div className="pt-2 border-t border-gray-200">
+            <p className="text-[10px] text-gray-600 mb-0.5">Contract ID</p>
+            <p className="text-xs font-mono text-gray-900">{caseData.contractId}</p>
+          </div>
         </div>
-      </div>
 
-      {/* Fixed Footer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg">
-        <div className="max-w-7xl mx-auto flex justify-end gap-3">
-          <Button variant="outline" onClick={() => navigate({ to: '/' })}>
-            Cancel
-          </Button>
-          <Button className="bg-teal-dark hover:bg-teal-darker text-white">Submit</Button>
+        {/* Documents Section */}
+        <div className="mb-2">
+          <DocumentsSection caseId={caseData.id} />
+        </div>
+
+        {/* Submit and Cancel Buttons */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => navigate({ to: '/' })}
+              className="flex-1 h-8 text-xs"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                // Submit logic here
+                navigate({ to: '/' });
+              }}
+              className="flex-1 h-8 text-xs bg-teal-dark hover:bg-teal-dark/90"
+            >
+              Submit
+            </Button>
+          </div>
+        </div>
+
+        {/* Activity Section */}
+        <div className="mb-2">
+          <ActivitySection caseId={caseData.id} />
         </div>
       </div>
-    </div>
+    </PhoneMockup>
   );
 }

@@ -1,4 +1,7 @@
+import { useState, useMemo } from 'react';
+import { Search } from 'lucide-react';
 import CaseCard from '../components/CaseCard';
+import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
 
 // Dummy data for 20 realistic collection cases
@@ -245,31 +248,100 @@ const DUMMY_CASES: Case[] = [
   },
 ];
 
+type FilterType = 'workload' | 'priority' | 'notContacted';
+
 export default function TaskQueue() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState<FilterType>('workload');
+  
   const cases = DUMMY_CASES;
-  const totalCases = cases.length;
-  const displayedCases = cases.slice(0, 10);
+
+  // Apply filters based on active filter
+  const filteredCases = useMemo(() => {
+    let filtered = cases;
+
+    if (activeFilter === 'priority') {
+      // Filter cases with DPD >= 90
+      filtered = cases.filter((c) => Number(c.dpd) >= 90);
+    } else if (activeFilter === 'notContacted') {
+      // Filter cases that have not been contacted (status is active)
+      filtered = cases.filter((c) => c.status === CaseStatus.active);
+    }
+    // 'workload' shows all cases
+
+    return filtered;
+  }, [cases, activeFilter]);
+
+  const displayedCases = filteredCases.slice(0, 10);
+
+  // Calculate counts for filter buttons
+  const workloadCount = cases.length;
+  const priorityCount = cases.filter((c) => Number(c.dpd) >= 90).length;
+  const notContactedCount = cases.filter((c) => c.status === CaseStatus.active).length;
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Task Queue</h1>
-        <p className="text-gray-600 mt-1">
-          {totalCases} cases assigned (showing {displayedCases.length} of {totalCases})
-        </p>
-      </div>
+    <PhoneMockup>
+      <div className="p-3">
+        <h1 className="text-base font-bold text-gray-900 mb-2">Individual workload</h1>
+        
+        {/* Filter buttons */}
+        <div className="flex items-center gap-1.5 mb-2">
+          <button
+            onClick={() => setActiveFilter('workload')}
+            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+              activeFilter === 'workload'
+                ? 'border-teal-dark bg-teal-dark text-white'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Workload ({workloadCount})
+          </button>
+          <button
+            onClick={() => setActiveFilter('priority')}
+            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+              activeFilter === 'priority'
+                ? 'border-teal-dark bg-teal-dark text-white'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Priority ({priorityCount})
+          </button>
+          <button
+            onClick={() => setActiveFilter('notContacted')}
+            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+              activeFilter === 'notContacted'
+                ? 'border-teal-dark bg-teal-dark text-white'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            Not Contacted ({notContactedCount})
+          </button>
+        </div>
 
-      {displayedCases.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-          <p className="text-gray-500">No cases assigned</p>
+        {/* Search bar */}
+        <div className="relative mb-3">
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search account, mobile number..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-dark focus:border-transparent text-xs"
+          />
         </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {displayedCases.map((caseItem) => (
-            <CaseCard key={caseItem.id} caseData={caseItem} />
-          ))}
-        </div>
-      )}
-    </div>
+
+        {displayedCases.length === 0 ? (
+          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+            <p className="text-gray-500 text-sm">No cases found for this filter</p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {displayedCases.map((caseItem) => (
+              <CaseCard key={caseItem.id} caseData={caseItem} />
+            ))}
+          </div>
+        )}
+      </div>
+    </PhoneMockup>
   );
 }

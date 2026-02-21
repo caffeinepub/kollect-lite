@@ -1,57 +1,46 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T04:36:57.497Z",
+  "generatedAt": "2026-02-21T12:33:09.407Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+        "summary": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/ActivityTimeline.tsx"
+          "frontend/src/components/ActivitySection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/ActivityTimeline.tsx"
+          "frontend/src/components/ActivitySection.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+        "summary": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/CaseDetail.tsx"
+          "frontend/src/components/ActivitySection.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/CaseDetail.tsx"
+          "frontend/src/components/ActivitySection.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+        "summary": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/pages/CaseDetail.tsx"
         ],
         "matchedFiles": [
           "frontend/src/pages/CaseDetail.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
         ]
       }
     ]
@@ -61,8 +50,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/ActivityTimeline.tsx",
-    "frontend/src/components/DocumentsSection.tsx",
+    "frontend/src/components/ActivitySection.tsx",
     "frontend/src/pages/CaseDetail.tsx",
     "project_state.json",
     "scratch/component-selection.json",

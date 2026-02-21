@@ -1,40 +1,32 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
+  "summary": "UI layout refinement project with collapsible comment history and repositioned controls",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-in-the-activity-timeline-component-display-a-maximum-of-two-comments-at-a-time-instead-of-the-current-three",
-      "title": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+      "id": "feature-add-a-history-link-with-an-icon-positioned-opposite-the-existing-comments-label-in-the-activitysection-component",
+      "title": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-in-the-customer-summary-section-of-the-case-detail-page-reposition-the-phone-number-and-phone-icon-to-be-horizontally-inline-with-the-contract-id-field",
-      "title": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+      "id": "feature-make-the-comment-history-section-in-activitysection-visible-only-when-the-history-link-is-clicked-implementing-a-toggle-state",
+      "title": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-in-the-customer-summary-section-of-the-case-detail-page-swap-the-positions-of-customer-id-and-contract-id-so-that-customer-id-appears-in-the-top-left-position-and-contract-id-appears-in-the-bottom-right-position",
-      "title": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+      "id": "feature-move-the-submit-and-cancel-button-section-in-the-phone-screen-to-appear-below-the-document-section-in-the-case-detail-layout",
+      "title": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-in-the-documents-section-enclose-each-document-in-a-visual-container-that-spans-from-the-document-icon-on-the-left-to-the-preview-icon-on-the-right",
-      "title": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -42,30 +34,18 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Activity timeline: limit to 2 comments displayed at a time",
+      "summary": "Add history link opposite 'comments' to toggle comment history visibility",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Customer summary: align phone number horizontally with contract ID",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Customer summary: swap positions of Customer ID (top left) and Contract ID (bottom right)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Document section: enclose each document in a container from icon to preview icon",
+      "summary": "Move submit and cancel section below document section within phone screen",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Refine customer summary layout, limit timeline comments, and containerize documents",
+  "projectName": "Add collapsible comment history with toggle link and reposition submit/cancel buttons",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

@@ -24,12 +24,12 @@ export default function CopyButton({ text }: CopyButtonProps) {
       variant="ghost"
       size="sm"
       onClick={handleCopy}
-      className="h-6 w-6 p-0"
+      className="h-5 w-5 p-0"
     >
       {copied ? (
-        <Check className="w-3 h-3 text-green-600" />
+        <Check className="w-2.5 h-2.5 text-green-600" />
       ) : (
-        <Copy className="w-3 h-3 text-gray-500" />
+        <Copy className="w-2.5 h-2.5 text-gray-500" />
       )}
     </Button>
   );

@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-in-the-activity-timeline-component-display-a-maximum-of-two-comments-at-a-time-instead-of-the-current-three",
-      "featureTitle": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+      "featureId": "feature-add-a-history-link-with-an-icon-positioned-opposite-the-existing-comments-label-in-the-activitysection-component",
+      "featureTitle": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
       "files": [
-        "frontend/src/components/ActivityTimeline.tsx"
+        "frontend/src/components/ActivitySection.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -22,10 +22,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-in-the-customer-summary-section-of-the-case-detail-page-reposition-the-phone-number-and-phone-icon-to-be-horizontally-inline-with-the-contract-id-field",
-      "featureTitle": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+      "featureId": "feature-make-the-comment-history-section-in-activitysection-visible-only-when-the-history-link-is-clicked-implementing-a-toggle-state",
+      "featureTitle": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
       "files": [
-        "frontend/src/pages/CaseDetail.tsx"
+        "frontend/src/components/ActivitySection.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -42,8 +42,8 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-in-the-customer-summary-section-of-the-case-detail-page-swap-the-positions-of-customer-id-and-contract-id-so-that-customer-id-appears-in-the-top-left-position-and-contract-id-appears-in-the-bottom-right-position",
-      "featureTitle": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+      "featureId": "feature-move-the-submit-and-cancel-button-section-in-the-phone-screen-to-appear-below-the-document-section-in-the-case-detail-layout",
+      "featureTitle": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
       "files": [
         "frontend/src/pages/CaseDetail.tsx"
       ],
@@ -58,26 +58,6 @@
       ],
       "testIds": [
         "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-in-the-documents-section-enclose-each-document-in-a-visual-container-that-spans-from-the-document-icon-on-the-left-to-the-preview-icon-on-the-right",
-      "featureTitle": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
-      "files": [
-        "frontend/src/components/DocumentsSection.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
       ],
       "confidence": "high"
     }

@@ -1,10 +1,8 @@
 import { useState } from 'react';
-import { useAddActivity } from '../hooks/useQueries';
+import { History } from 'lucide-react';
 import { Button } from './ui/button';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { History, Plus } from 'lucide-react';
+import { Textarea } from './ui/textarea';
 import ActivityTimeline from './ActivityTimeline';
 
 interface ActivitySectionProps {
@@ -12,124 +10,94 @@ interface ActivitySectionProps {
 }
 
 export default function ActivitySection({ caseId }: ActivitySectionProps) {
-  const { mutate: addActivity, isPending } = useAddActivity();
-  const [action, setAction] = useState('');
+  const [showHistory, setShowHistory] = useState(false);
+  const [actionType, setActionType] = useState('');
   const [outcome, setOutcome] = useState('');
   const [comments, setComments] = useState('');
-  const [showHistory, setShowHistory] = useState(false);
 
-  const handleSubmit = () => {
-    if (!action || !outcome) return;
-
-    addActivity(
-      {
-        caseId,
-        activity: {
-          timestamp: BigInt(Date.now()) * BigInt(1000000),
-          actionType: action,
-          outcome,
-          comments: comments || undefined,
-          paymentDetails: undefined,
-        },
-      },
-      {
-        onSuccess: () => {
-          setAction('');
-          setOutcome('');
-          setComments('');
-        },
-      }
-    );
+  const handleAddComment = () => {
+    // Add activity logic here
+    console.log('Adding activity:', { actionType, outcome, comments });
+    // Reset form
+    setActionType('');
+    setOutcome('');
+    setComments('');
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-        Activity
-      </h2>
-
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5">
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-sm font-semibold text-gray-900">Comments</h2>
+        <button
+          onClick={() => setShowHistory(!showHistory)}
+          className="flex items-center gap-1 text-xs text-teal-dark hover:text-teal-dark/80 font-medium"
+        >
+          <History className="w-3.5 h-3.5" />
+          History
+        </button>
+      </div>
+      
+      <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-2">
           <div>
-            <Label htmlFor="action" className="text-sm font-medium text-gray-700 mb-1.5 block">
+            <label className="block text-[10px] font-medium text-gray-700 mb-0.5">
               Action
-            </Label>
-            <Select value={action} onValueChange={setAction}>
-              <SelectTrigger id="action">
+            </label>
+            <Select value={actionType} onValueChange={setActionType}>
+              <SelectTrigger className="h-7 text-xs">
                 <SelectValue placeholder="Select action" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Call">Call</SelectItem>
-                <SelectItem value="Email">Email</SelectItem>
-                <SelectItem value="SMS">SMS</SelectItem>
-                <SelectItem value="PTP">PTP</SelectItem>
-                <SelectItem value="Visit">Visit</SelectItem>
+                <SelectItem value="call">Call</SelectItem>
+                <SelectItem value="email">Email</SelectItem>
+                <SelectItem value="sms">SMS</SelectItem>
+                <SelectItem value="visit">Visit</SelectItem>
+                <SelectItem value="ptp">Payment Promise</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div>
-            <Label htmlFor="outcome" className="text-sm font-medium text-gray-700 mb-1.5 block">
+            <label className="block text-[10px] font-medium text-gray-700 mb-0.5">
               Outcome
-            </Label>
+            </label>
             <Select value={outcome} onValueChange={setOutcome}>
-              <SelectTrigger id="outcome">
+              <SelectTrigger className="h-7 text-xs">
                 <SelectValue placeholder="Select outcome" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="PTP">PTP</SelectItem>
-                <SelectItem value="PTP Honored">PTP Honored</SelectItem>
-                <SelectItem value="PTP Broken">PTP Broken</SelectItem>
-                <SelectItem value="Deceased">Deceased</SelectItem>
-                <SelectItem value="R-plan">R-plan</SelectItem>
-                <SelectItem value="Skip tracing">Skip tracing</SelectItem>
-                <SelectItem value="Callback">Callback</SelectItem>
-                <SelectItem value="Debt Fully Charged">Debt Fully Charged</SelectItem>
-                <SelectItem value="Balance Disputed">Balance Disputed</SelectItem>
-                <SelectItem value="Unreachable">Unreachable</SelectItem>
+                <SelectItem value="contacted">Contacted</SelectItem>
+                <SelectItem value="not-reached">Not Reached</SelectItem>
+                <SelectItem value="promised">Promised to Pay</SelectItem>
+                <SelectItem value="paid">Paid</SelectItem>
+                <SelectItem value="disputed">Disputed</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <Label htmlFor="comments" className="text-sm font-medium text-gray-700">
-              Comments
-            </Label>
-            <button
-              onClick={() => setShowHistory(!showHistory)}
-              className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
-            >
-              <History className="w-4 h-4" />
-              History
-            </button>
-          </div>
+          <label className="block text-[10px] font-medium text-gray-700 mb-0.5">
+            Add Comment
+          </label>
           <Textarea
-            id="comments"
             value={comments}
             onChange={(e) => setComments(e.target.value)}
-            placeholder="Enter your comment here..."
-            rows={4}
-            className="resize-none"
+            placeholder="Add your comments here..."
+            className="min-h-[60px] text-xs resize-none"
           />
         </div>
 
         <Button
-          onClick={handleSubmit}
-          disabled={isPending || !action || !outcome}
-          className="w-full gap-2"
-          style={{ backgroundColor: '#6B8EA0' }}
+          onClick={handleAddComment}
+          disabled={!actionType || !outcome}
+          className="w-full h-7 text-xs bg-teal-dark hover:bg-teal-dark/90"
         >
-          <Plus className="w-4 h-4" />
           Add Comment
         </Button>
 
         {showHistory && (
-          <div className="mt-6 pt-6 border-t border-gray-200">
+          <div className="pt-2 border-t border-gray-200">
             <ActivityTimeline caseId={caseId} />
           </div>
         )}

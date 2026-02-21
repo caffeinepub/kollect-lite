@@ -1,15 +1,23 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T04:36:57.495Z",
-  "summary": "All four requirements have been successfully implemented. The activity timeline now displays a maximum of 2 comments with a max-height of 266px, the customer summary layout has been reorganized with Customer ID in the top left and Contract ID in the bottom right with phone number inline, and documents are now enclosed in bordered containers with background styling.",
-  "missing_requirements": [],
+  "generatedAt": "2026-02-21T12:33:09.404Z",
+  "summary": "All three requirements (REQ-1, REQ-2, REQ-3) appear to be missing implementation. REQ-1 and REQ-2 are partially implemented in ActivitySection.tsx with the History toggle, but REQ-3 (repositioning submit/cancel buttons below DocumentsSection) is not implemented in the diff.",
+  "missing_requirements": [
+    {
+      "id": "REQ-3",
+      "requirement": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
+      "reason": "The diff shows modifications to ActivitySection.tsx and CaseDetail.tsx, but the CaseDetail.tsx content is truncated. No evidence shows the submit/cancel buttons being moved to appear after DocumentsSection component. The truncated CaseDetail.tsx file does not show any JSX restructuring that would relocate these buttons.",
+      "evidence": [
+        "frontend/src/pages/CaseDetail.tsx"
+      ]
+    }
+  ],
   "hallucinated_features": [],
-  "confidence": 0.95,
+  "confidence": 0.6,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/src/components/ActivityTimeline.tsx",
-    "frontend/src/components/DocumentsSection.tsx",
+    "frontend/src/components/ActivitySection.tsx",
     "frontend/src/pages/CaseDetail.tsx",
     "project_state.json"
   ]
