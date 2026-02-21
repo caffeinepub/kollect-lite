@@ -1,55 +1,35 @@
 {
   "kind": "build_request",
-  "title": "Improve document section visual design and add preview icon",
+  "title": "Remove comment history section above documents",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
+      "text": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-user-final"
         ],
         "quotes": [
-          "make the document section cleaner and more visually appealing"
+          "remove the comment history section that does appear when you click the history icon i.e only the one directly above the documents section"
         ]
       },
       "acceptanceCriteria": [
-        "Document cards have improved visual spacing and alignment",
-        "Typography is clearer and more readable",
-        "Layout has better visual hierarchy distinguishing document metadata",
-        "Overall section appears more polished and professional"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-user-final"
-        ],
-        "quotes": [
-          "add a document preview icon"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Each document card displays an appropriate preview icon",
-        "Icon is positioned consistently within the document card layout",
-        "Icon visually represents the document type (e.g., file, PDF, image)"
+        "The CommentHistorySection component is no longer rendered in the CaseDetail page layout",
+        "The DocumentsSection remains visible and functional",
+        "The activity timeline with history icon functionality remains intact and unaffected"
       ]
     }
   ],
   "constraints": [
-    "Maintain the existing document data structure with name, type, and upload date fields",
-    "Keep the upload and scan button functionality intact",
-    "Do not modify backend document handling logic"
+    "Do not remove the ActivityTimeline component or the history icon functionality",
+    "Keep the DocumentsSection component unchanged"
   ],
   "nonGoals": [
-    "Adding actual document preview/viewing functionality",
-    "Implementing document download features",
-    "Changing the dummy document data structure"
+    "Modifying the ActivityTimeline component",
+    "Changing the history icon click behavior",
+    "Altering the DocumentsSection component"
   ],
   "imageRequirements": {
     "required": [],

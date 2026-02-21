@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-redesign-the-documentssection-component-to-have-a-cleaner-more-visually-appealing-layout-with-improved-spacing-typography-and-visual-hierarchy",
-      "featureTitle": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
+      "featureId": "feature-remove-the-commenthistorysection-component-that-appears-directly-above-the-documentssection-in-the-casedetail-page",
+      "featureTitle": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
       "files": [
-        "frontend/src/components/DocumentsSection.tsx"
+        "frontend/src/pages/CaseDetail.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -18,26 +18,6 @@
       ],
       "testIds": [
         "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-add-a-document-preview-icon-to-each-document-entry-in-the-documentssection-component-that-visually-represents-the-document-type",
-      "featureTitle": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
-      "files": [
-        "frontend/src/components/DocumentsSection.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-2"
       ],
       "confidence": "high"
     }

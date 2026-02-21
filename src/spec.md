@@ -1,10 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Improve the visual design of the documents section and add preview icons to document entries.
+**Goal:** Remove the comment history section that appears directly above the documents section in the case detail page.
 
 **Planned changes:**
-- Redesign DocumentsSection component with cleaner layout, improved spacing, typography, and visual hierarchy
-- Add document preview icons to each document entry that represent the document type
+- Remove the CommentHistorySection component from the CaseDetail page layout
+- Keep the ActivityTimeline and history icon functionality unchanged
+- Preserve the DocumentsSection component
 
-**User-visible outcome:** Users will see a more polished and professional-looking documents section with better visual organization and document type icons for easier recognition.
+**User-visible outcome:** Users will no longer see the comment history section above the documents section when viewing case details. The history icon in the activity timeline will continue to work as before.

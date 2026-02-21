@@ -1,38 +1,21 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Improve document section visual design and add preview icon",
+  "title": "Remove comment history section above documents",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
+      "summary": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
       "acceptanceCriteria": [
-        "Document cards have improved visual spacing and alignment",
-        "Typography is clearer and more readable",
-        "Layout has better visual hierarchy distinguishing document metadata",
-        "Overall section appears more polished and professional"
+        "The CommentHistorySection component is no longer rendered in the CaseDetail page layout",
+        "The DocumentsSection remains visible and functional",
+        "The activity timeline with history icon functionality remains intact and unaffected"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/DocumentsSection.tsx",
+          "path": "frontend/src/pages/CaseDetail.tsx",
           "operation": "modify",
-          "description": "Redesign the DocumentsSection component layout with improved spacing, typography, and visual hierarchy. Apply consistent padding and margins to document cards, enhance text contrast and readability with refined typography styles, create clear visual separation between document metadata fields (name, type, date), and add subtle styling touches like borders, shadows, or background colors to create a more polished and professional appearance. Maintain the existing upload and scan button functionality and dummy document data structure."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
-      "acceptanceCriteria": [
-        "Each document card displays an appropriate preview icon",
-        "Icon is positioned consistently within the document card layout",
-        "Icon visually represents the document type (e.g., file, PDF, image)"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/DocumentsSection.tsx",
-          "operation": "modify",
-          "description": "Add document preview icons to each document card that visually represent the document type. Use lucide-react icons (FileText for PDF/documents, Image for images, File as fallback) positioned at the left side of each document card. Ensure icons are consistently sized and aligned with the document metadata, creating a clear visual indicator of document type. The icon selection should be based on the fileType field from the document data."
+          "description": "Remove the CommentHistorySection component import and its rendering from the page layout while preserving ActivitySection, ActivityTimeline, and DocumentsSection components"
         }
       ]
     }

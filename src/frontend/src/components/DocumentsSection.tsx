@@ -1,4 +1,4 @@
-import { Upload, FileText, Scan, File, Image } from 'lucide-react';
+import { Upload, FileText, Scan, File, Image, Eye } from 'lucide-react';
 import { Button } from './ui/button';
 
 interface DocumentsSectionProps {
@@ -24,6 +24,11 @@ const getDocumentIcon = (fileType: string) => {
 };
 
 export default function DocumentsSection({ caseId }: DocumentsSectionProps) {
+  const handlePreview = (docId: string) => {
+    console.log('Preview document:', docId);
+    // Preview functionality will be implemented later
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
       <h2 className="text-base font-semibold text-gray-900 mb-3">Documents</h2>
@@ -51,6 +56,13 @@ export default function DocumentsSection({ caseId }: DocumentsSectionProps) {
                       <span>{doc.uploadDate}</span>
                     </div>
                   </div>
+                  <button
+                    onClick={() => handlePreview(doc.id)}
+                    className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-teal-600 hover:bg-teal-50 transition-all duration-200"
+                    aria-label="Preview document"
+                  >
+                    <Eye className="w-4 h-4" />
+                  </button>
                 </div>
               );
             })}

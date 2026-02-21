@@ -1,35 +1,24 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T15:29:05.181Z",
+  "generatedAt": "2026-02-21T16:12:36.537Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 1,
+    "implemented": 1,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
+        "summary": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
-        ]
-      },
-      {
-        "id": "REQ-2",
-        "summary": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/components/DocumentsSection.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
         ]
       }
     ]
@@ -39,7 +28,7 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/components/DocumentsSection.tsx",
+    "frontend/src/pages/CaseDetail.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
