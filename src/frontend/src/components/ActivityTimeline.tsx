@@ -1,70 +1,78 @@
 import { Badge } from './ui/badge';
+import { useGetCaseActivities } from '../hooks/useQueries';
 
 interface ActivityTimelineProps {
   caseId: string;
 }
 
-// Dummy activity data
-const DUMMY_ACTIVITIES = [
-  {
-    timestamp: new Date('2024-01-15T10:30:00'),
-    actionType: 'Call',
-    outcome: 'Promised to Pay',
-    paymentDetails: 'KES 5,000 by Jan 20',
-    comments: 'Customer agreed to make partial payment by end of week',
-  },
-  {
-    timestamp: new Date('2024-01-10T14:15:00'),
-    actionType: 'Email',
-    outcome: 'Contacted',
-    comments: 'Sent payment reminder email with account details',
-  },
-  {
-    timestamp: new Date('2024-01-05T09:00:00'),
-    actionType: 'SMS',
-    outcome: 'Not Reached',
-    comments: 'SMS sent but no response received',
-  },
-];
-
 export default function ActivityTimeline({ caseId }: ActivityTimelineProps) {
+  const { data: activities = [], isLoading } = useGetCaseActivities(caseId);
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-4 text-sm text-gray-500">
+        Loading activities...
+      </div>
+    );
+  }
+
+  if (activities.length === 0) {
+    return (
+      <div className="text-center py-4 text-sm text-gray-500">
+        No activities yet
+      </div>
+    );
+  }
+
+  // Sort activities by timestamp in descending order (newest first)
+  const sortedActivities = [...activities].sort((a, b) => {
+    const timeA = Number(a.timestamp);
+    const timeB = Number(b.timestamp);
+    return timeB - timeA;
+  });
+
   return (
     <div className="space-y-2 max-h-[200px] overflow-y-auto">
-      {DUMMY_ACTIVITIES.map((activity, index) => (
-        <div
-          key={index}
-          className="border-l-2 border-teal-dark pl-2 pb-2 last:pb-0"
-        >
-          <div className="flex items-center gap-1.5 mb-1">
-            <span className="text-[10px] text-gray-500">
-              {activity.timestamp.toLocaleDateString()} {activity.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </span>
-          </div>
-          
-          <div className="flex gap-1 mb-1">
-            <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">
-              {activity.actionType}
-            </Badge>
-            <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4">
-              {activity.outcome}
-            </Badge>
-          </div>
+      {sortedActivities.map((activity, index) => {
+        // Convert nanoseconds to milliseconds
+        const timestamp = new Date(Number(activity.timestamp) / 1000000);
+        
+        return (
+          <div
+            key={index}
+            className="border-l-2 border-teal-dark pl-2 pb-2 last:pb-0"
+          >
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="text-[10px] text-gray-500">
+                {timestamp.toLocaleDateString()} {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            </div>
+            
+            <div className="flex gap-1 mb-1">
+              <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">
+                {activity.actionType}
+              </Badge>
+              <Badge variant="secondary" className="text-[9px] px-1 py-0 h-4">
+                {activity.outcome}
+              </Badge>
+            </div>
 
-          {activity.paymentDetails && (
-            <div className="bg-green-50 border border-green-200 rounded px-1.5 py-0.5 mb-1">
-              <p className="text-[10px] text-green-800 font-medium">
-                💰 {activity.paymentDetails}
+            {activity.paymentDetails && (
+              <div className="bg-green-50 border border-green-200 rounded px-1.5 py-0.5 mb-1">
+                <p className="text-[10px] text-green-800 font-medium">
+                  💰 {activity.paymentDetails}
+                </p>
+              </div>
+            )}
+
+            {activity.comments && (
+              <p className="text-[11px] text-gray-700 leading-tight">
+                {activity.comments}
               </p>
-            </div>
-          )}
-
-          {activity.comments && (
-            <div className="bg-blue-50 rounded px-1.5 py-1">
-              <p className="text-[10px] text-gray-700">{activity.comments}</p>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

@@ -30,40 +30,46 @@ export default function CaseCard({ caseData }: CaseCardProps) {
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 hover:shadow-md transition-shadow cursor-pointer"
+      className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 hover:shadow-md transition-shadow cursor-pointer"
     >
-      <div className="flex items-start gap-2">
-        <div className="flex-shrink-0 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center">
-          <User className="w-4 h-4 text-gray-600" />
+      <div className="flex items-start gap-2.5">
+        <div className="flex-shrink-0 w-9 h-9 bg-gradient-to-br from-teal-50 to-teal-100 rounded-full flex items-center justify-center border border-teal-200">
+          <User className="w-4.5 h-4.5 text-teal-700" />
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-1">
-            <h3 className="text-sm font-semibold text-gray-900 truncate">
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="text-sm font-bold text-gray-900 truncate">
               {caseData.debtorName}
             </h3>
             <StatusBadge status={caseData.status} />
           </div>
           
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 text-xs text-gray-600">
-              <span className="font-medium">Customer ID:</span>
-              <div className="flex items-center gap-1 px-1.5 py-0.5 border border-gray-300 rounded bg-gray-50">
-                <span className="font-mono">{caseData.customerId}</span>
+          <div className="space-y-2">
+            {/* Customer ID with improved styling */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-500 min-w-[70px]">Customer ID</span>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-300 rounded-md shadow-sm">
+                <span className="font-mono text-xs font-semibold text-gray-900">{caseData.customerId}</span>
                 <CopyButton text={caseData.customerId} />
               </div>
             </div>
             
-            <div className="flex items-center gap-1 text-xs text-gray-600">
-              <Phone className="w-3 h-3" />
-              <span>{caseData.phoneNumber}</span>
+            {/* Phone number with improved styling */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-500 min-w-[70px]">Mobile</span>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 border border-blue-200 rounded-md">
+                <Phone className="w-3 h-3 text-blue-600" />
+                <span className="text-xs font-semibold text-blue-900">{caseData.phoneNumber}</span>
+              </div>
             </div>
             
-            <div className="flex items-center justify-between gap-2">
-              <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold border ${getDpdBadgeClasses(caseData.dpd)}`}>
+            {/* DPD badge with improved styling */}
+            <div className="flex items-center justify-between gap-2 pt-1">
+              <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold border-2 shadow-sm ${getDpdBadgeClasses(caseData.dpd)}`}>
                 DPD: {caseData.dpd.toString()}
               </span>
-              <span className="text-[10px] text-gray-500 font-mono">
+              <span className="text-[10px] text-gray-400 font-mono tracking-tight">
                 {caseData.contractId}
               </span>
             </div>

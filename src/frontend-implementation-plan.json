@@ -1,54 +1,38 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add collapsible comment history with toggle link and reposition submit/cancel buttons",
+  "title": "Improve document section visual design and add preview icon",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
+      "summary": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
       "acceptanceCriteria": [
-        "History link appears on the same row as the 'Comments' label",
-        "Link includes a recognizable history icon",
-        "Link is clickable and toggles comment history visibility"
+        "Document cards have improved visual spacing and alignment",
+        "Typography is clearer and more readable",
+        "Layout has better visual hierarchy distinguishing document metadata",
+        "Overall section appears more polished and professional"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ActivitySection.tsx",
+          "path": "frontend/src/components/DocumentsSection.tsx",
           "operation": "modify",
-          "description": "Add a 'History' link with a history icon (e.g., clock or history icon from lucide-react) positioned opposite the 'Comments' label in the header row. Implement onClick handler to toggle the history visibility state. Ensure the link and label are aligned using flexbox with space-between to position them on opposite ends of the same row."
+          "description": "Redesign the DocumentsSection component layout with improved spacing, typography, and visual hierarchy. Apply consistent padding and margins to document cards, enhance text contrast and readability with refined typography styles, create clear visual separation between document metadata fields (name, type, date), and add subtle styling touches like borders, shadows, or background colors to create a more polished and professional appearance. Maintain the existing upload and scan button functionality and dummy document data structure."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
+      "summary": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
       "acceptanceCriteria": [
-        "Comment history is initially hidden by default",
-        "Clicking the history link shows the comment history",
-        "Clicking again hides the comment history",
-        "Visual indicator shows whether history is expanded or collapsed"
+        "Each document card displays an appropriate preview icon",
+        "Icon is positioned consistently within the document card layout",
+        "Icon visually represents the document type (e.g., file, PDF, image)"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ActivitySection.tsx",
+          "path": "frontend/src/components/DocumentsSection.tsx",
           "operation": "modify",
-          "description": "Add a boolean state (e.g., showHistory) to control the visibility of the comment history section. Set the initial state to false (hidden). Conditionally render the ActivityTimeline component based on this state. Update the history link to toggle this state on click and display a visual indicator (e.g., chevron icon that rotates or changes) to show whether the section is expanded or collapsed."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
-      "acceptanceCriteria": [
-        "Submit and cancel buttons render after the DocumentsSection component",
-        "Layout maintains proper spacing and alignment within the PhoneMockup",
-        "Buttons remain accessible and functional in their new position"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/CaseDetail.tsx",
-          "operation": "modify",
-          "description": "Reorder the components within the PhoneMockup so that the submit and cancel button section renders after the DocumentsSection component. Ensure proper spacing is maintained between the sections using appropriate margin or padding classes. Verify that the buttons remain fully functional and accessible in their new position within the scrollable phone screen layout."
+          "description": "Add document preview icons to each document card that visually represent the document type. Use lucide-react icons (FileText for PDF/documents, Image for images, File as fallback) positioned at the left side of each document card. Ensure icons are consistently sized and aligned with the document metadata, creating a clear visual indicator of document type. The icon selection should be based on the fileType field from the document data."
         }
       ]
     }

@@ -1,73 +1,55 @@
 {
   "kind": "build_request",
-  "title": "Add collapsible comment history with toggle link and reposition submit/cancel buttons",
+  "title": "Improve document section visual design and add preview icon",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
+      "text": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-final"
         ],
         "quotes": [
-          "add a link opposite the existing 'comments' to access the comment history section"
+          "make the document section cleaner and more visually appealing"
         ]
       },
       "acceptanceCriteria": [
-        "History link appears on the same row as the 'Comments' label",
-        "Link includes a recognizable history icon",
-        "Link is clickable and toggles comment history visibility"
+        "Document cards have improved visual spacing and alignment",
+        "Typography is clearer and more readable",
+        "Layout has better visual hierarchy distinguishing document metadata",
+        "Overall section appears more polished and professional"
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
+      "text": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-final"
         ],
         "quotes": [
-          "make the comment history section visible only when you click the history link with the icon"
+          "add a document preview icon"
         ]
       },
       "acceptanceCriteria": [
-        "Comment history is initially hidden by default",
-        "Clicking the history link shows the comment history",
-        "Clicking again hides the comment history",
-        "Visual indicator shows whether history is expanded or collapsed"
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "move the submit and cancel section within the phone screen below the document section"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Submit and cancel buttons render after the DocumentsSection component",
-        "Layout maintains proper spacing and alignment within the PhoneMockup",
-        "Buttons remain accessible and functional in their new position"
+        "Each document card displays an appropriate preview icon",
+        "Icon is positioned consistently within the document card layout",
+        "Icon visually represents the document type (e.g., file, PDF, image)"
       ]
     }
   ],
   "constraints": [
-    "Maintain the existing compact layout optimized for phone screens",
-    "Preserve all existing functionality of the ActivitySection and DocumentsSection components",
-    "Keep the PhoneMockup scrolling behavior intact"
+    "Maintain the existing document data structure with name, type, and upload date fields",
+    "Keep the upload and scan button functionality intact",
+    "Do not modify backend document handling logic"
   ],
   "nonGoals": [
-    "Changing the styling or layout of the comment history content itself",
-    "Modifying the documents section functionality",
-    "Altering the behavior of submit and cancel buttons beyond repositioning"
+    "Adding actual document preview/viewing functionality",
+    "Implementing document download features",
+    "Changing the dummy document data structure"
   ],
   "imageRequirements": {
     "required": [],

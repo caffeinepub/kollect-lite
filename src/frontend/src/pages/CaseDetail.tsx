@@ -1,12 +1,12 @@
 import { useParams, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, Phone, MessageSquare, Mail } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Mail, Copy, Check } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import StatusBadge from '../components/StatusBadge';
 import ActivitySection from '../components/ActivitySection';
 import DocumentsSection from '../components/DocumentsSection';
-import CopyButton from '../components/CopyButton';
 import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
+import { useState } from 'react';
 
 // Dummy case data lookup
 const DUMMY_CASES_MAP: Record<string, Case> = {
@@ -252,157 +252,150 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
   },
 };
 
-function getDpdBadgeClasses(dpd: bigint): string {
-  const dpdNumber = Number(dpd);
-  
-  if (dpdNumber <= 30) {
-    return 'bg-green-100 text-green-800';
-  } else if (dpdNumber <= 60) {
-    return 'bg-amber-100 text-amber-800';
-  } else {
-    return 'bg-red-100 text-red-800';
-  }
-}
-
 export default function CaseDetail() {
   const { caseId } = useParams({ from: '/case/$caseId' });
   const navigate = useNavigate();
+  const [copiedCustomerId, setCopiedCustomerId] = useState(false);
+
   const caseData = DUMMY_CASES_MAP[caseId];
 
   if (!caseData) {
     return (
       <PhoneMockup>
-        <div className="p-3">
-          <button
-            onClick={() => navigate({ to: '/' })}
-            className="mb-3 flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
-          >
-            <ArrowLeft className="w-3 h-3" />
-            Back to Dashboard
-          </button>
-          <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800">
-            <p className="font-medium text-sm">Error loading case</p>
-            <p className="text-xs mt-1">Case not found</p>
-          </div>
+        <div className="p-4">
+          <p className="text-gray-500">Case not found</p>
         </div>
       </PhoneMockup>
     );
   }
 
-  const dpdValue = Number(caseData.dpd);
+  const handleBack = () => {
+    navigate({ to: '/' });
+  };
+
+  const handleCopyCustomerId = async () => {
+    try {
+      await navigator.clipboard.writeText(caseData.customerId);
+      setCopiedCustomerId(true);
+      setTimeout(() => setCopiedCustomerId(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
 
   return (
     <PhoneMockup>
-      <div className="p-3 pb-3">
-        <button
-          onClick={() => navigate({ to: '/' })}
-          className="mb-3 flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
-        >
-          <ArrowLeft className="w-3 h-3" />
-          Back to Dashboard
-        </button>
+      <div className="p-3">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-1 text-teal-dark hover:text-teal-700 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="text-sm font-medium">Back</span>
+          </button>
+          <StatusBadge status={caseData.status} />
+        </div>
 
-        {/* Debtor Info Section */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
-          <div className="flex items-start justify-between mb-2">
-            <div>
-              <h1 className="text-base font-bold text-gray-900">{caseData.debtorName}</h1>
-              <StatusBadge status={caseData.status} />
-            </div>
-            <div className="flex gap-1">
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <Phone className="w-3 h-3" />
+        {/* Customer Info */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3">
+          {/* Name and Action Buttons Row */}
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-bold text-gray-900">{caseData.debtorName}</h2>
+            <div className="flex items-center gap-1.5">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 w-7 p-0"
+              >
+                <Phone className="w-3.5 h-3.5" />
               </Button>
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <MessageSquare className="w-3 h-3" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 w-7 p-0"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
               </Button>
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <Mail className="w-3 h-3" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 w-7 p-0"
+              >
+                <Mail className="w-3.5 h-3.5" />
               </Button>
             </div>
           </div>
-
-          <div className="space-y-1.5 text-xs">
-            <div className="flex items-center gap-1.5">
-              <span className="text-gray-600 font-medium">Customer ID:</span>
-              <div className="flex items-center gap-1">
-                <span className="font-mono">{caseData.customerId}</span>
-                <CopyButton text={caseData.customerId} />
-              </div>
+          
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-500 w-24">Customer ID:</span>
+              <button
+                onClick={handleCopyCustomerId}
+                className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+              >
+                <span className="font-mono text-xs font-semibold text-gray-900">{caseData.customerId}</span>
+                {copiedCustomerId ? (
+                  <Check className="w-3 h-3 text-green-600" />
+                ) : (
+                  <Copy className="w-3 h-3 text-gray-500" />
+                )}
+              </button>
             </div>
             
-            <div className="flex items-center gap-1.5">
-              <span className="text-gray-600 font-medium">Mobile:</span>
-              <span>{caseData.phoneNumber}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-gray-500 w-24">Mobile:</span>
+              <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 border border-blue-200 rounded">
+                <Phone className="w-3 h-3 text-blue-600" />
+                <span className="text-xs font-semibold text-blue-900">{caseData.phoneNumber}</span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Financial Metrics */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
-          <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3">
+          <div className="grid grid-cols-3 gap-2 text-center">
             <div>
-              <p className="text-[10px] text-gray-600 mb-0.5">Amount Due</p>
-              <p className="text-sm font-semibold text-gray-900">
-                KES {caseData.amountDue.toLocaleString()}
-              </p>
+              <p className="text-[10px] text-gray-500 mb-0.5">Amount Due</p>
+              <p className="text-xs font-bold text-gray-900">KES {caseData.amountDue.toLocaleString()}</p>
             </div>
             <div>
-              <p className="text-[10px] text-gray-600 mb-0.5">Paid Amount</p>
-              <p className="text-sm font-semibold text-gray-900">
-                KES {caseData.paidAmount.toLocaleString()}
-              </p>
+              <p className="text-[10px] text-gray-500 mb-0.5">Paid</p>
+              <p className="text-xs font-bold text-green-600">KES {caseData.paidAmount.toLocaleString()}</p>
             </div>
             <div>
-              <p className="text-[10px] text-gray-600 mb-0.5">Payoff Balance</p>
-              <p className="text-sm font-semibold text-gray-900">
-                KES {caseData.payoffBalance.toLocaleString()}
-              </p>
-            </div>
-            <div>
-              <p className="text-[10px] text-gray-600 mb-0.5">Days Past Due</p>
-              <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold ${getDpdBadgeClasses(caseData.dpd)}`}>
-                {dpdValue} days
-              </span>
+              <p className="text-[10px] text-gray-500 mb-0.5">Balance</p>
+              <p className="text-xs font-bold text-red-600">KES {caseData.payoffBalance.toLocaleString()}</p>
             </div>
           </div>
-          
-          <div className="pt-2 border-t border-gray-200">
-            <p className="text-[10px] text-gray-600 mb-0.5">Contract ID</p>
-            <p className="text-xs font-mono text-gray-900">{caseData.contractId}</p>
-          </div>
-        </div>
-
-        {/* Documents Section */}
-        <div className="mb-2">
-          <DocumentsSection caseId={caseData.id} />
-        </div>
-
-        {/* Submit and Cancel Buttons */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-2.5 mb-2">
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={() => navigate({ to: '/' })}
-              className="flex-1 h-8 text-xs"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                // Submit logic here
-                navigate({ to: '/' });
-              }}
-              className="flex-1 h-8 text-xs bg-teal-dark hover:bg-teal-dark/90"
-            >
-              Submit
-            </Button>
+          <div className="mt-2 pt-2 border-t border-gray-200 text-center">
+            <p className="text-[10px] text-gray-500 mb-0.5">Days Past Due</p>
+            <p className="text-sm font-bold text-red-600">{caseData.dpd.toString()} days</p>
           </div>
         </div>
 
         {/* Activity Section */}
-        <div className="mb-2">
-          <ActivitySection caseId={caseData.id} />
+        <ActivitySection caseId={caseData.id} />
+
+        {/* Documents Section */}
+        <DocumentsSection caseId={caseData.id} />
+
+        {/* Action Buttons */}
+        <div className="flex gap-2 mt-3">
+          <Button
+            variant="outline"
+            className="flex-1 h-9 text-sm"
+            onClick={handleBack}
+          >
+            Cancel
+          </Button>
+          <Button
+            className="flex-1 h-9 text-sm bg-teal-dark hover:bg-teal-700"
+          >
+            Submit
+          </Button>
         </div>
       </div>
     </PhoneMockup>

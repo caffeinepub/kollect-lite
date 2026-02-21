@@ -1,32 +1,24 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "UI layout refinement project with collapsible comment history and repositioned controls",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-add-a-history-link-with-an-icon-positioned-opposite-the-existing-comments-label-in-the-activitysection-component",
-      "title": "Add a 'History' link with an icon positioned opposite the existing 'Comments' label in the ActivitySection component",
+      "id": "feature-redesign-the-documentssection-component-to-have-a-cleaner-more-visually-appealing-layout-with-improved-spacing-typography-and-visual-hierarchy",
+      "title": "Redesign the DocumentsSection component to have a cleaner, more visually appealing layout with improved spacing, typography, and visual hierarchy",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-make-the-comment-history-section-in-activitysection-visible-only-when-the-history-link-is-clicked-implementing-a-toggle-state",
-      "title": "Make the comment history section in ActivitySection visible only when the history link is clicked, implementing a toggle state",
+      "id": "feature-add-a-document-preview-icon-to-each-document-entry-in-the-documentssection-component-that-visually-represents-the-document-type",
+      "title": "Add a document preview icon to each document entry in the DocumentsSection component that visually represents the document type",
       "reqIds": [
         "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-move-the-submit-and-cancel-button-section-in-the-phone-screen-to-appear-below-the-document-section-in-the-case-detail-layout",
-      "title": "Move the submit and cancel button section in the phone screen to appear below the document section in the case detail layout",
-      "reqIds": [
-        "REQ-3"
       ],
       "version": 1
     }
@@ -34,18 +26,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Add history link opposite 'comments' to toggle comment history visibility",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Move submit and cancel section below document section within phone screen",
+      "summary": "Improve document section visual design and add document preview icon",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Add collapsible comment history with toggle link and reposition submit/cancel buttons",
+  "projectName": "Improve document section visual design and add preview icon",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

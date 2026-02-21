@@ -1,11 +1,10 @@
 # Specification
 
 ## Summary
-**Goal:** Add collapsible comment history with toggle link and reposition submit/cancel buttons below documents section.
+**Goal:** Improve the visual design of the documents section and add preview icons to document entries.
 
 **Planned changes:**
-- Add a 'History' link with icon opposite the 'Comments' label in ActivitySection
-- Implement toggle functionality to show/hide comment history (hidden by default)
-- Move submit and cancel buttons below the DocumentsSection in the phone screen layout
+- Redesign DocumentsSection component with cleaner layout, improved spacing, typography, and visual hierarchy
+- Add document preview icons to each document entry that represent the document type
 
-**User-visible outcome:** Users can toggle comment history visibility via a dedicated link, and submit/cancel buttons are now positioned below the documents section for improved layout flow.
+**User-visible outcome:** Users will see a more polished and professional-looking documents section with better visual organization and document type icons for easier recognition.
