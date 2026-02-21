@@ -1,0 +1,18 @@
+{
+  "frontend/src/App.tsx": "Main application component with routing and authentication checks, simplified to only verify login status without profile setup.",
+  "frontend/src/components/Layout.tsx": "Layout wrapper component providing consistent header, main content area, and footer with attribution across all pages.",
+  "frontend/src/components/Header.tsx": "Top navigation header displaying Kollect Lite branding with logo and logout button.",
+  "frontend/src/components/LoginPrompt.tsx": "Login screen component prompting unauthenticated users to log in via Internet Identity.",
+  "frontend/src/components/ProfileSetup.tsx": "Profile setup form for first-time users to enter their name after authentication.",
+  "frontend/src/pages/TaskQueue.tsx": "Dashboard page displaying 20 hardcoded collection cases in a 2-column grid with varied statuses, DPD values, and financial amounts for comprehensive UI demonstration.",
+  "frontend/src/components/CaseCard.tsx": "Reusable card component displaying individual case information with status badge, IDs, DPD, phone number, and customer ID right-aligned in a button-style container with copy icon.",
+  "frontend/src/components/StatusBadge.tsx": "Status badge component rendering case status with appropriate colors (ESCALATED/red, ACTIVE/blue, PTP/gray).",
+  "frontend/src/pages/CaseDetail.tsx": "Case detail page with two-column layout showing debtor info with user icon, circular action buttons, two-column account details with Customer ID in top left and Contract ID in bottom right (with Phone number inline with Contract ID), 2x2 financial grid with red DPD badge, documents section, activity section, and fixed footer with Submit/Cancel buttons.",
+  "frontend/src/components/CopyButton.tsx": "Copy-to-clipboard button component with visual feedback for copying text values.",
+  "frontend/src/components/ActivitySection.tsx": "Activity section with action/outcome dropdowns (updated with 10 new outcome options: PTP, PTP Honored, PTP Broken, Deceased, R-plan, Skip tracing, Callback, Debt Fully Charged, Balance Disputed, Unreachable), comments textarea with History link positioned opposite the label, muted blue-gray Add Comment button, and collapsible comment history section that passes caseId to ActivityTimeline component.",
+  "frontend/src/components/ActivityTimeline.tsx": "Timeline component displaying activities with timestamp, Action and Outcome badges, comments in colored boxes, payment promise highlights, and scrollable container with max-height of 266px to display a maximum of 2 activities at a time.",
+  "frontend/src/components/DocumentsSection.tsx": "Documents section displaying existing documents in bordered containers with background styling that enclose each document row from file icon to preview icon, showing icon, name, file type label, and view icon, with side-by-side Upload Documents and Scan Document sections using neutral outlined buttons.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including cases, activities, and documents management.",
+  "frontend/src/index.css": "Global styles with OKLCH color system customized for Kollect Lite brand (dark teal primary color and light gray backgrounds).",
+  "frontend/tailwind.config.js": "Tailwind configuration extended with Kollect Lite design tokens including teal-dark brand color and custom shadows."
+}

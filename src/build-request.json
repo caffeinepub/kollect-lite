@@ -1,0 +1,91 @@
+{
+  "kind": "build_request",
+  "title": "Refine customer summary layout, limit timeline comments, and containerize documents",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "in the activity timeline, display a maximum of two comments at a time"
+        ]
+      },
+      "acceptanceCriteria": [
+        "ActivityTimeline component shows at most 2 activity entries visible in the scrollable area",
+        "Scrolling remains functional to view older activities beyond the initial 2"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "in the customer summary, move up the Phone number and icon to be horizontally inline with contract id"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Phone number and phone icon appear on the same horizontal line as Contract ID",
+        "Layout remains responsive and visually balanced"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "switch the positions of Contract ID and Customer ID so the Customer ID is on the top left and Contract ID is on the bottom right"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Customer ID is positioned in the top left area of the customer summary",
+        "Contract ID is positioned in the bottom right area of the customer summary",
+        "Both fields maintain their copy button functionality"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "in rhe document section, enclose each document in a container, from the document icon to the preview icon"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each document row is visually enclosed in a distinct container (border, background, or card)",
+        "Container spans the full width from the file type icon to the preview/download action icons",
+        "Container styling is consistent with the existing design system"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify backend logic or data structures",
+    "Maintain existing scrolling functionality in the activity timeline",
+    "Preserve all interactive functionality (copy buttons, preview actions, etc.)"
+  ],
+  "nonGoals": [
+    "Changing the number of activities loaded from the backend",
+    "Modifying document upload functionality",
+    "Altering the activity form or outcome options"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

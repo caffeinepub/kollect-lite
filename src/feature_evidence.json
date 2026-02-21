@@ -1,0 +1,85 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-in-the-activity-timeline-component-display-a-maximum-of-two-comments-at-a-time-instead-of-the-current-three",
+      "featureTitle": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+      "files": [
+        "frontend/src/components/ActivityTimeline.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-the-customer-summary-section-of-the-case-detail-page-reposition-the-phone-number-and-phone-icon-to-be-horizontally-inline-with-the-contract-id-field",
+      "featureTitle": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+      "files": [
+        "frontend/src/pages/CaseDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-the-customer-summary-section-of-the-case-detail-page-swap-the-positions-of-customer-id-and-contract-id-so-that-customer-id-appears-in-the-top-left-position-and-contract-id-appears-in-the-bottom-right-position",
+      "featureTitle": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+      "files": [
+        "frontend/src/pages/CaseDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-the-documents-section-enclose-each-document-in-a-visual-container-that-spans-from-the-document-icon-on-the-left-to-the-preview-icon-on-the-right",
+      "featureTitle": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
+      "files": [
+        "frontend/src/components/DocumentsSection.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

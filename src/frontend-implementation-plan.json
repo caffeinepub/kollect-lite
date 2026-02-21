@@ -1,0 +1,69 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Refine customer summary layout, limit timeline comments, and containerize documents",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Limit activity timeline to display maximum of two comments at a time instead of three",
+      "acceptanceCriteria": [
+        "ActivityTimeline component shows at most 2 activity entries visible in the scrollable area",
+        "Scrolling remains functional to view older activities beyond the initial 2"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ActivityTimeline.tsx",
+          "operation": "modify",
+          "description": "Reduce the max-height of the scrollable container from 400px (which displays ~3 activities) to approximately 266px to display a maximum of 2 activities at a time while maintaining scrollable functionality for viewing older activities"
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Reposition phone number and phone icon to be horizontally inline with contract ID in customer summary",
+      "acceptanceCriteria": [
+        "Phone number and phone icon appear on the same horizontal line as Contract ID",
+        "Layout remains responsive and visually balanced"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CaseDetail.tsx",
+          "operation": "modify",
+          "description": "Restructure the customer summary grid layout to place Phone Number and its icon on the same horizontal row as Contract ID, moving it up from its current position below Contract ID to create a balanced two-column layout"
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Swap positions of Customer ID and Contract ID so Customer ID appears top left and Contract ID appears bottom right",
+      "acceptanceCriteria": [
+        "Customer ID is positioned in the top left area of the customer summary",
+        "Contract ID is positioned in the bottom right area of the customer summary",
+        "Both fields maintain their copy button functionality"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CaseDetail.tsx",
+          "operation": "modify",
+          "description": "Reorder the customer summary fields so Customer ID appears in the top left position and Contract ID appears in the bottom right position, swapping their current positions while preserving the CopyButton functionality for both fields"
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Enclose each document in a visual container spanning from document icon to preview icon",
+      "acceptanceCriteria": [
+        "Each document row is visually enclosed in a distinct container (border, background, or card)",
+        "Container spans the full width from the file type icon to the preview/download action icons",
+        "Container styling is consistent with the existing design system"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/DocumentsSection.tsx",
+          "operation": "modify",
+          "description": "Wrap each document row in a visual container element (div with border and background styling) that encloses the entire row from the file type icon on the left to the preview/download action icons on the right, using consistent styling from the existing design system with appropriate padding and border radius"
+        }
+      ]
+    }
+  ]
+}

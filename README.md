@@ -1,2 +1,3 @@
-# kollect-lite
-Exported from Caffeine project: Kollect Lite
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

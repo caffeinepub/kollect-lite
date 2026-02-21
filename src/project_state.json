@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-in-the-activity-timeline-component-display-a-maximum-of-two-comments-at-a-time-instead-of-the-current-three",
+      "title": "In the activity timeline component, display a maximum of two comments at a time instead of the current three",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-customer-summary-section-of-the-case-detail-page-reposition-the-phone-number-and-phone-icon-to-be-horizontally-inline-with-the-contract-id-field",
+      "title": "In the customer summary section of the case detail page, reposition the phone number and phone icon to be horizontally inline with the contract ID field",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-customer-summary-section-of-the-case-detail-page-swap-the-positions-of-customer-id-and-contract-id-so-that-customer-id-appears-in-the-top-left-position-and-contract-id-appears-in-the-bottom-right-position",
+      "title": "In the customer summary section of the case detail page, swap the positions of Customer ID and Contract ID so that Customer ID appears in the top left position and Contract ID appears in the bottom right position",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-documents-section-enclose-each-document-in-a-visual-container-that-spans-from-the-document-icon-on-the-left-to-the-preview-icon-on-the-right",
+      "title": "In the documents section, enclose each document in a visual container that spans from the document icon on the left to the preview icon on the right",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Activity timeline: limit to 2 comments displayed at a time",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Customer summary: align phone number horizontally with contract ID",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Customer summary: swap positions of Customer ID (top left) and Contract ID (bottom right)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Document section: enclose each document in a container from icon to preview icon",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Refine customer summary layout, limit timeline comments, and containerize documents",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
