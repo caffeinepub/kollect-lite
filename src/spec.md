@@ -1,11 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Remove the comment history section that appears directly above the documents section in the case detail page.
+**Goal:** Add interactive activity timeline display that shows on history icon click.
 
 **Planned changes:**
-- Remove the CommentHistorySection component from the CaseDetail page layout
-- Keep the ActivityTimeline and history icon functionality unchanged
-- Preserve the DocumentsSection component
+- Add click handler to history icon in ActivitySection that toggles ActivityTimeline visibility
+- Display ActivityTimeline with vertical timeline structure matching reference design
+- Format timestamps as 'DD MMM YYYY, HH:MM' positioned on the left
+- Style activity comments in alternating colored boxes (light blue, light purple, light green)
+- Update dummy comments to single short sentences
 
-**User-visible outcome:** Users will no longer see the comment history section above the documents section when viewing case details. The history icon in the activity timeline will continue to work as before.
+**User-visible outcome:** Users can click the history icon to view a visual timeline of all activities with timestamps and concise comments in a styled vertical layout.

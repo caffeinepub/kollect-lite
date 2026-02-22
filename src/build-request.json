@@ -1,35 +1,51 @@
 {
   "kind": "build_request",
-  "title": "Remove comment history section above documents",
+  "title": "Display activity timeline on history icon click",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
+      "text": "When the history icon is clicked in the ActivitySection component, display the ActivityTimeline component with the exact visual design shown in the uploaded image: vertical timeline with circular markers, connecting lines, timestamps on the left, and colored comment boxes (light blue, light purple, light green) with single-sentence text",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-final"
+          "msg-last"
         ],
         "quotes": [
-          "remove the comment history section that does appear when you click the history icon i.e only the one directly above the documents section"
+          "when you click the history icon, display the activity timeline that looks exactly like in the uploaded image"
         ]
       },
       "acceptanceCriteria": [
-        "The CommentHistorySection component is no longer rendered in the CaseDetail page layout",
-        "The DocumentsSection remains visible and functional",
-        "The activity timeline with history icon functionality remains intact and unaffected"
+        "Clicking the history icon toggles the ActivityTimeline visibility",
+        "Timeline displays with vertical line connecting circular markers",
+        "Each activity shows timestamp in 'DD MMM YYYY, HH:MM' format on the left",
+        "Activity comments appear in colored boxes (alternating light blue, light purple, light green)",
+        "Layout matches the uploaded reference image structure"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Update dummy comments data to be exactly one short sentence each, matching the concise style shown in the uploaded image examples",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-last"
+        ],
+        "quotes": [
+          "keep the dummy comments 1 sentence short"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All dummy comments in dummyComments.ts are reduced to single short sentences",
+        "Comment text length is similar to examples: 'Payment arrangement agreed upon', 'Confirmed payment received, updating records', 'Customer disputed amount, escalating to supervisor'"
       ]
     }
   ],
-  "constraints": [
-    "Do not remove the ActivityTimeline component or the history icon functionality",
-    "Keep the DocumentsSection component unchanged"
-  ],
+  "constraints": [],
   "nonGoals": [
-    "Modifying the ActivityTimeline component",
-    "Changing the history icon click behavior",
-    "Altering the DocumentsSection component"
+    "Changing the backend Activity data structure",
+    "Adding new activity types or categories",
+    "Modifying the ActivitySection form fields"
   ],
   "imageRequirements": {
     "required": [],

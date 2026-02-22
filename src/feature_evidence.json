@@ -2,10 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-remove-the-commenthistorysection-component-that-appears-directly-above-the-documentssection-in-the-casedetail-page",
-      "featureTitle": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
+      "featureId": "feature-when-the-history-icon-is-clicked-in-the-activitysection-component-display-the-activitytimeline-component-with-the-exact-visual-design-shown-in-the-uploaded-image-vertical-timeline-with-circular-markers-connecting-lines-timestamps-on-the-left-and-colored-comment-boxes-light-blue-light-purple-light-green-with-single-sentence-text",
+      "featureTitle": "When the history icon is clicked in the ActivitySection component, display the ActivityTimeline component with the exact visual design shown in the uploaded image: vertical timeline with circular markers, connecting lines, timestamps on the left, and colored comment boxes (light blue, light purple, light green) with single-sentence text",
       "files": [
-        "frontend/src/pages/CaseDetail.tsx"
+        "frontend/src/components/ActivitySection.tsx",
+        "frontend/src/components/ActivityTimeline.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -18,6 +19,26 @@
       ],
       "testIds": [
         "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-dummy-comments-data-to-be-exactly-one-short-sentence-each-matching-the-concise-style-shown-in-the-uploaded-image-examples",
+      "featureTitle": "Update dummy comments data to be exactly one short sentence each, matching the concise style shown in the uploaded image examples",
+      "files": [
+        "frontend/src/data/dummyComments.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
       ],
       "confidence": "high"
     }

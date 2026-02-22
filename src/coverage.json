@@ -1,24 +1,38 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T16:12:36.537Z",
+  "generatedAt": "2026-02-21T16:42:09.911Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Remove the CommentHistorySection component that appears directly above the DocumentsSection in the CaseDetail page",
+        "summary": "When the history icon is clicked in the ActivitySection component, display the ActivityTimeline component with the exact visual design shown in the uploaded image: vertical timeline with circular markers, connecting lines, timestamps on the left, and colored comment boxes (light blue, light purple, light green) with single-sentence text",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/CaseDetail.tsx"
+          "frontend/src/components/ActivitySection.tsx",
+          "frontend/src/components/ActivityTimeline.tsx",
+          "frontend/src/index.css"
         ],
         "matchedFiles": [
-          "frontend/src/pages/CaseDetail.tsx"
+          "frontend/src/components/ActivitySection.tsx",
+          "frontend/src/components/ActivityTimeline.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Update dummy comments data to be exactly one short sentence each, matching the concise style shown in the uploaded image examples",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/data/dummyComments.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/data/dummyComments.ts"
         ]
       }
     ]
@@ -28,7 +42,9 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/pages/CaseDetail.tsx",
+    "frontend/src/components/ActivitySection.tsx",
+    "frontend/src/components/ActivityTimeline.tsx",
+    "frontend/src/data/dummyComments.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

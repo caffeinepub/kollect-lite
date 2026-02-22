@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RotateCcw, Plus } from 'lucide-react';
+import { History, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
@@ -106,9 +106,9 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
           </label>
           <button
             onClick={() => setShowHistory(!showHistory)}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
           >
-            <RotateCcw className="w-4 h-4" />
+            <History className="w-4 h-4" />
             History
           </button>
         </div>
