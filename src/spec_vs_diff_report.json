@@ -1,38 +1,22 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-21T16:42:09.908Z",
-  "summary": "The diff successfully implements both requirements. REQ-1 is implemented through ActivityTimeline.tsx displaying a vertical timeline with circular markers, connecting lines, timestamps in 'DD MMM YYYY, HH:MM' format, and alternating colored comment boxes (light blue, light purple, light green). The history icon click handler in ActivitySection.tsx toggles the ActivityTimeline visibility. REQ-2 is implemented through dummyComments.ts updates reducing all dummy comments to single short sentences matching the concise style examples.",
+  "generatedAt": "2026-02-22T16:28:48.141Z",
+  "summary": "The diff successfully implements REQ-1 by adding logic to disable the 'Add Comment' button when the comment textarea is empty or contains only whitespace. The implementation includes visual styling via the disabled state and maintains existing submission functionality when enabled.",
   "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "ActivityTimeline component fetches real activities from backend via useGetCaseActivities hook instead of using dummy data",
-      "reason": "The BuildRequest does not mention backend integration or real data fetching. The requirement only specifies displaying the timeline with dummy comments data. The implementation goes beyond the spec by connecting to the backend API.",
-      "evidence": [
-        "frontend/src/components/ActivityTimeline.tsx"
-      ]
-    },
-    {
-      "description": "Activity submission functionality with form validation and toast notifications in ActivitySection",
-      "reason": "The BuildRequest focuses only on displaying the timeline on history icon click and updating dummy comments. The implementation adds full activity submission functionality with addActivityMutation, form validation, and success/error toast notifications, which were not requested.",
-      "evidence": [
-        "frontend/src/components/ActivitySection.tsx"
-      ]
-    },
-    {
-      "description": "Automatic timeline display after adding new activity",
-      "reason": "The requirement only specifies toggling timeline visibility on history icon click. The implementation adds behavior to automatically show the timeline after adding an activity (setShowHistory(true) after successful submission), which was not requested.",
+      "description": "Button is also disabled when actionType or outcome fields are empty",
+      "reason": "The BuildRequest explicitly states in Non-goals: 'Validating other form fields (action, outcome dropdowns)'. The diff shows the button is disabled based on multiple conditions: isButtonDisabled = !actionType || !outcome || isCommentsEmpty || addActivityMutation.isPending. The actionType and outcome checks were not requested and violate the stated non-goals.",
       "evidence": [
         "frontend/src/components/ActivitySection.tsx"
       ]
     }
   ],
-  "confidence": 0.9,
+  "confidence": 0.95,
   "changed_files": [
     "frontend-file-summaries.txt",
     "frontend/src/components/ActivitySection.tsx",
-    "frontend/src/components/ActivityTimeline.tsx",
-    "frontend/src/data/dummyComments.ts",
     "project_state.json"
   ]
 }

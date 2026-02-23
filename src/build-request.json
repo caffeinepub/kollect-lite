@@ -1,51 +1,37 @@
 {
   "kind": "build_request",
-  "title": "Display activity timeline on history icon click",
+  "title": "Make Add Comment button interactive only when comment field is filled",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "When the history icon is clicked in the ActivitySection component, display the ActivityTimeline component with the exact visual design shown in the uploaded image: vertical timeline with circular markers, connecting lines, timestamps on the left, and colored comment boxes (light blue, light purple, light green) with single-sentence text",
+      "text": "Disable the 'Add Comment' button in the ActivitySection component when the comment textarea is empty",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-last"
         ],
         "quotes": [
-          "when you click the history icon, display the activity timeline that looks exactly like in the uploaded image"
+          "make the 'Add Comment, button interactive i.e. only after filling in the comment field"
         ]
       },
       "acceptanceCriteria": [
-        "Clicking the history icon toggles the ActivityTimeline visibility",
-        "Timeline displays with vertical line connecting circular markers",
-        "Each activity shows timestamp in 'DD MMM YYYY, HH:MM' format on the left",
-        "Activity comments appear in colored boxes (alternating light blue, light purple, light green)",
-        "Layout matches the uploaded reference image structure"
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "text": "Update dummy comments data to be exactly one short sentence each, matching the concise style shown in the uploaded image examples",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-last"
-        ],
-        "quotes": [
-          "keep the dummy comments 1 sentence short"
-        ]
-      },
-      "acceptanceCriteria": [
-        "All dummy comments in dummyComments.ts are reduced to single short sentences",
-        "Comment text length is similar to examples: 'Payment arrangement agreed upon', 'Confirmed payment received, updating records', 'Customer disputed amount, escalating to supervisor'"
+        "The 'Add Comment' button is disabled when the comment textarea contains only whitespace or is empty",
+        "The button becomes enabled as soon as the user types any non-whitespace character in the comment field",
+        "The button's disabled state has appropriate visual styling to indicate it cannot be clicked",
+        "The button functionality remains unchanged when enabled - it still submits activities successfully"
       ]
     }
   ],
-  "constraints": [],
+  "constraints": [
+    "Do not modify the backend logic or API endpoints",
+    "Preserve existing form submission behavior when the button is enabled",
+    "Maintain the current layout and styling of the ActivitySection component"
+  ],
   "nonGoals": [
-    "Changing the backend Activity data structure",
-    "Adding new activity types or categories",
-    "Modifying the ActivitySection form fields"
+    "Validating other form fields (action, outcome dropdowns)",
+    "Adding form validation error messages",
+    "Changing the ActivityTimeline display logic"
   ],
   "imageRequirements": {
     "required": [],

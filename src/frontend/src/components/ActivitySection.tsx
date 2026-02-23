@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { History, Plus } from 'lucide-react';
+import { RotateCcw, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
@@ -51,6 +51,10 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       toast.error('Failed to add activity');
     }
   };
+
+  // Check if comments field has any non-whitespace content
+  const isCommentsEmpty = comments.trim().length === 0;
+  const isButtonDisabled = !actionType || !outcome || isCommentsEmpty || addActivityMutation.isPending;
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
@@ -106,9 +110,9 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
           </label>
           <button
             onClick={() => setShowHistory(!showHistory)}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
           >
-            <History className="w-4 h-4" />
+            <RotateCcw className="w-4 h-4" />
             History
           </button>
         </div>
@@ -124,8 +128,8 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
         {/* Add Comment button with light background */}
         <Button
           onClick={handleAddComment}
-          disabled={!actionType || !outcome || addActivityMutation.isPending}
-          className="w-full h-10 text-sm bg-teal-50 hover:bg-teal-100 text-teal-dark border border-teal-200 flex items-center justify-center gap-2"
+          disabled={isButtonDisabled}
+          className="w-full h-10 text-sm bg-teal-50 hover:bg-teal-100 text-teal-dark border border-teal-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="w-4 h-4" />
           {addActivityMutation.isPending ? 'Adding...' : 'Add Comment'}

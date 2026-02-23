@@ -1,13 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add interactive activity timeline display that shows on history icon click.
+**Goal:** Make the Add Comment button interactive only when the comment field is filled.
 
 **Planned changes:**
-- Add click handler to history icon in ActivitySection that toggles ActivityTimeline visibility
-- Display ActivityTimeline with vertical timeline structure matching reference design
-- Format timestamps as 'DD MMM YYYY, HH:MM' positioned on the left
-- Style activity comments in alternating colored boxes (light blue, light purple, light green)
-- Update dummy comments to single short sentences
+- Disable the 'Add Comment' button when the comment textarea is empty or contains only whitespace
+- Enable the button when user types non-whitespace characters
+- Add visual styling to indicate the disabled state
 
-**User-visible outcome:** Users can click the history icon to view a visual timeline of all activities with timestamps and concise comments in a styled vertical layout.
+**User-visible outcome:** Users will see that the 'Add Comment' button is disabled (grayed out) until they type content in the comment field, providing clear feedback about when the button can be used.

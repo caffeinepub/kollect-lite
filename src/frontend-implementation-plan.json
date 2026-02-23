@@ -1,48 +1,22 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Display activity timeline on history icon click",
+  "title": "Make Add Comment button interactive only when comment field is filled",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Toggle ActivityTimeline component visibility when history icon is clicked, matching the reference image design with vertical timeline, circular markers, timestamps, and colored comment boxes",
+      "summary": "Disable the 'Add Comment' button when the comment textarea is empty",
       "acceptanceCriteria": [
-        "Clicking the history icon toggles the ActivityTimeline visibility",
-        "Timeline displays with vertical line connecting circular markers",
-        "Each activity shows timestamp in 'DD MMM YYYY, HH:MM' format on the left",
-        "Activity comments appear in colored boxes (alternating light blue, light purple, light green)",
-        "Layout matches the uploaded reference image structure"
+        "The 'Add Comment' button is disabled when the comment textarea contains only whitespace or is empty",
+        "The button becomes enabled as soon as the user types any non-whitespace character in the comment field",
+        "The button's disabled state has appropriate visual styling to indicate it cannot be clicked",
+        "The button functionality remains unchanged when enabled - it still submits activities successfully"
       ],
       "file_operations": [
         {
           "path": "frontend/src/components/ActivitySection.tsx",
           "operation": "modify",
-          "description": "Add state management for timeline visibility toggle. When the history icon is clicked, toggle the display of the ActivityTimeline component. Ensure the timeline is rendered below the activity form when visible."
-        },
-        {
-          "path": "frontend/src/components/ActivityTimeline.tsx",
-          "operation": "modify",
-          "description": "Update the timeline visual design to match the reference image: add vertical connecting line between activities, style circular markers with dark blue fill, position timestamps (DD MMM YYYY, HH:MM format) to the left of markers, wrap activity comments in colored boxes alternating between light blue (#E6F4F1), light purple (#F0E6F4), and light green (#E6F4E6). Use flexbox/grid layout to align timestamp-marker-comment horizontally."
-        },
-        {
-          "path": "frontend/src/index.css",
-          "operation": "modify",
-          "description": "Add CSS classes for timeline styling: vertical line connector, circular marker positioning, timestamp styling, and the three alternating comment box background colors (light blue, light purple, light green) with appropriate padding and border radius to match the reference image."
-        }
-      ]
-    },
-    {
-      "id": "REQ-2",
-      "summary": "Update dummy comments data to single short sentences matching the concise style shown in the reference image",
-      "acceptanceCriteria": [
-        "All dummy comments in dummyComments.ts are reduced to single short sentences",
-        "Comment text length is similar to examples: 'Payment arrangement agreed upon', 'Confirmed payment received, updating records', 'Customer disputed amount, escalating to supervisor'"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/data/dummyComments.ts",
-          "operation": "modify",
-          "description": "Replace all existing dummy comment text with single short sentences. Use concise, action-focused language similar to the reference examples: 'Payment arrangement agreed upon', 'Confirmed payment received, updating records', 'Customer disputed amount, escalating to supervisor'. Keep each comment to one sentence with approximately 5-10 words."
+          "description": "Add state management to track the comment field value and compute whether it contains only whitespace. Add a disabled prop to the 'Add Comment' button that evaluates to true when the comment field is empty or contains only whitespace. Apply appropriate visual styling (opacity-50, cursor-not-allowed) to the button when disabled to clearly indicate its non-interactive state. Ensure the button remains fully functional when enabled."
         }
       ]
     }
