@@ -1,98 +1,124 @@
 {
   "kind": "build_request",
-  "title": "Make Add Comment button interactive with activity timeline integration",
-  "projectName": "Kollect Lite",
+  "title": "Add contact selector to mobile field and Product Type field to account info",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-2",
-      "text": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
-      "target": "both",
+      "id": "REQ-1",
+      "text": "Add an icon button next to the mobile field in the customer detail section that opens a dropdown/popover displaying the primary and secondary contact phone numbers for the account",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-last"
         ],
         "quotes": [
-          "when the user clicks add comment, the comment gets added in the activity timeline section"
+          "edit the customer detail section by adding an icon next to the mobile field. clicking the icon will display the primary and secondary contact for the account"
         ]
       },
       "acceptanceCriteria": [
-        "Clicking 'Add Comment' submits the comment to the backend",
-        "The new comment appears in the activity timeline below the Add Comment button",
-        "The comment textarea clears after successful submission",
-        "The timeline updates without requiring a page refresh"
+        "An icon button appears adjacent to the mobile field",
+        "Clicking the icon displays both primary and secondary contact phone numbers",
+        "The contact selector UI is visually consistent with the existing design system"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement click functionality on the contact options in the dropdown so that selecting a contact populates the mobile field with the chosen phone number",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-last"
+        ],
+        "quotes": [
+          "clicking on one of the contacts will populate the mobile field"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking a contact in the dropdown updates the mobile field value",
+        "The dropdown closes after selecting a contact",
+        "The mobile field displays the selected contact number"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
+      "text": "Set the primary contact as the default value for the mobile field when the case detail page loads",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-last"
         ],
         "quotes": [
-          "when you click the history icon, populate the field that currently pops up and says 'no activity yet' below the add comment button"
+          "set primary contact as default"
         ]
       },
       "acceptanceCriteria": [
-        "History icon click loads and displays all comments for the current case",
-        "The 'no activity yet' message is replaced with actual comment history when available",
-        "Comments are fetched from the backend activities data"
+        "The mobile field displays the primary contact phone number by default",
+        "The default value is set on initial page load"
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Display each comment in the comment history enclosed in light color-coded blocks to allow collectors to quickly scan previous comments, with vertical scrolling support and a maximum of 3 comments visible in a single view",
+      "text": "Add a 'Product Type' field label and value display to the horizontal area containing 'Days Past Due', positioned below the existing Days Past Due field",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-last"
         ],
         "quotes": [
-          "enclose each comment in the comment history in a light color-coded blocks to allow collectors to quickly scan previous comments that allows vertical scrolling and displays a maximum of 3 comments in a single view"
+          "edit the horizontal area with 'Days Past Due' by adding a field named 'Product Type' and below it, the type"
         ]
       },
       "acceptanceCriteria": [
-        "Each comment is displayed in a light-colored background block with sufficient contrast",
-        "Comments use distinct but subtle color coding for visual differentiation",
-        "The comment container scrolls vertically when there are more than 3 comments",
-        "Exactly 3 comments are visible at once without scrolling",
-        "The scroll behavior is smooth and intuitive"
+        "A 'Product Type' label appears in the horizontal info area",
+        "The field is positioned below the Days Past Due field",
+        "The layout maintains horizontal alignment and spacing consistency"
       ]
     },
     {
       "id": "REQ-5",
-      "text": "Write visual coding specifications in the specs section documenting the comment history UI implementation including color codes, dimensions, spacing, typography, and scrolling behavior",
+      "text": "Display the product type value which can be 'Loan', 'Credit Card', or 'Overdrawn' below the Product Type label",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-user-1"
+          "msg-last"
         ],
         "quotes": [
-          "write for me the visual coding specifications in the specs section"
+          "the type which can be 'Loan', 'Credit Card' or 'Overdrawn'"
         ]
       },
       "acceptanceCriteria": [
-        "Specifications include exact color values for comment blocks",
-        "Specifications define container height for 3-comment view",
-        "Specifications document padding, margins, and gap spacing between comments",
-        "Specifications include typography settings (font size, weight, line height)",
-        "Specifications describe scrollbar styling and overflow behavior"
+        "The product type value is displayed below the 'Product Type' label",
+        "The value shows one of: 'Loan', 'Credit Card', or 'Overdrawn'",
+        "The styling is consistent with other field values in the section"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Update the Case type in backend/main.mo to include primaryContact, secondaryContact, and productType fields to support the new UI features",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-last"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Case type includes primaryContact field of type Text",
+        "Case type includes secondaryContact field of type ?Text (optional)",
+        "Case type includes productType field with values limited to 'Loan', 'Credit Card', or 'Overdrawn'",
+        "Existing case data structure is preserved during upgrade"
       ]
     }
   ],
   "constraints": [
-    "Use the existing ActivitySection.tsx component and its current structure",
-    "Maintain the existing backend Activity type and data model",
-    "Keep the existing authentication and query invalidation patterns",
-    "Do not modify immutable frontend paths including useInternetIdentity hooks"
+    "Maintain the existing layout and styling of the customer detail section",
+    "Use the established color scheme and UI components from the design system",
+    "Preserve existing case data and functionality"
   ],
   "nonGoals": [
-    "Adding new activity types beyond comments",
-    "Implementing comment editing or deletion",
-    "Adding user avatars or profile pictures to comments",
-    "Creating a separate comments API endpoint"
+    "Adding the ability to edit or add new contacts",
+    "Implementing contact validation or formatting",
+    "Adding other product type options beyond the three specified",
+    "Modifying the existing Days Past Due calculation or display logic"
   ],
   "imageRequirements": {
     "required": [],

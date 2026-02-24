@@ -1,58 +1,75 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T07:23:09.135Z",
+  "generatedAt": "2026-02-24T08:39:39.850Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 2,
+    "total": 6,
+    "implemented": 5,
     "items": [
       {
-        "id": "REQ-2",
-        "summary": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
+        "id": "REQ-1",
+        "summary": "Add an icon button next to the mobile field in the customer detail section that opens a dropdown/popover displaying the primary and secondary contact phone numbers for the account",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/ActivitySection.tsx",
-          "frontend/src/components/ActivityTimeline.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts",
-          "frontend/src/components/ActivitySection.tsx",
-          "frontend/src/components/ActivityTimeline.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Implement click functionality on the contact options in the dropdown so that selecting a contact populates the mobile field with the chosen phone number",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CaseDetail.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CaseDetail.tsx"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
+        "summary": "Set the primary contact as the default value for the mobile field when the case detail page loads",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CommentHistorySection.tsx",
-          "frontend/src/hooks/useQueries.ts"
+          "frontend/src/pages/CaseDetail.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/hooks/useQueries.ts"
+          "frontend/src/pages/CaseDetail.tsx"
         ]
       },
       {
         "id": "REQ-4",
-        "summary": "Display each comment in the comment history enclosed in light color-coded blocks to allow collectors to quickly scan previous comments, with vertical scrolling support and a maximum of 3 comments visible in a single view",
-        "status": "missing",
+        "summary": "Add a 'Product Type' field label and value display to the horizontal area containing 'Days Past Due', positioned below the existing Days Past Due field",
+        "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CommentHistorySection.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
         ],
-        "matchedFiles": []
+        "matchedFiles": [
+          "frontend/src/pages/CaseDetail.tsx"
+        ]
       },
       {
         "id": "REQ-5",
-        "summary": "Write visual coding specifications in the specs section documenting the comment history UI implementation including color codes, dimensions, spacing, typography, and scrolling behavior",
-        "status": "missing",
+        "summary": "Display the product type value which can be 'Loan', 'Credit Card', or 'Overdrawn' below the Product Type label",
+        "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/CommentHistorySection.tsx"
+          "frontend/src/pages/CaseDetail.tsx"
         ],
+        "matchedFiles": [
+          "frontend/src/pages/CaseDetail.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Update the Case type in backend/main.mo to include primaryContact, secondaryContact, and productType fields to support the new UI features",
+        "status": "unknown",
+        "plannedFiles": [],
         "matchedFiles": []
       }
     ]
@@ -66,12 +83,10 @@
     "frontend-implementation-plan.json",
     "frontend/src/backend.d.ts",
     "frontend/src/backend.ts",
-    "frontend/src/components/ActivitySection.tsx",
-    "frontend/src/components/ActivityTimeline.tsx",
     "frontend/src/declarations/backend.did.d.ts",
     "frontend/src/declarations/backend.did.js",
-    "frontend/src/hooks/useQueries.ts",
-    "frontend/src/index.css",
+    "frontend/src/pages/CaseDetail.tsx",
+    "frontend/src/pages/TaskQueue.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

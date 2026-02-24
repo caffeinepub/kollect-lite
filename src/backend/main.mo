@@ -35,11 +35,14 @@ actor {
     amountDue : Float;
     paidAmount : Float;
     payoffBalance : Float;
+    primaryContact : Text;
+    secondaryContact : Text;
+    productType : Text;
   };
 
   public type Activity = {
     timestamp : Time.Time;
-    actionType : Text; // e.g. "Email", "PTP"
+    actionType : Text;
     outcome : Text;
     paymentDetails : ?Text;
     comments : ?Text;
@@ -52,17 +55,15 @@ actor {
     blobReference : Storage.ExternalBlob;
   };
 
-  public type Comment = {
-    author : Principal;
-    message : Text;
-    timestamp : Time.Time;
+  public type UserProfile = {
+    name : Text;
   };
 
   // Persistent state
   let cases = Map.empty<CaseID, Case>();
   let activitiesMap = Map.empty<CaseID, List.List<Activity>>();
   let documentsMap = Map.empty<CaseID, List.List<Document>>();
-  let commentsMap = Map.empty<CaseID, List.List<Comment>>();
+  let userProfiles = Map.empty<Principal, UserProfile>();
 
   // Initialize authorization and storage components
   let accessControlState = AccessControl.initState();
@@ -75,6 +76,31 @@ actor {
       Text.compare(case1.id, case2.id);
     };
   };
+
+  // User Profile Management Functions
+
+  public query ({ caller }) func getCallerUserProfile() : async ?UserProfile {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can view profiles");
+    };
+    userProfiles.get(caller);
+  };
+
+  public query ({ caller }) func getUserProfile(user : Principal) : async ?UserProfile {
+    if (caller != user and not AccessControl.isAdmin(accessControlState, caller)) {
+      Runtime.trap("Unauthorized: Can only view your own profile");
+    };
+    userProfiles.get(user);
+  };
+
+  public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Only users can save profiles");
+    };
+    userProfiles.add(caller, profile);
+  };
+
+  // Case Management Functions
 
   public query ({ caller }) func getCases() : async [Case] {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
@@ -92,6 +118,16 @@ actor {
 
     cases.get(caseId);
   };
+
+  public shared ({ caller }) func createCase(newCase : Case) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can create cases");
+    };
+
+    cases.add(newCase.id, newCase);
+  };
+
+  // Activity Management Functions
 
   public query ({ caller }) func getCaseActivities(caseId : CaseID) : async [Activity] {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
@@ -118,6 +154,8 @@ actor {
     activitiesMap.add(caseId, currentActivities);
   };
 
+  // Document Management Functions
+
   public query ({ caller }) func getCaseDocuments(caseId : CaseID) : async [Document] {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view documents");
@@ -142,43 +180,5 @@ actor {
     currentDocuments.add(document);
     documentsMap.add(caseId, currentDocuments);
   };
-
-  public shared ({ caller }) func createCase(newCase : Case) : async () {
-    if (not (AccessControl.isAdmin(accessControlState, caller))) {
-      Runtime.trap("Unauthorized: Only admins can create cases");
-    };
-
-    cases.add(newCase.id, newCase);
-  };
-
-  public query ({ caller }) func getCaseComments(caseId : CaseID) : async [Comment] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can view comments");
-    };
-
-    switch (commentsMap.get(caseId)) {
-      case (null) { [] };
-      case (?comments) { comments.toArray() };
-    };
-  };
-
-  public shared ({ caller }) func addComment(caseId : CaseID, message : Text) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
-      Runtime.trap("Unauthorized: Only users can add comments");
-    };
-
-    let comment : Comment = {
-      author = caller;
-      message;
-      timestamp = Time.now();
-    };
-
-    let currentComments = switch (commentsMap.get(caseId)) {
-      case (null) { List.empty<Comment>() };
-      case (?comments) { comments };
-    };
-
-    currentComments.add(comment);
-    commentsMap.add(caseId, currentComments);
-  };
 };
+

@@ -17,6 +17,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 12500,
     paidAmount: 2000,
     payoffBalance: 10500,
+    primaryContact: '254-712-345678',
+    secondaryContact: '254-722-111222',
+    productType: 'Loan',
   },
   {
     id: 'CASE-002',
@@ -29,6 +32,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 8750,
     paidAmount: 1500,
     payoffBalance: 7250,
+    primaryContact: '254-723-456789',
+    secondaryContact: '254-733-222333',
+    productType: 'Credit Card',
   },
   {
     id: 'CASE-003',
@@ -41,6 +47,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 5600,
     paidAmount: 3000,
     payoffBalance: 2600,
+    primaryContact: '254-734-567890',
+    secondaryContact: '254-744-333444',
+    productType: 'Overdrawn',
   },
   {
     id: 'CASE-004',
@@ -53,6 +62,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 15000,
     paidAmount: 0,
     payoffBalance: 15000,
+    primaryContact: '254-745-678901',
+    secondaryContact: '254-755-444555',
+    productType: 'Loan',
   },
   {
     id: 'CASE-005',
@@ -65,6 +77,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 4200,
     paidAmount: 1000,
     payoffBalance: 3200,
+    primaryContact: '254-756-789012',
+    secondaryContact: '254-766-555666',
+    productType: 'Credit Card',
   },
   {
     id: 'CASE-006',
@@ -77,6 +92,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 6800,
     paidAmount: 2500,
     payoffBalance: 4300,
+    primaryContact: '254-767-890123',
+    secondaryContact: '254-777-666777',
+    productType: 'Loan',
   },
   {
     id: 'CASE-007',
@@ -89,6 +107,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 9500,
     paidAmount: 500,
     payoffBalance: 9000,
+    primaryContact: '254-778-901234',
+    secondaryContact: '254-788-777888',
+    productType: 'Overdrawn',
   },
   {
     id: 'CASE-008',
@@ -101,6 +122,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 7300,
     paidAmount: 1800,
     payoffBalance: 5500,
+    primaryContact: '254-789-012345',
+    secondaryContact: '254-799-888999',
+    productType: 'Loan',
   },
   {
     id: 'CASE-009',
@@ -113,6 +137,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 3500,
     paidAmount: 1500,
     payoffBalance: 2000,
+    primaryContact: '254-790-123456',
+    secondaryContact: '254-700-999000',
+    productType: 'Credit Card',
   },
   {
     id: 'CASE-010',
@@ -125,6 +152,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 11200,
     paidAmount: 3500,
     payoffBalance: 7700,
+    primaryContact: '254-701-234567',
+    secondaryContact: '254-711-000111',
+    productType: 'Loan',
   },
   {
     id: 'CASE-011',
@@ -137,6 +167,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 13800,
     paidAmount: 1000,
     payoffBalance: 12800,
+    primaryContact: '254-712-345679',
+    secondaryContact: '254-722-111222',
+    productType: 'Overdrawn',
   },
   {
     id: 'CASE-012',
@@ -149,6 +182,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 5900,
     paidAmount: 2200,
     payoffBalance: 3700,
+    primaryContact: '254-723-456780',
+    secondaryContact: '254-733-222333',
+    productType: 'Loan',
   },
   {
     id: 'CASE-013',
@@ -161,6 +197,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 4500,
     paidAmount: 2000,
     payoffBalance: 2500,
+    primaryContact: '254-734-567891',
+    secondaryContact: '254-744-333444',
+    productType: 'Credit Card',
   },
   {
     id: 'CASE-014',
@@ -173,6 +212,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 10500,
     paidAmount: 0,
     payoffBalance: 10500,
+    primaryContact: '254-745-678902',
+    secondaryContact: '254-755-444555',
+    productType: 'Loan',
   },
   {
     id: 'CASE-015',
@@ -185,6 +227,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 8200,
     paidAmount: 2800,
     payoffBalance: 5400,
+    primaryContact: '254-756-789013',
+    secondaryContact: '254-766-555666',
+    productType: 'Overdrawn',
   },
   {
     id: 'CASE-016',
@@ -197,6 +242,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 6200,
     paidAmount: 3500,
     payoffBalance: 2700,
+    primaryContact: '254-767-890124',
+    secondaryContact: '254-777-666777',
+    productType: 'Loan',
   },
   {
     id: 'CASE-017',
@@ -209,6 +257,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 9800,
     paidAmount: 1200,
     payoffBalance: 8600,
+    primaryContact: '254-778-901235',
+    secondaryContact: '254-788-777888',
+    productType: 'Credit Card',
   },
   {
     id: 'CASE-018',
@@ -221,6 +272,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 7100,
     paidAmount: 2400,
     payoffBalance: 4700,
+    primaryContact: '254-789-012346',
+    secondaryContact: '254-799-888999',
+    productType: 'Loan',
   },
   {
     id: 'CASE-019',
@@ -233,6 +287,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 3200,
     paidAmount: 1800,
     payoffBalance: 1400,
+    primaryContact: '254-790-123457',
+    secondaryContact: '254-700-999000',
+    productType: 'Overdrawn',
   },
   {
     id: 'CASE-020',
@@ -245,6 +302,9 @@ const DUMMY_CASES: Case[] = [
     amountDue: 10800,
     paidAmount: 4200,
     payoffBalance: 6600,
+    primaryContact: '254-701-234568',
+    secondaryContact: '254-711-000111',
+    productType: 'Loan',
   },
 ];
 

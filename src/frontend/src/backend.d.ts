@@ -14,6 +14,21 @@ export class ExternalBlob {
     static fromBytes(blob: Uint8Array<ArrayBuffer>): ExternalBlob;
     withUploadProgress(onProgress: (percentage: number) => void): ExternalBlob;
 }
+export interface Case {
+    id: CaseID;
+    dpd: bigint;
+    status: CaseStatus;
+    secondaryContact: string;
+    debtorName: string;
+    productType: string;
+    payoffBalance: number;
+    customerId: string;
+    amountDue: number;
+    phoneNumber: string;
+    paidAmount: number;
+    primaryContact: string;
+    contractId: string;
+}
 export interface Activity {
     actionType: string;
     paymentDetails?: string;
@@ -22,11 +37,6 @@ export interface Activity {
     outcome: string;
 }
 export type Time = bigint;
-export interface Comment {
-    author: Principal;
-    message: string;
-    timestamp: Time;
-}
 export interface Document {
     id: DocumentID;
     name: string;
@@ -35,17 +45,8 @@ export interface Document {
 }
 export type CaseID = string;
 export type DocumentID = string;
-export interface Case {
-    id: CaseID;
-    dpd: bigint;
-    status: CaseStatus;
-    debtorName: string;
-    payoffBalance: number;
-    customerId: string;
-    amountDue: number;
-    phoneNumber: string;
-    paidAmount: number;
-    contractId: string;
+export interface UserProfile {
+    name: string;
 }
 export enum CaseStatus {
     ptp = "ptp",
@@ -59,15 +60,16 @@ export enum UserRole {
 }
 export interface backendInterface {
     addActivity(caseId: CaseID, activity: Activity): Promise<void>;
-    addComment(caseId: CaseID, message: string): Promise<void>;
     addDocument(caseId: CaseID, document: Document): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCase(newCase: Case): Promise<void>;
+    getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
     getCase(caseId: CaseID): Promise<Case | null>;
     getCaseActivities(caseId: CaseID): Promise<Array<Activity>>;
-    getCaseComments(caseId: CaseID): Promise<Array<Comment>>;
     getCaseDocuments(caseId: CaseID): Promise<Array<Document>>;
     getCases(): Promise<Array<Case>>;
+    getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
+    saveCallerUserProfile(profile: UserProfile): Promise<void>;
 }

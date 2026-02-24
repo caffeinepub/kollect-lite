@@ -1,28 +1,52 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Interactive comment system with activity timeline and history view",
+  "summary": "Collections management application with customer details, contact management, and account type tracking",
   "architectural_notes": [
-    "Comment system with activity timeline integration",
-    "History view with color-coded comment blocks",
-    "Maximum 3 comments visible with vertical scroll"
+    "Customer detail section includes mobile field with contact selector",
+    "Contact system supports primary and secondary contacts per account",
+    "Product types: Loan, Credit Card, Overdrawn"
   ],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-when-the-user-clicks-the-add-comment-button-in-activitysection-add-the-comment-to-the-activity-timeline-section-that-displays-below-it-showing-the-new-comment-immediately-in-the-timeline",
-      "title": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
+      "id": "feature-add-an-icon-button-next-to-the-mobile-field-in-the-customer-detail-section-that-opens-a-dropdown-popover-displaying-the-primary-and-secondary-contact-phone-numbers-for-the-account",
+      "title": "Add an icon button next to the mobile field in the customer detail section that opens a dropdown/popover displaying the primary and secondary contact phone numbers for the account",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-click-functionality-on-the-contact-options-in-the-dropdown-so-that-selecting-a-contact-populates-the-mobile-field-with-the-chosen-phone-number",
+      "title": "Implement click functionality on the contact options in the dropdown so that selecting a contact populates the mobile field with the chosen phone number",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-when-the-user-clicks-the-history-icon-populate-the-activity-timeline-field-that-currently-displays-no-activity-yet-below-the-add-comment-button-with-the-case-s-comment-history",
-      "title": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
+      "id": "feature-set-the-primary-contact-as-the-default-value-for-the-mobile-field-when-the-case-detail-page-loads",
+      "title": "Set the primary contact as the default value for the mobile field when the case detail page loads",
       "reqIds": [
         "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-product-type-field-label-and-value-display-to-the-horizontal-area-containing-days-past-due-positioned-below-the-existing-days-past-due-field",
+      "title": "Add a 'Product Type' field label and value display to the horizontal area containing 'Days Past Due', positioned below the existing Days Past Due field",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-product-type-value-which-can-be-loan-credit-card-or-overdrawn-below-the-product-type-label",
+      "title": "Display the product type value which can be 'Loan', 'Credit Card', or 'Overdrawn' below the Product Type label",
+      "reqIds": [
+        "REQ-5"
       ],
       "version": 1
     }
@@ -30,46 +54,26 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Interactive Add Comment button that adds comments to activity timeline",
+      "summary": "Add contact selector icon next to mobile field with primary/secondary contacts",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "History icon populates activity timeline below Add Comment button",
+      "summary": "Add Product Type field (Loan/Credit Card/Overdrawn) to Days Past Due area",
       "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Comment history with light color-coded blocks, vertical scrolling, max 3 comments visible",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "Write visual coding specifications in specs section",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Display each comment in the comment history enclosed in light color-coded blocks to allow collectors to quickly scan previous comments, with vertical scrolling support and a maximum of 3 comments visible in a single view",
-      "reqIds": [
-        "REQ-4"
-      ],
       "status": "pending"
     },
     {
       "id": "AR-8",
-      "summary": "Write visual coding specifications in the specs section documenting the comment history UI implementation including color codes, dimensions, spacing, typography, and scrolling behavior",
+      "summary": "Update the Case type in backend/main.mo to include primaryContact, secondaryContact, and productType fields to support the new UI features",
       "reqIds": [
-        "REQ-5"
+        "REQ-6"
       ],
       "status": "pending"
     }
   ],
-  "projectName": "Kollect Lite",
+  "projectName": "Add contact selector to mobile field and Product Type field to account info",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

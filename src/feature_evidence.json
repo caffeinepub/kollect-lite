@@ -2,12 +2,30 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-when-the-user-clicks-the-add-comment-button-in-activitysection-add-the-comment-to-the-activity-timeline-section-that-displays-below-it-showing-the-new-comment-immediately-in-the-timeline",
-      "featureTitle": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
+      "featureId": "feature-add-an-icon-button-next-to-the-mobile-field-in-the-customer-detail-section-that-opens-a-dropdown-popover-displaying-the-primary-and-secondary-contact-phone-numbers-for-the-account",
+      "featureTitle": "Add an icon button next to the mobile field in the customer detail section that opens a dropdown/popover displaying the primary and secondary contact phone numbers for the account",
       "files": [
-        "frontend/src/components/ActivitySection.tsx",
-        "frontend/src/components/ActivityTimeline.tsx",
-        "frontend/src/hooks/useQueries.ts"
+        "frontend/src/pages/CaseDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-click-functionality-on-the-contact-options-in-the-dropdown-so-that-selecting-a-contact-populates-the-mobile-field-with-the-chosen-phone-number",
+      "featureTitle": "Implement click functionality on the contact options in the dropdown so that selecting a contact populates the mobile field with the chosen phone number",
+      "files": [
+        "frontend/src/pages/CaseDetail.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -24,10 +42,10 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-when-the-user-clicks-the-history-icon-populate-the-activity-timeline-field-that-currently-displays-no-activity-yet-below-the-add-comment-button-with-the-case-s-comment-history",
-      "featureTitle": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
+      "featureId": "feature-set-the-primary-contact-as-the-default-value-for-the-mobile-field-when-the-case-detail-page-loads",
+      "featureTitle": "Set the primary contact as the default value for the mobile field when the case detail page loads",
       "files": [
-        "frontend/src/hooks/useQueries.ts"
+        "frontend/src/pages/CaseDetail.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -40,6 +58,46 @@
       ],
       "testIds": [
         "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-product-type-field-label-and-value-display-to-the-horizontal-area-containing-days-past-due-positioned-below-the-existing-days-past-due-field",
+      "featureTitle": "Add a 'Product Type' field label and value display to the horizontal area containing 'Days Past Due', positioned below the existing Days Past Due field",
+      "files": [
+        "frontend/src/pages/CaseDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-the-product-type-value-which-can-be-loan-credit-card-or-overdrawn-below-the-product-type-label",
+      "featureTitle": "Display the product type value which can be 'Loan', 'Credit Card', or 'Overdrawn' below the Product Type label",
+      "files": [
+        "frontend/src/pages/CaseDetail.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
       ],
       "confidence": "high"
     }

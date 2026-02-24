@@ -1,23 +1,14 @@
 import Map "mo:core/Map";
 import List "mo:core/List";
+import Text "mo:core/Text";
 import Time "mo:core/Time";
-import Principal "mo:core/Principal";
 import Storage "blob-storage/Storage";
 
 module {
-  type CaseID = Text;
-  type DocumentID = Text;
-
-  type CaseStatus = {
-    #active;
-    #escalated;
-    #ptp;
-  };
-
-  type Case = {
-    id : CaseID;
+  type OldCase = {
+    id : Text;
     debtorName : Text;
-    status : CaseStatus;
+    status : { #active; #escalated; #ptp };
     contractId : Text;
     customerId : Text;
     dpd : Nat;
@@ -27,7 +18,7 @@ module {
     payoffBalance : Float;
   };
 
-  type Activity = {
+  type OldActivity = {
     timestamp : Time.Time;
     actionType : Text;
     outcome : Text;
@@ -35,34 +26,56 @@ module {
     comments : ?Text;
   };
 
-  type Document = {
-    id : DocumentID;
+  type OldDocument = {
+    id : Text;
     name : Text;
     fileType : Text;
     blobReference : Storage.ExternalBlob;
   };
 
-  type Comment = {
-    author : Principal;
-    message : Text;
-    timestamp : Time.Time;
+  type OldActor = {
+    cases : Map.Map<Text, OldCase>;
+    activitiesMap : Map.Map<Text, List.List<OldActivity>>;
+    documentsMap : Map.Map<Text, List.List<OldDocument>>;
   };
 
-  type OldActor = {
-    cases : Map.Map<CaseID, Case>;
-    activitiesMap : Map.Map<CaseID, List.List<Activity>>;
-    documentsMap : Map.Map<CaseID, List.List<Document>>;
+  type NewCase = {
+    id : Text;
+    debtorName : Text;
+    status : { #active; #escalated; #ptp };
+    contractId : Text;
+    customerId : Text;
+    dpd : Nat;
+    phoneNumber : Text;
+    amountDue : Float;
+    paidAmount : Float;
+    payoffBalance : Float;
+    primaryContact : Text;
+    secondaryContact : Text;
+    productType : Text;
   };
 
   type NewActor = {
-    cases : Map.Map<CaseID, Case>;
-    activitiesMap : Map.Map<CaseID, List.List<Activity>>;
-    documentsMap : Map.Map<CaseID, List.List<Document>>;
-    commentsMap : Map.Map<CaseID, List.List<Comment>>;
+    cases : Map.Map<Text, NewCase>;
+    activitiesMap : Map.Map<Text, List.List<OldActivity>>;
+    documentsMap : Map.Map<Text, List.List<OldDocument>>;
   };
 
   public func run(old : OldActor) : NewActor {
-    let commentsMap = Map.empty<CaseID, List.List<Comment>>();
-    { old with commentsMap };
+    let newCases = old.cases.map<Text, OldCase, NewCase>(
+      func(_id, oldCase) {
+        {
+          oldCase with
+          primaryContact = "Default Primary";
+          secondaryContact = "Default Secondary";
+          productType = "Default Product";
+        };
+      }
+    );
+    {
+      cases = newCases;
+      activitiesMap = old.activitiesMap;
+      documentsMap = old.documentsMap;
+    };
   };
 };

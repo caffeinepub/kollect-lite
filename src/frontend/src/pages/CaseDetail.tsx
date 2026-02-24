@@ -1,12 +1,17 @@
 import { useParams, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, Phone, MessageSquare, Mail, Copy, Check } from 'lucide-react';
+import { ArrowLeft, Phone, MessageSquare, Mail, Copy, Check, Users } from 'lucide-react';
 import { Button } from '../components/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../components/ui/popover';
 import StatusBadge from '../components/StatusBadge';
 import ActivitySection from '../components/ActivitySection';
 import DocumentsSection from '../components/DocumentsSection';
 import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // Dummy case data lookup
 const DUMMY_CASES_MAP: Record<string, Case> = {
@@ -21,6 +26,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 12500,
     paidAmount: 2000,
     payoffBalance: 10500,
+    primaryContact: '254-712-345678',
+    secondaryContact: '254-722-111222',
+    productType: 'Loan',
   },
   'CASE-002': {
     id: 'CASE-002',
@@ -33,6 +41,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 8750,
     paidAmount: 1500,
     payoffBalance: 7250,
+    primaryContact: '254-723-456789',
+    secondaryContact: '254-733-222333',
+    productType: 'Credit Card',
   },
   'CASE-003': {
     id: 'CASE-003',
@@ -45,6 +56,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 5600,
     paidAmount: 3000,
     payoffBalance: 2600,
+    primaryContact: '254-734-567890',
+    secondaryContact: '254-744-333444',
+    productType: 'Overdrawn',
   },
   'CASE-004': {
     id: 'CASE-004',
@@ -57,6 +71,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 15000,
     paidAmount: 0,
     payoffBalance: 15000,
+    primaryContact: '254-745-678901',
+    secondaryContact: '254-755-444555',
+    productType: 'Loan',
   },
   'CASE-005': {
     id: 'CASE-005',
@@ -69,6 +86,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 4200,
     paidAmount: 1000,
     payoffBalance: 3200,
+    primaryContact: '254-756-789012',
+    secondaryContact: '254-766-555666',
+    productType: 'Credit Card',
   },
   'CASE-006': {
     id: 'CASE-006',
@@ -81,6 +101,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 6800,
     paidAmount: 2500,
     payoffBalance: 4300,
+    primaryContact: '254-767-890123',
+    secondaryContact: '254-777-666777',
+    productType: 'Loan',
   },
   'CASE-007': {
     id: 'CASE-007',
@@ -93,6 +116,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 9500,
     paidAmount: 500,
     payoffBalance: 9000,
+    primaryContact: '254-778-901234',
+    secondaryContact: '254-788-777888',
+    productType: 'Overdrawn',
   },
   'CASE-008': {
     id: 'CASE-008',
@@ -105,6 +131,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 7300,
     paidAmount: 1800,
     payoffBalance: 5500,
+    primaryContact: '254-789-012345',
+    secondaryContact: '254-799-888999',
+    productType: 'Loan',
   },
   'CASE-009': {
     id: 'CASE-009',
@@ -117,6 +146,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 3500,
     paidAmount: 1500,
     payoffBalance: 2000,
+    primaryContact: '254-790-123456',
+    secondaryContact: '254-700-999000',
+    productType: 'Credit Card',
   },
   'CASE-010': {
     id: 'CASE-010',
@@ -129,6 +161,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 11200,
     paidAmount: 3500,
     payoffBalance: 7700,
+    primaryContact: '254-701-234567',
+    secondaryContact: '254-711-000111',
+    productType: 'Loan',
   },
   'CASE-011': {
     id: 'CASE-011',
@@ -141,6 +176,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 13800,
     paidAmount: 1000,
     payoffBalance: 12800,
+    primaryContact: '254-712-345679',
+    secondaryContact: '254-722-111222',
+    productType: 'Overdrawn',
   },
   'CASE-012': {
     id: 'CASE-012',
@@ -153,6 +191,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 5900,
     paidAmount: 2200,
     payoffBalance: 3700,
+    primaryContact: '254-723-456780',
+    secondaryContact: '254-733-222333',
+    productType: 'Loan',
   },
   'CASE-013': {
     id: 'CASE-013',
@@ -165,6 +206,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 4500,
     paidAmount: 2000,
     payoffBalance: 2500,
+    primaryContact: '254-734-567891',
+    secondaryContact: '254-744-333444',
+    productType: 'Credit Card',
   },
   'CASE-014': {
     id: 'CASE-014',
@@ -177,6 +221,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 10500,
     paidAmount: 0,
     payoffBalance: 10500,
+    primaryContact: '254-745-678902',
+    secondaryContact: '254-755-444555',
+    productType: 'Loan',
   },
   'CASE-015': {
     id: 'CASE-015',
@@ -189,6 +236,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 8200,
     paidAmount: 2800,
     payoffBalance: 5400,
+    primaryContact: '254-756-789013',
+    secondaryContact: '254-766-555666',
+    productType: 'Overdrawn',
   },
   'CASE-016': {
     id: 'CASE-016',
@@ -201,6 +251,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 6200,
     paidAmount: 3500,
     payoffBalance: 2700,
+    primaryContact: '254-767-890124',
+    secondaryContact: '254-777-666777',
+    productType: 'Loan',
   },
   'CASE-017': {
     id: 'CASE-017',
@@ -213,6 +266,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 9800,
     paidAmount: 1200,
     payoffBalance: 8600,
+    primaryContact: '254-778-901235',
+    secondaryContact: '254-788-777888',
+    productType: 'Credit Card',
   },
   'CASE-018': {
     id: 'CASE-018',
@@ -225,6 +281,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 7100,
     paidAmount: 2400,
     payoffBalance: 4700,
+    primaryContact: '254-789-012346',
+    secondaryContact: '254-799-888999',
+    productType: 'Loan',
   },
   'CASE-019': {
     id: 'CASE-019',
@@ -237,6 +296,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 3200,
     paidAmount: 1800,
     payoffBalance: 1400,
+    primaryContact: '254-790-123457',
+    secondaryContact: '254-700-999000',
+    productType: 'Overdrawn',
   },
   'CASE-020': {
     id: 'CASE-020',
@@ -249,6 +311,9 @@ const DUMMY_CASES_MAP: Record<string, Case> = {
     amountDue: 10800,
     paidAmount: 4200,
     payoffBalance: 6600,
+    primaryContact: '254-701-234568',
+    secondaryContact: '254-711-000111',
+    productType: 'Loan',
   },
 };
 
@@ -256,8 +321,17 @@ export default function CaseDetail() {
   const { caseId } = useParams({ from: '/case/$caseId' });
   const navigate = useNavigate();
   const [copiedCustomerId, setCopiedCustomerId] = useState(false);
+  const [selectedMobile, setSelectedMobile] = useState('');
+  const [contactPopoverOpen, setContactPopoverOpen] = useState(false);
 
   const caseData = DUMMY_CASES_MAP[caseId];
+
+  // Set primary contact as default when case data loads
+  useEffect(() => {
+    if (caseData) {
+      setSelectedMobile(caseData.primaryContact);
+    }
+  }, [caseData]);
 
   if (!caseData) {
     return (
@@ -281,6 +355,11 @@ export default function CaseDetail() {
     } catch (err) {
       console.error('Failed to copy:', err);
     }
+  };
+
+  const handleSelectContact = (phoneNumber: string) => {
+    setSelectedMobile(phoneNumber);
+    setContactPopoverOpen(false);
   };
 
   return (
@@ -346,9 +425,40 @@ export default function CaseDetail() {
             
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium text-gray-500 w-24">Mobile:</span>
-              <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 border border-blue-200 rounded">
-                <Phone className="w-3 h-3 text-blue-600" />
-                <span className="text-xs font-semibold text-blue-900">{caseData.phoneNumber}</span>
+              <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 border border-blue-200 rounded">
+                  <Phone className="w-3 h-3 text-blue-600" />
+                  <span className="text-xs font-semibold text-blue-900">{selectedMobile}</span>
+                </div>
+                <Popover open={contactPopoverOpen} onOpenChange={setContactPopoverOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-7 w-7 p-0"
+                    >
+                      <Users className="w-3.5 h-3.5" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-56 p-2" align="start">
+                    <div className="space-y-1">
+                      <button
+                        onClick={() => handleSelectContact(caseData.primaryContact)}
+                        className="w-full text-left px-3 py-2 text-xs rounded hover:bg-gray-100 transition-colors"
+                      >
+                        <div className="font-medium text-gray-900">Primary Contact</div>
+                        <div className="text-gray-600">{caseData.primaryContact}</div>
+                      </button>
+                      <button
+                        onClick={() => handleSelectContact(caseData.secondaryContact)}
+                        className="w-full text-left px-3 py-2 text-xs rounded hover:bg-gray-100 transition-colors"
+                      >
+                        <div className="font-medium text-gray-900">Secondary Contact</div>
+                        <div className="text-gray-600">{caseData.secondaryContact}</div>
+                      </button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
             </div>
           </div>
@@ -370,9 +480,15 @@ export default function CaseDetail() {
               <p className="text-xs font-bold text-red-600">KES {caseData.payoffBalance.toLocaleString()}</p>
             </div>
           </div>
-          <div className="mt-2 pt-2 border-t border-gray-200 text-center">
-            <p className="text-[10px] text-gray-500 mb-0.5">Days Past Due</p>
-            <p className="text-sm font-bold text-red-600">{caseData.dpd.toString()} days</p>
+          <div className="mt-2 pt-2 border-t border-gray-200 grid grid-cols-2 gap-2 text-center">
+            <div>
+              <p className="text-[10px] text-gray-500 mb-0.5">Days Past Due</p>
+              <p className="text-sm font-bold text-red-600">{caseData.dpd.toString()} days</p>
+            </div>
+            <div>
+              <p className="text-[10px] text-gray-500 mb-0.5">Product Type</p>
+              <p className="text-sm font-bold text-gray-900">{caseData.productType}</p>
+            </div>
           </div>
         </div>
 

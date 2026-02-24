@@ -50,19 +50,18 @@ export const Case = IDL.Record({
   'id' : CaseID,
   'dpd' : IDL.Nat,
   'status' : CaseStatus,
+  'secondaryContact' : IDL.Text,
   'debtorName' : IDL.Text,
+  'productType' : IDL.Text,
   'payoffBalance' : IDL.Float64,
   'customerId' : IDL.Text,
   'amountDue' : IDL.Float64,
   'phoneNumber' : IDL.Text,
   'paidAmount' : IDL.Float64,
+  'primaryContact' : IDL.Text,
   'contractId' : IDL.Text,
 });
-export const Comment = IDL.Record({
-  'author' : IDL.Principal,
-  'message' : IDL.Text,
-  'timestamp' : Time,
-});
+export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 
 export const idlService = IDL.Service({
   '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -93,17 +92,22 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addActivity' : IDL.Func([CaseID, Activity], [], []),
-  'addComment' : IDL.Func([CaseID, IDL.Text], [], []),
   'addDocument' : IDL.Func([CaseID, Document], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'createCase' : IDL.Func([Case], [], []),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getCase' : IDL.Func([CaseID], [IDL.Opt(Case)], ['query']),
   'getCaseActivities' : IDL.Func([CaseID], [IDL.Vec(Activity)], ['query']),
-  'getCaseComments' : IDL.Func([CaseID], [IDL.Vec(Comment)], ['query']),
   'getCaseDocuments' : IDL.Func([CaseID], [IDL.Vec(Document)], ['query']),
   'getCases' : IDL.Func([], [IDL.Vec(Case)], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
 });
 
 export const idlInitArgs = [];
@@ -151,19 +155,18 @@ export const idlFactory = ({ IDL }) => {
     'id' : CaseID,
     'dpd' : IDL.Nat,
     'status' : CaseStatus,
+    'secondaryContact' : IDL.Text,
     'debtorName' : IDL.Text,
+    'productType' : IDL.Text,
     'payoffBalance' : IDL.Float64,
     'customerId' : IDL.Text,
     'amountDue' : IDL.Float64,
     'phoneNumber' : IDL.Text,
     'paidAmount' : IDL.Float64,
+    'primaryContact' : IDL.Text,
     'contractId' : IDL.Text,
   });
-  const Comment = IDL.Record({
-    'author' : IDL.Principal,
-    'message' : IDL.Text,
-    'timestamp' : Time,
-  });
+  const UserProfile = IDL.Record({ 'name' : IDL.Text });
   
   return IDL.Service({
     '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -194,17 +197,22 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addActivity' : IDL.Func([CaseID, Activity], [], []),
-    'addComment' : IDL.Func([CaseID, IDL.Text], [], []),
     'addDocument' : IDL.Func([CaseID, Document], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'createCase' : IDL.Func([Case], [], []),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getCase' : IDL.Func([CaseID], [IDL.Opt(Case)], ['query']),
     'getCaseActivities' : IDL.Func([CaseID], [IDL.Vec(Activity)], ['query']),
-    'getCaseComments' : IDL.Func([CaseID], [IDL.Vec(Comment)], ['query']),
     'getCaseDocuments' : IDL.Func([CaseID], [IDL.Vec(Document)], ['query']),
     'getCases' : IDL.Func([], [IDL.Vec(Case)], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
   });
 };
 

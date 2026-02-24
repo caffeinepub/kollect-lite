@@ -21,23 +21,21 @@ export interface Case {
   'id' : CaseID,
   'dpd' : bigint,
   'status' : CaseStatus,
+  'secondaryContact' : string,
   'debtorName' : string,
+  'productType' : string,
   'payoffBalance' : number,
   'customerId' : string,
   'amountDue' : number,
   'phoneNumber' : string,
   'paidAmount' : number,
+  'primaryContact' : string,
   'contractId' : string,
 }
 export type CaseID = string;
 export type CaseStatus = { 'ptp' : null } |
   { 'active' : null } |
   { 'escalated' : null };
-export interface Comment {
-  'author' : Principal,
-  'message' : string,
-  'timestamp' : Time,
-}
 export interface Document {
   'id' : DocumentID,
   'name' : string,
@@ -47,6 +45,7 @@ export interface Document {
 export type DocumentID = string;
 export type ExternalBlob = Uint8Array;
 export type Time = bigint;
+export interface UserProfile { 'name' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
@@ -79,17 +78,18 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addActivity' : ActorMethod<[CaseID, Activity], undefined>,
-  'addComment' : ActorMethod<[CaseID, string], undefined>,
   'addDocument' : ActorMethod<[CaseID, Document], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'createCase' : ActorMethod<[Case], undefined>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getCase' : ActorMethod<[CaseID], [] | [Case]>,
   'getCaseActivities' : ActorMethod<[CaseID], Array<Activity>>,
-  'getCaseComments' : ActorMethod<[CaseID], Array<Comment>>,
   'getCaseDocuments' : ActorMethod<[CaseID], Array<Document>>,
   'getCases' : ActorMethod<[], Array<Case>>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];
