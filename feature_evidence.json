@@ -1,0 +1,25 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-make-the-add-comment-button-in-commenthistorysection-functional-clicking-it-should-open-an-input-form-inline-or-modal-allowing-the-user-to-type-a-comment-select-a-ptp-status-and-submit-the-new-comment-so-it-appears-in-the-comment-timeline",
+      "featureTitle": "Make the 'Add Comment' button in CommentHistorySection functional: clicking it should open an input form (inline or modal) allowing the user to type a comment, select a PTP status, and submit the new comment so it appears in the comment timeline.",
+      "files": [
+        "frontend/src/components/CommentHistorySection.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

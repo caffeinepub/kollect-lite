@@ -1,0 +1,37 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-24T10:35:17.629Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 1,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Make the 'Add Comment' button in CommentHistorySection functional: clicking it should open an input form (inline or modal) allowing the user to type a comment, select a PTP status, and submit the new comment so it appears in the comment timeline.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/CommentHistorySection.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/CommentHistorySection.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/CommentHistorySection.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

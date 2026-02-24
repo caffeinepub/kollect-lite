@@ -1,0 +1,42 @@
+{
+  "kind": "build_request",
+  "title": "Make 'Add Comment' button interactive",
+  "projectName": "Kollect Lite",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Make the 'Add Comment' button in CommentHistorySection functional: clicking it should open an input form (inline or modal) allowing the user to type a comment, select a PTP status, and submit the new comment so it appears in the comment timeline.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "make add 'comment button' interactive"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking the 'Add Comment' button reveals a comment input form (text area + PTP status selector).",
+        "The user can type a comment and select a PTP status from the available options (ptp_made, ptp_honored, ptp_broken, not_reached, disputed).",
+        "Submitting the form appends the new comment to the displayed comment timeline for the current case.",
+        "The new comment is color-coded according to the selected PTP status, consistent with the existing color-coding scheme.",
+        "The input form can be dismissed/cancelled without submitting.",
+        "The 'Add Comment' button is disabled or shows a loading state while submission is in progress."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify files under frontend/src/hooks/ or frontend/src/components/ui.",
+    "New comments must follow the existing Comment type and color-coding conventions defined in frontend/src/data/dummyComments.ts and CommentHistorySection.tsx."
+  ],
+  "nonGoals": [
+    "Persisting new comments to the backend (use local/dummy state unless backend integration is explicitly requested).",
+    "Changing the existing color legend or color-coding logic.",
+    "Modifying the ActivitySection comment flow."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

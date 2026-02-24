@@ -1,0 +1,26 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Make 'Add Comment' button interactive",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Make the 'Add Comment' button in CommentHistorySection functional to allow users to add new comments with PTP status selection that appear in the timeline",
+      "acceptanceCriteria": [
+        "Clicking the 'Add Comment' button reveals a comment input form (text area + PTP status selector).",
+        "The user can type a comment and select a PTP status from the available options (ptp_made, ptp_honored, ptp_broken, not_reached, disputed).",
+        "Submitting the form appends the new comment to the displayed comment timeline for the current case.",
+        "The new comment is color-coded according to the selected PTP status, consistent with the existing color-coding scheme.",
+        "The input form can be dismissed/cancelled without submitting.",
+        "The 'Add Comment' button is disabled or shows a loading state while submission is in progress."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CommentHistorySection.tsx",
+          "operation": "modify",
+          "description": "Add local state management for new comments and implement an inline comment input form that appears when 'Add Comment' is clicked. The form includes a textarea for comment text and a dropdown/select for PTP status (ptp_made, ptp_honored, ptp_broken, not_reached, disputed). On submit, add the new comment to local state with the current timestamp and selected PTP status. Apply the existing color-coding logic from the color map (green for ptp_made and ptp_honored, red for ptp_broken, gray for not_reached, orange for disputed). Include form validation, cancel/dismiss functionality, and disable the 'Add Comment' button during submission. Follow the existing Comment type structure from frontend/src/data/dummyComments.ts and maintain consistency with the color legend display."
+        }
+      ]
+    }
+  ]
+}
