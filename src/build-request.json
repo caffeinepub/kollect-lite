@@ -1,106 +1,98 @@
 {
   "kind": "build_request",
-  "title": "Redesign Activity Timeline with Pills and Structured Layout",
+  "title": "Make Add Comment button interactive with activity timeline integration",
   "projectName": "Kollect Lite",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-1",
-      "text": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-latest"
-        ],
-        "quotes": [
-          "use the UI in the uploaded image to display the activity timeline showing the sub-header 'Activity Timeline'"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Sub-header 'Activity Timeline' is visible at the top of the activity timeline",
-        "Sub-header uses appropriate typography hierarchy"
-      ]
-    },
-    {
       "id": "REQ-2",
-      "text": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
-      "target": "frontend",
+      "text": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-1"
         ],
         "quotes": [
-          "below it display date and timestamp"
+          "when the user clicks add comment, the comment gets added in the activity timeline section"
         ]
       },
       "acceptanceCriteria": [
-        "Each activity entry shows date and timestamp",
-        "Date and timestamp are positioned directly below the sub-header",
-        "Timestamp format is consistent across all entries"
+        "Clicking 'Add Comment' submits the comment to the backend",
+        "The new comment appears in the activity timeline below the Add Comment button",
+        "The comment textarea clears after successful submission",
+        "The timeline updates without requiring a page refresh"
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+      "text": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-1"
         ],
         "quotes": [
-          "below that display horizontally arranged action pill and outcome pill"
+          "when you click the history icon, populate the field that currently pops up and says 'no activity yet' below the add comment button"
         ]
       },
       "acceptanceCriteria": [
-        "Action pill and outcome pill are displayed side by side horizontally",
-        "Pills appear below the date/timestamp",
-        "Pills use appropriate styling to distinguish them as pills (rounded, colored backgrounds)",
-        "Pills display relevant action and outcome text"
+        "History icon click loads and displays all comments for the current case",
+        "The 'no activity yet' message is replaced with actual comment history when available",
+        "Comments are fetched from the backend activities data"
       ]
     },
     {
       "id": "REQ-4",
-      "text": "Display the comment text below the horizontally arranged pills for each activity entry",
+      "text": "Display each comment in the comment history enclosed in light color-coded blocks to allow collectors to quickly scan previous comments, with vertical scrolling support and a maximum of 3 comments visible in a single view",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-1"
         ],
         "quotes": [
-          "then display the comment below the pills"
+          "enclose each comment in the comment history in a light color-coded blocks to allow collectors to quickly scan previous comments that allows vertical scrolling and displays a maximum of 3 comments in a single view"
         ]
       },
       "acceptanceCriteria": [
-        "Comment text is displayed below the action and outcome pills",
-        "Comment text is readable and properly formatted",
-        "Layout maintains vertical flow: sub-header → date/timestamp → pills → comment"
+        "Each comment is displayed in a light-colored background block with sufficient contrast",
+        "Comments use distinct but subtle color coding for visual differentiation",
+        "The comment container scrolls vertically when there are more than 3 comments",
+        "Exactly 3 comments are visible at once without scrolling",
+        "The scroll behavior is smooth and intuitive"
       ]
     },
     {
       "id": "REQ-5",
-      "text": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
-      "target": "both",
+      "text": "Write visual coding specifications in the specs section documenting the comment history UI implementation including color codes, dimensions, spacing, typography, and scrolling behavior",
+      "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-latest"
+          "msg-user-1"
+        ],
+        "quotes": [
+          "write for me the visual coding specifications in the specs section"
         ]
       },
       "acceptanceCriteria": [
-        "Backend Comment type includes action and outcome fields",
-        "Frontend can fetch and display action and outcome data for each comment",
-        "Data flows correctly from backend to frontend timeline display"
+        "Specifications include exact color values for comment blocks",
+        "Specifications define container height for 3-comment view",
+        "Specifications document padding, margins, and gap spacing between comments",
+        "Specifications include typography settings (font size, weight, line height)",
+        "Specifications describe scrollbar styling and overflow behavior"
       ]
     }
   ],
   "constraints": [
-    "Maintain existing ActivityTimeline component structure and integrate new layout",
-    "Preserve existing comment fetching logic using useGetCaseComments",
-    "Keep color-coded timeline styling consistent with current design"
+    "Use the existing ActivitySection.tsx component and its current structure",
+    "Maintain the existing backend Activity type and data model",
+    "Keep the existing authentication and query invalidation patterns",
+    "Do not modify immutable frontend paths including useInternetIdentity hooks"
   ],
   "nonGoals": [
-    "Changing the comment submission functionality in ActivitySection",
-    "Modifying the cases, activities, or documents data structures",
-    "Altering authentication or authorization logic"
+    "Adding new activity types beyond comments",
+    "Implementing comment editing or deletion",
+    "Adding user avatars or profile pictures to comments",
+    "Creating a separate comments API endpoint"
   ],
   "imageRequirements": {
     "required": [],

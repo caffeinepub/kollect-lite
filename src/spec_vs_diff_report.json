@@ -1,40 +1,40 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-24T07:35:24.520Z",
-  "summary": "The implementation successfully addresses all requirements. The ActivityTimeline component now displays a structured layout with sub-header, date/timestamp, horizontally arranged action and outcome pills, and comment text. The backend Comment type has been updated to include action and outcome fields, with proper migration support. The ActivitySection component was also updated to capture and submit action and outcome data.",
+  "generatedAt": "2026-02-24T07:23:09.133Z",
+  "summary": "The implementation successfully addresses all requirements. The diff shows a complete comment system with backend Comment type, API endpoints (addComment, getCaseComments), frontend hooks (useAddComment, useGetCaseComments), ActivitySection integration with Add Comment button and History toggle, ActivityTimeline component with light color-coded blocks and scrolling, and comprehensive visual specifications documented in JSDoc comments. All acceptance criteria are met with proper backend integration, timeline updates, color coding, scrolling behavior, and detailed specifications.",
   "missing_requirements": [],
   "hallucinated_features": [
     {
-      "description": "ActivitySection component was modified to include action and outcome input fields and submission logic",
-      "reason": "The BuildRequest explicitly states in non-goals: 'Changing the comment submission functionality in ActivitySection'. However, the diff shows ActivitySection was modified to add Action and Outcome input fields, validation logic, and updated submission to include these fields.",
-      "evidence": [
-        "frontend/src/components/ActivitySection.tsx"
-      ]
-    },
-    {
-      "description": "Migration module added to handle data structure changes for existing comments",
-      "reason": "Migration logic was not requested in any requirement. While it is a reasonable engineering practice for data structure changes, it was not specified in the BuildRequest.",
+      "description": "Migration system added for backend state upgrade (backend/migration.mo)",
+      "reason": "BuildRequest does not mention creating a migration module or implementing state upgrade logic. The constraint specifies maintaining the existing backend Activity type, but this adds a new migration layer not requested.",
       "evidence": [
         "backend/migration.mo"
       ]
     },
     {
-      "description": "Author display logic with 'You' vs 'User' differentiation in ActivityTimeline",
-      "reason": "The requirements specify displaying comment data but do not mention special author display logic or differentiating between current user and others.",
+      "description": "Toast notifications for comment submission feedback",
+      "reason": "The diff shows toast.success() and toast.error() calls in ActivitySection.tsx, but the BuildRequest does not mention implementing toast notifications or user feedback messages beyond the UI updates.",
+      "evidence": [
+        "frontend/src/components/ActivitySection.tsx"
+      ]
+    },
+    {
+      "description": "Author display logic with 'You' vs shortened principal names",
+      "reason": "ActivityTimeline.tsx includes getAuthorName() function that displays 'You' for current user and truncated principal IDs for others. This level of author identification was not specified in requirements.",
       "evidence": [
         "frontend/src/components/ActivityTimeline.tsx"
       ]
     },
     {
-      "description": "Scrollable timeline with max-height constraint and smooth-scroll styling",
-      "reason": "While displaying the timeline was required, specific scrolling behavior and height constraints were not mentioned in the requirements.",
+      "description": "Dark mode color variables in CSS",
+      "reason": "The index.css file includes extensive dark mode color definitions (.dark class), but the BuildRequest makes no mention of dark mode support or theming requirements.",
       "evidence": [
-        "frontend/src/components/ActivityTimeline.tsx"
+        "frontend/src/index.css"
       ]
     }
   ],
-  "confidence": 0.85,
+  "confidence": 0.92,
   "changed_files": [
     "backend/main.mo",
     "backend/migration.mo",
@@ -42,6 +42,7 @@
     "frontend/src/components/ActivitySection.tsx",
     "frontend/src/components/ActivityTimeline.tsx",
     "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
     "project_state.json"
   ]
 }

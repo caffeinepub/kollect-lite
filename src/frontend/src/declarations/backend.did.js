@@ -59,11 +59,9 @@ export const Case = IDL.Record({
   'contractId' : IDL.Text,
 });
 export const Comment = IDL.Record({
-  'action' : IDL.Text,
   'author' : IDL.Principal,
   'message' : IDL.Text,
   'timestamp' : Time,
-  'outcome' : IDL.Text,
 });
 
 export const idlService = IDL.Service({
@@ -95,7 +93,7 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addActivity' : IDL.Func([CaseID, Activity], [], []),
-  'addComment' : IDL.Func([CaseID, IDL.Text, IDL.Text, IDL.Text], [], []),
+  'addComment' : IDL.Func([CaseID, IDL.Text], [], []),
   'addDocument' : IDL.Func([CaseID, Document], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'createCase' : IDL.Func([Case], [], []),
@@ -162,11 +160,9 @@ export const idlFactory = ({ IDL }) => {
     'contractId' : IDL.Text,
   });
   const Comment = IDL.Record({
-    'action' : IDL.Text,
     'author' : IDL.Principal,
     'message' : IDL.Text,
     'timestamp' : Time,
-    'outcome' : IDL.Text,
   });
   
   return IDL.Service({
@@ -198,7 +194,7 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addActivity' : IDL.Func([CaseID, Activity], [], []),
-    'addComment' : IDL.Func([CaseID, IDL.Text, IDL.Text, IDL.Text], [], []),
+    'addComment' : IDL.Func([CaseID, IDL.Text], [], []),
     'addDocument' : IDL.Func([CaseID, Document], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'createCase' : IDL.Func([Case], [], []),

@@ -1,6 +1,32 @@
 /**
- * Activity Timeline Component
- * Displays comment history with structured layout: sub-header, date/timestamp, action/outcome pills, and comment message.
+ * VISUAL CODING SPECIFICATIONS - Activity Timeline (Comment History)
+ * 
+ * Container Dimensions:
+ * - Max height: 264px (calculated as 3 comments × ~80px + 2 gaps × 12px)
+ * - Overflow: vertical auto scrolling with smooth behavior
+ * - Scroll behavior: smooth
+ * 
+ * Color Coding (Light backgrounds for quick scanning):
+ * - Teal: bg-teal-50 (OKLCH: 0.96 0.04 180) - alternating pattern
+ * - Gray: bg-gray-50 (OKLCH: 0.97 0 0) - alternating pattern
+ * - Blue: bg-blue-50 (OKLCH: 0.96 0.02 240) - alternating pattern
+ * - Border: border-gray-200 for all comment blocks
+ * 
+ * Spacing & Layout:
+ * - Vertical gap between comments: space-y-3 (12px)
+ * - Comment block padding: p-4 (16px all sides)
+ * - Comment block border-radius: rounded-lg (8px)
+ * - Border width: 1px solid
+ * 
+ * Typography:
+ * - Comment text: text-sm (14px), leading-relaxed (1.625), font-normal (400)
+ * - Timestamp: text-xs (12px), text-gray-600, font-medium (500)
+ * - Author name: text-xs (12px), text-gray-700, font-semibold (600)
+ * 
+ * Scrollbar Styling:
+ * - Native scrollbar with overflow-y-auto
+ * - Smooth scroll behavior enabled
+ * - Maximum 3 comments visible without scrolling
  */
 
 import { useGetCaseComments } from '../hooks/useQueries';
@@ -37,6 +63,12 @@ export default function ActivityTimeline({ caseId }: ActivityTimelineProps) {
     return timeB - timeA;
   });
 
+  // Color rotation for comment backgrounds
+  const getCommentColor = (index: number) => {
+    const colors = ['bg-teal-50', 'bg-gray-50', 'bg-blue-50'];
+    return colors[index % colors.length];
+  };
+
   // Format timestamp
   const formatTimestamp = (timestamp: bigint) => {
     const date = new Date(Number(timestamp) / 1000000); // Convert nanoseconds to milliseconds
@@ -66,48 +98,25 @@ export default function ActivityTimeline({ caseId }: ActivityTimelineProps) {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Activity Timeline Sub-header */}
-      <h3 className="text-lg font-semibold text-gray-900">Activity Timeline</h3>
-      
-      {/* Timeline entries */}
-      <div className="space-y-4 overflow-y-auto smooth-scroll" style={{ maxHeight: '400px' }}>
-        {sortedComments.map((comment, index) => (
-          <div
-            key={index}
-            className="bg-white rounded-lg p-4 border border-gray-200 space-y-3"
-          >
-            {/* Date and Timestamp */}
-            <div className="text-sm text-gray-600 font-medium">
+    <div className="space-y-3 overflow-y-auto smooth-scroll" style={{ maxHeight: '264px' }}>
+      {sortedComments.map((comment, index) => (
+        <div
+          key={index}
+          className={`${getCommentColor(index)} rounded-lg p-4 border border-gray-200`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-xs text-gray-700 font-semibold">
+              {getAuthorName(comment.author)}
+            </span>
+            <span className="text-xs text-gray-600 font-medium">
               {formatTimestamp(comment.timestamp)}
-            </div>
-
-            {/* Action and Outcome Pills - Horizontally arranged */}
-            <div className="flex items-center gap-2 flex-wrap">
-              {comment.action && (
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
-                  {comment.action}
-                </div>
-              )}
-              {comment.outcome && (
-                <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-xs font-medium">
-                  {comment.outcome}
-                </div>
-              )}
-            </div>
-
-            {/* Comment Message */}
-            <p className="text-sm text-gray-900 leading-relaxed">
-              {comment.message}
-            </p>
-
-            {/* Author info (subtle, at bottom) */}
-            <div className="text-xs text-gray-500 pt-2 border-t border-gray-100">
-              By {getAuthorName(comment.author)}
-            </div>
+            </span>
           </div>
-        ))}
-      </div>
+          <p className="text-sm text-gray-900 leading-relaxed">
+            {comment.message}
+          </p>
+        </div>
+      ))}
     </div>
   );
 }

@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { RotateCcw, Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
 import ActivityTimeline from './ActivityTimeline';
 import { useAddComment } from '../hooks/useQueries';
 import { toast } from 'sonner';
@@ -15,28 +13,14 @@ interface ActivitySectionProps {
 export default function ActivitySection({ caseId }: ActivitySectionProps) {
   const [showHistory, setShowHistory] = useState(false);
   const [commentText, setCommentText] = useState('');
-  const [action, setAction] = useState('');
-  const [outcome, setOutcome] = useState('');
 
   const addCommentMutation = useAddComment();
 
   const handleAddComment = async () => {
     const trimmedComment = commentText.trim();
-    const trimmedAction = action.trim();
-    const trimmedOutcome = outcome.trim();
     
     if (!trimmedComment) {
       toast.error('Please enter a comment');
-      return;
-    }
-
-    if (!trimmedAction) {
-      toast.error('Please enter an action');
-      return;
-    }
-
-    if (!trimmedOutcome) {
-      toast.error('Please enter an outcome');
       return;
     }
 
@@ -44,14 +28,10 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       await addCommentMutation.mutateAsync({
         caseId,
         message: trimmedComment,
-        action: trimmedAction,
-        outcome: trimmedOutcome,
       });
 
       // Reset form
       setCommentText('');
-      setAction('');
-      setOutcome('');
       
       toast.success('Comment added successfully');
       
@@ -63,12 +43,9 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
     }
   };
 
-  // Check if all required fields have content
-  const isFormIncomplete = 
-    commentText.trim().length === 0 || 
-    action.trim().length === 0 || 
-    outcome.trim().length === 0;
-  const isButtonDisabled = isFormIncomplete || addCommentMutation.isPending;
+  // Check if comments field has any non-whitespace content
+  const isCommentsEmpty = commentText.trim().length === 0;
+  const isButtonDisabled = isCommentsEmpty || addCommentMutation.isPending;
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3">
@@ -81,7 +58,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
         {/* Comments label and History link on same line */}
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium text-gray-900">
-            Add Activity
+            Comments
           </label>
           <button
             onClick={() => setShowHistory(!showHistory)}
@@ -92,47 +69,13 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
           </button>
         </div>
 
-        {/* Action and Outcome fields side by side */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="space-y-1">
-            <Label htmlFor="action" className="text-xs text-gray-700">
-              Action
-            </Label>
-            <Input
-              id="action"
-              value={action}
-              onChange={(e) => setAction(e.target.value)}
-              placeholder="e.g., Called customer"
-              className="text-sm h-9"
-            />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="outcome" className="text-xs text-gray-700">
-              Outcome
-            </Label>
-            <Input
-              id="outcome"
-              value={outcome}
-              onChange={(e) => setOutcome(e.target.value)}
-              placeholder="e.g., Promise to pay"
-              className="text-sm h-9"
-            />
-          </div>
-        </div>
-
         {/* Comments textarea */}
-        <div className="space-y-1">
-          <Label htmlFor="comments" className="text-xs text-gray-700">
-            Comments
-          </Label>
-          <Textarea
-            id="comments"
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            placeholder="Enter your comment here..."
-            className="min-h-[100px] text-sm resize-none"
-          />
-        </div>
+        <Textarea
+          value={commentText}
+          onChange={(e) => setCommentText(e.target.value)}
+          placeholder="Enter your comment here..."
+          className="min-h-[100px] text-sm resize-none"
+        />
 
         {/* Add Comment button with light background */}
         <Button

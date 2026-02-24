@@ -39,7 +39,7 @@ actor {
 
   public type Activity = {
     timestamp : Time.Time;
-    actionType : Text;
+    actionType : Text; // e.g. "Email", "PTP"
     outcome : Text;
     paymentDetails : ?Text;
     comments : ?Text;
@@ -56,8 +56,6 @@ actor {
     author : Principal;
     message : Text;
     timestamp : Time.Time;
-    action : Text; // This field captures the action taken
-    outcome : Text; // This field captures the outcome of the action
   };
 
   // Persistent state
@@ -79,7 +77,7 @@ actor {
   };
 
   public query ({ caller }) func getCases() : async [Case] {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view cases");
     };
 
@@ -88,7 +86,7 @@ actor {
   };
 
   public query ({ caller }) func getCase(caseId : CaseID) : async ?Case {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view case details");
     };
 
@@ -96,7 +94,7 @@ actor {
   };
 
   public query ({ caller }) func getCaseActivities(caseId : CaseID) : async [Activity] {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view activities");
     };
 
@@ -107,7 +105,7 @@ actor {
   };
 
   public shared ({ caller }) func addActivity(caseId : CaseID, activity : Activity) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can add activities");
     };
 
@@ -121,7 +119,7 @@ actor {
   };
 
   public query ({ caller }) func getCaseDocuments(caseId : CaseID) : async [Document] {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view documents");
     };
 
@@ -132,7 +130,7 @@ actor {
   };
 
   public shared ({ caller }) func addDocument(caseId : CaseID, document : Document) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can add documents");
     };
 
@@ -146,7 +144,7 @@ actor {
   };
 
   public shared ({ caller }) func createCase(newCase : Case) : async () {
-    if (not AccessControl.isAdmin(accessControlState, caller)) {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
       Runtime.trap("Unauthorized: Only admins can create cases");
     };
 
@@ -154,7 +152,7 @@ actor {
   };
 
   public query ({ caller }) func getCaseComments(caseId : CaseID) : async [Comment] {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can view comments");
     };
 
@@ -164,13 +162,8 @@ actor {
     };
   };
 
-  public shared ({ caller }) func addComment(
-    caseId : CaseID,
-    message : Text,
-    action : Text,
-    outcome : Text,
-  ) : async () {
-    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+  public shared ({ caller }) func addComment(caseId : CaseID, message : Text) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can add comments");
     };
 
@@ -178,8 +171,6 @@ actor {
       author = caller;
       message;
       timestamp = Time.now();
-      action;
-      outcome;
     };
 
     let currentComments = switch (commentsMap.get(caseId)) {

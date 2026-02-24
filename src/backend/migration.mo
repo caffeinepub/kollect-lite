@@ -1,22 +1,23 @@
-import List "mo:core/List";
 import Map "mo:core/Map";
-import Principal "mo:core/Principal";
+import List "mo:core/List";
 import Time "mo:core/Time";
+import Principal "mo:core/Principal";
+import Storage "blob-storage/Storage";
 
 module {
   type CaseID = Text;
   type DocumentID = Text;
 
-  type OldCaseStatus = {
+  type CaseStatus = {
     #active;
     #escalated;
     #ptp;
   };
 
-  type OldCase = {
+  type Case = {
     id : CaseID;
     debtorName : Text;
-    status : OldCaseStatus;
+    status : CaseStatus;
     contractId : Text;
     customerId : Text;
     dpd : Nat;
@@ -34,57 +35,34 @@ module {
     comments : ?Text;
   };
 
-  type OldDocument = {
+  type Document = {
     id : DocumentID;
     name : Text;
     fileType : Text;
-    blobReference : Blob;
+    blobReference : Storage.ExternalBlob;
   };
 
-  type OldComment = {
+  type Comment = {
     author : Principal;
     message : Text;
     timestamp : Time.Time;
   };
 
   type OldActor = {
-    cases : Map.Map<CaseID, OldCase>;
+    cases : Map.Map<CaseID, Case>;
     activitiesMap : Map.Map<CaseID, List.List<Activity>>;
-    documentsMap : Map.Map<CaseID, List.List<OldDocument>>;
-    commentsMap : Map.Map<CaseID, List.List<OldComment>>;
-  };
-
-  // New comment type with action and outcome fields
-  type NewComment = {
-    author : Principal;
-    message : Text;
-    timestamp : Time.Time;
-    action : Text;
-    outcome : Text;
+    documentsMap : Map.Map<CaseID, List.List<Document>>;
   };
 
   type NewActor = {
-    cases : Map.Map<CaseID, OldCase>;
+    cases : Map.Map<CaseID, Case>;
     activitiesMap : Map.Map<CaseID, List.List<Activity>>;
-    documentsMap : Map.Map<CaseID, List.List<OldDocument>>;
-    commentsMap : Map.Map<CaseID, List.List<NewComment>>;
+    documentsMap : Map.Map<CaseID, List.List<Document>>;
+    commentsMap : Map.Map<CaseID, List.List<Comment>>;
   };
 
-  // Migration function to transform old comments to new structure
   public func run(old : OldActor) : NewActor {
-    let newCommentsMap = old.commentsMap.map<CaseID, List.List<OldComment>, List.List<NewComment>>(
-      func(_, oldComments) {
-        oldComments.map<OldComment, NewComment>(
-          func(oldComment) {
-            {
-              oldComment with
-              action = "";
-              outcome = "";
-            };
-          }
-        );
-      }
-    );
-    { old with commentsMap = newCommentsMap };
+    let commentsMap = Map.empty<CaseID, List.List<Comment>>();
+    { old with commentsMap };
   };
 };

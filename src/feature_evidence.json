@@ -2,30 +2,12 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-activitytimeline-component-to-display-activity-timeline-as-a-sub-header-at-the-top-of-the-timeline-section",
-      "featureTitle": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
+      "featureId": "feature-when-the-user-clicks-the-add-comment-button-in-activitysection-add-the-comment-to-the-activity-timeline-section-that-displays-below-it-showing-the-new-comment-immediately-in-the-timeline",
+      "featureTitle": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
       "files": [
-        "frontend/src/components/ActivityTimeline.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-1"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-display-date-and-timestamp-below-the-activity-timeline-sub-header-for-each-activity-entry",
-      "featureTitle": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
-      "files": [
-        "frontend/src/components/ActivityTimeline.tsx"
+        "frontend/src/components/ActivitySection.tsx",
+        "frontend/src/components/ActivityTimeline.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -42,48 +24,8 @@
       "confidence": "high"
     },
     {
-      "featureId": "feature-display-action-pill-and-outcome-pill-horizontally-arranged-below-the-date-timestamp-for-each-activity-entry",
-      "featureTitle": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
-      "files": [
-        "frontend/src/components/ActivityTimeline.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-3"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-display-the-comment-text-below-the-horizontally-arranged-pills-for-each-activity-entry",
-      "featureTitle": "Display the comment text below the horizontally arranged pills for each activity entry",
-      "files": [
-        "frontend/src/components/ActivityTimeline.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "blob-storage@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-4"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-modify-the-comment-type-in-backend-main-mo-to-include-action-and-outcome-fields-if-not-already-present-and-update-usegetcasecomments-query-to-return-these-fields",
-      "featureTitle": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
+      "featureId": "feature-when-the-user-clicks-the-history-icon-populate-the-activity-timeline-field-that-currently-displays-no-activity-yet-below-the-add-comment-button-with-the-case-s-comment-history",
+      "featureTitle": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
       "files": [
         "frontend/src/hooks/useQueries.ts"
       ],
@@ -97,7 +39,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-5"
+        "REQ-3"
       ],
       "confidence": "high"
     }

@@ -1,85 +1,89 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Redesign Activity Timeline with Pills and Structured Layout",
+  "title": "Make Add Comment button interactive with activity timeline integration",
   "requirements": [
     {
-      "id": "REQ-1",
-      "summary": "Add 'Activity Timeline' sub-header at the top of the timeline section",
-      "acceptanceCriteria": [
-        "Sub-header 'Activity Timeline' is visible at the top of the activity timeline",
-        "Sub-header uses appropriate typography hierarchy"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/ActivityTimeline.tsx",
-          "operation": "modify",
-          "description": "Add 'Activity Timeline' as a sub-header at the top of the timeline component using appropriate typography (e.g., text-lg font-semibold). Position it above the existing comment list rendering logic."
-        }
-      ]
-    },
-    {
       "id": "REQ-2",
-      "summary": "Display date and timestamp below the sub-header for each activity entry",
+      "summary": "Wire Add Comment button to submit comments to backend and display them immediately in the activity timeline",
       "acceptanceCriteria": [
-        "Each activity entry shows date and timestamp",
-        "Date and timestamp are positioned directly below the sub-header",
-        "Timestamp format is consistent across all entries"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/ActivityTimeline.tsx",
-          "operation": "modify",
-          "description": "Update the comment rendering logic to display formatted date and timestamp at the top of each activity entry. Use consistent date formatting (e.g., 'MMM DD, YYYY HH:mm') and position it prominently below the 'Activity Timeline' header for each entry."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Display action pill and outcome pill horizontally below date/timestamp",
-      "acceptanceCriteria": [
-        "Action pill and outcome pill are displayed side by side horizontally",
-        "Pills appear below the date/timestamp",
-        "Pills use appropriate styling to distinguish them as pills (rounded, colored backgrounds)",
-        "Pills display relevant action and outcome text"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/ActivityTimeline.tsx",
-          "operation": "modify",
-          "description": "Add horizontal pill layout below the date/timestamp for each comment entry. Create two pill components displaying comment.action and comment.outcome with rounded styling (e.g., rounded-full or rounded-lg), colored backgrounds (differentiate action vs outcome with distinct colors), and appropriate padding. Arrange them horizontally using flexbox."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Display comment text below the horizontally arranged pills",
-      "acceptanceCriteria": [
-        "Comment text is displayed below the action and outcome pills",
-        "Comment text is readable and properly formatted",
-        "Layout maintains vertical flow: sub-header → date/timestamp → pills → comment"
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/ActivityTimeline.tsx",
-          "operation": "modify",
-          "description": "Reposition the comment message text to appear below the action and outcome pills. Ensure the vertical layout flows: 'Activity Timeline' header → date/timestamp → horizontal pills (action + outcome) → comment message. Maintain readability with appropriate spacing and text styling."
-        }
-      ]
-    },
-    {
-      "id": "REQ-5",
-      "summary": "Update Comment type to include action and outcome fields and ensure data flows from backend to frontend",
-      "acceptanceCriteria": [
-        "Backend Comment type includes action and outcome fields",
-        "Frontend can fetch and display action and outcome data for each comment",
-        "Data flows correctly from backend to frontend timeline display"
+        "Clicking 'Add Comment' submits the comment to the backend",
+        "The new comment appears in the activity timeline below the Add Comment button",
+        "The comment textarea clears after successful submission",
+        "The timeline updates without requiring a page refresh"
       ],
       "file_operations": [
         {
           "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Verify that useGetCaseComments query correctly maps the Comment type from backend.d.ts (which already includes action and outcome fields) to the frontend. Ensure the query returns comments with action and outcome properties available for display in ActivityTimeline component."
+          "description": "Add useAddComment mutation hook that calls actor.addComment with caseId and message, invalidates both 'caseActivities' and 'caseComments' query keys on success to refresh timeline displays"
+        },
+        {
+          "path": "frontend/src/components/ActivitySection.tsx",
+          "operation": "modify",
+          "description": "Replace useAddActivity mutation with useAddComment mutation, extract comment text from state, call mutate with caseId and commentText, clear textarea on success, handle loading and error states"
+        },
+        {
+          "path": "frontend/src/components/ActivityTimeline.tsx",
+          "operation": "modify",
+          "description": "Ensure the component displays activities and automatically refreshes when 'caseActivities' query is invalidated after comment submission"
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Wire history icon to fetch and populate activity timeline with case comment history",
+      "acceptanceCriteria": [
+        "History icon click loads and displays all comments for the current case",
+        "The 'no activity yet' message is replaced with actual comment history when available",
+        "Comments are fetched from the backend activities data"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CommentHistorySection.tsx",
+          "operation": "modify",
+          "description": "Add history icon button at the top of the section, use useGetCaseComments hook to fetch comments for the caseId prop, toggle display of comment list when history icon is clicked, replace 'no activity yet' message with actual comments or empty state message"
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add useGetCaseComments query hook that calls actor.getCaseComments with caseId and returns the comment array, using queryKey ['caseComments', caseId]"
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Style comment history with light color-coded blocks, vertical scrolling, and 3-comment maximum view",
+      "acceptanceCriteria": [
+        "Each comment is displayed in a light-colored background block with sufficient contrast",
+        "Comments use distinct but subtle color coding for visual differentiation",
+        "The comment container scrolls vertically when there are more than 3 comments",
+        "Exactly 3 comments are visible at once without scrolling",
+        "The scroll behavior is smooth and intuitive"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CommentHistorySection.tsx",
+          "operation": "modify",
+          "description": "Wrap comment list in a container with fixed height for 3 comments and overflow-y-auto for scrolling, apply alternating light background colors (e.g., bg-teal-50, bg-gray-50, bg-blue-50) to comment blocks using modulo index, add rounded corners and padding to each comment block, ensure smooth scrolling behavior"
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Document visual coding specifications for comment history UI including colors, dimensions, spacing, typography, and scrolling",
+      "acceptanceCriteria": [
+        "Specifications include exact color values for comment blocks",
+        "Specifications define container height for 3-comment view",
+        "Specifications document padding, margins, and gap spacing between comments",
+        "Specifications include typography settings (font size, weight, line height)",
+        "Specifications describe scrollbar styling and overflow behavior"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/CommentHistorySection.tsx",
+          "operation": "modify",
+          "description": "Add detailed JSDoc comment block at the top of the component file documenting: color values (bg-teal-50: OKLCH(0.96 0.02 180), bg-gray-50: OKLCH(0.97 0 0), bg-blue-50: OKLCH(0.96 0.02 240)), container height calculation (3 comments × ~80px + 2 gaps × 12px = ~264px max-h), padding (p-4 per comment block, py-3 between comments), gap spacing (space-y-3 for 12px vertical gap), typography (text-sm 14px, leading-relaxed 1.625, font-normal 400 weight), and scrollbar behavior (overflow-y-auto with smooth scroll-behavior)"
         }
       ]
     }

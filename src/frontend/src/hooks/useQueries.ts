@@ -102,19 +102,9 @@ export function useAddComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      caseId, 
-      message, 
-      action, 
-      outcome 
-    }: { 
-      caseId: string; 
-      message: string;
-      action: string;
-      outcome: string;
-    }) => {
+    mutationFn: async ({ caseId, message }: { caseId: string; message: string }) => {
       if (!actor) throw new Error('Actor not available');
-      return actor.addComment(caseId, message, action, outcome);
+      return actor.addComment(caseId, message);
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['caseComments', variables.caseId] });

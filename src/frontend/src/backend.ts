@@ -98,11 +98,9 @@ export interface Activity {
 }
 export type Time = bigint;
 export interface Comment {
-    action: string;
     author: Principal;
     message: string;
     timestamp: Time;
-    outcome: string;
 }
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
@@ -154,7 +152,7 @@ export interface backendInterface {
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     addActivity(caseId: CaseID, activity: Activity): Promise<void>;
-    addComment(caseId: CaseID, message: string, action: string, outcome: string): Promise<void>;
+    addComment(caseId: CaseID, message: string): Promise<void>;
     addDocument(caseId: CaseID, document: Document): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCase(newCase: Case): Promise<void>;
@@ -281,17 +279,17 @@ export class Backend implements backendInterface {
             return result;
         }
     }
-    async addComment(arg0: CaseID, arg1: string, arg2: string, arg3: string): Promise<void> {
+    async addComment(arg0: CaseID, arg1: string): Promise<void> {
         if (this.processError) {
             try {
-                const result = await this.actor.addComment(arg0, arg1, arg2, arg3);
+                const result = await this.actor.addComment(arg0, arg1);
                 return result;
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
-            const result = await this.actor.addComment(arg0, arg1, arg2, arg3);
+            const result = await this.actor.addComment(arg0, arg1);
             return result;
         }
     }

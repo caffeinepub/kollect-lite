@@ -1,48 +1,28 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "New project",
-  "architectural_notes": [],
+  "summary": "Interactive comment system with activity timeline and history view",
+  "architectural_notes": [
+    "Comment system with activity timeline integration",
+    "History view with color-coded comment blocks",
+    "Maximum 3 comments visible with vertical scroll"
+  ],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-activitytimeline-component-to-display-activity-timeline-as-a-sub-header-at-the-top-of-the-timeline-section",
-      "title": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
-      "reqIds": [
-        "REQ-1"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-display-date-and-timestamp-below-the-activity-timeline-sub-header-for-each-activity-entry",
-      "title": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
+      "id": "feature-when-the-user-clicks-the-add-comment-button-in-activitysection-add-the-comment-to-the-activity-timeline-section-that-displays-below-it-showing-the-new-comment-immediately-in-the-timeline",
+      "title": "When the user clicks the 'Add Comment' button in ActivitySection, add the comment to the activity timeline section that displays below it, showing the new comment immediately in the timeline",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-display-action-pill-and-outcome-pill-horizontally-arranged-below-the-date-timestamp-for-each-activity-entry",
-      "title": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+      "id": "feature-when-the-user-clicks-the-history-icon-populate-the-activity-timeline-field-that-currently-displays-no-activity-yet-below-the-add-comment-button-with-the-case-s-comment-history",
+      "title": "When the user clicks the history icon, populate the activity timeline field that currently displays 'no activity yet' below the Add Comment button with the case's comment history",
       "reqIds": [
         "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-display-the-comment-text-below-the-horizontally-arranged-pills-for-each-activity-entry",
-      "title": "Display the comment text below the horizontally arranged pills for each activity entry",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-modify-the-comment-type-in-backend-main-mo-to-include-action-and-outcome-fields-if-not-already-present-and-update-usegetcasecomments-query-to-return-these-fields",
-      "title": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
-      "reqIds": [
-        "REQ-5"
       ],
       "version": 1
     }
@@ -50,8 +30,42 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Display activity timeline with sub-header, date/timestamp, action and outcome pills (horizontal), and comment below",
+      "summary": "Interactive Add Comment button that adds comments to activity timeline",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "History icon populates activity timeline below Add Comment button",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Comment history with light color-coded blocks, vertical scrolling, max 3 comments visible",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Write visual coding specifications in specs section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Display each comment in the comment history enclosed in light color-coded blocks to allow collectors to quickly scan previous comments, with vertical scrolling support and a maximum of 3 comments visible in a single view",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Write visual coding specifications in the specs section documenting the comment history UI implementation including color codes, dimensions, spacing, typography, and scrolling behavior",
+      "reqIds": [
+        "REQ-5"
+      ],
       "status": "pending"
     }
   ],

@@ -23,11 +23,9 @@ export interface Activity {
 }
 export type Time = bigint;
 export interface Comment {
-    action: string;
     author: Principal;
     message: string;
     timestamp: Time;
-    outcome: string;
 }
 export interface Document {
     id: DocumentID;
@@ -61,7 +59,7 @@ export enum UserRole {
 }
 export interface backendInterface {
     addActivity(caseId: CaseID, activity: Activity): Promise<void>;
-    addComment(caseId: CaseID, message: string, action: string, outcome: string): Promise<void>;
+    addComment(caseId: CaseID, message: string): Promise<void>;
     addDocument(caseId: CaseID, document: Document): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCase(newCase: Case): Promise<void>;

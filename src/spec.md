@@ -1,14 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Redesign the Activity Timeline to display a structured layout with sub-header, date/timestamp, action/outcome pills, and comments.
+**Goal:** Make the Add Comment button functional and integrate it with an interactive activity timeline that displays comment history.
 
 **Planned changes:**
-- Add 'Activity Timeline' sub-header at the top of the timeline section
-- Display date and timestamp below the sub-header for each activity entry
-- Show action pill and outcome pill horizontally arranged below the date/timestamp
-- Display comment text below the pills
-- Update backend Comment type to include action and outcome fields if needed
-- Ensure useGetCaseComments query returns action and outcome data
+- Wire up the Add Comment button to submit comments to the backend and display them in the timeline
+- Implement history icon functionality to load and populate the activity timeline with case comment history
+- Design comment display with light color-coded blocks, vertical scrolling, and 3-comment visible limit
+- Document visual specifications including color codes, dimensions, spacing, typography, and scrolling behavior
 
-**User-visible outcome:** Users will see a more organized activity timeline with clear visual hierarchy: sub-header, date/timestamp, color-coded action and outcome pills displayed horizontally, followed by the comment text.
+**User-visible outcome:** Collectors can add comments that immediately appear in the timeline below, view comment history by clicking the history icon, and easily scan through past comments in color-coded blocks with smooth scrolling.

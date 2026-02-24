@@ -34,11 +34,9 @@ export type CaseStatus = { 'ptp' : null } |
   { 'active' : null } |
   { 'escalated' : null };
 export interface Comment {
-  'action' : string,
   'author' : Principal,
   'message' : string,
   'timestamp' : Time,
-  'outcome' : string,
 }
 export interface Document {
   'id' : DocumentID,
@@ -81,7 +79,7 @@ export interface _SERVICE {
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'addActivity' : ActorMethod<[CaseID, Activity], undefined>,
-  'addComment' : ActorMethod<[CaseID, string, string, string], undefined>,
+  'addComment' : ActorMethod<[CaseID, string], undefined>,
   'addDocument' : ActorMethod<[CaseID, Document], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'createCase' : ActorMethod<[Case], undefined>,
