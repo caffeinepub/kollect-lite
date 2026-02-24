@@ -7,10 +7,42 @@
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-disable-the-add-comment-button-in-the-activitysection-component-when-the-comment-textarea-is-empty",
-      "title": "Disable the 'Add Comment' button in the ActivitySection component when the comment textarea is empty",
+      "id": "feature-update-activitytimeline-component-to-display-activity-timeline-as-a-sub-header-at-the-top-of-the-timeline-section",
+      "title": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
       "reqIds": [
         "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-date-and-timestamp-below-the-activity-timeline-sub-header-for-each-activity-entry",
+      "title": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-action-pill-and-outcome-pill-horizontally-arranged-below-the-date-timestamp-for-each-activity-entry",
+      "title": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-display-the-comment-text-below-the-horizontally-arranged-pills-for-each-activity-entry",
+      "title": "Display the comment text below the horizontally arranged pills for each activity entry",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-modify-the-comment-type-in-backend-main-mo-to-include-action-and-outcome-fields-if-not-already-present-and-update-usegetcasecomments-query-to-return-these-fields",
+      "title": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
+      "reqIds": [
+        "REQ-5"
       ],
       "version": 1
     }
@@ -18,12 +50,12 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Make 'Add Comment' button interactive only after filling comment field",
+      "summary": "Display activity timeline with sub-header, date/timestamp, action and outcome pills (horizontal), and comment below",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Make Add Comment button interactive only when comment field is filled",
+  "projectName": "Kollect Lite",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

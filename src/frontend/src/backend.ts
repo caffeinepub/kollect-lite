@@ -97,6 +97,13 @@ export interface Activity {
     outcome: string;
 }
 export type Time = bigint;
+export interface Comment {
+    action: string;
+    author: Principal;
+    message: string;
+    timestamp: Time;
+    outcome: string;
+}
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
 }
@@ -147,12 +154,14 @@ export interface backendInterface {
     _caffeineStorageUpdateGatewayPrincipals(): Promise<void>;
     _initializeAccessControlWithSecret(userSecret: string): Promise<void>;
     addActivity(caseId: CaseID, activity: Activity): Promise<void>;
+    addComment(caseId: CaseID, message: string, action: string, outcome: string): Promise<void>;
     addDocument(caseId: CaseID, document: Document): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCase(newCase: Case): Promise<void>;
     getCallerUserRole(): Promise<UserRole>;
     getCase(caseId: CaseID): Promise<Case | null>;
     getCaseActivities(caseId: CaseID): Promise<Array<Activity>>;
+    getCaseComments(caseId: CaseID): Promise<Array<Comment>>;
     getCaseDocuments(caseId: CaseID): Promise<Array<Document>>;
     getCases(): Promise<Array<Case>>;
     isCallerAdmin(): Promise<boolean>;
@@ -272,6 +281,20 @@ export class Backend implements backendInterface {
             return result;
         }
     }
+    async addComment(arg0: CaseID, arg1: string, arg2: string, arg3: string): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.addComment(arg0, arg1, arg2, arg3);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.addComment(arg0, arg1, arg2, arg3);
+            return result;
+        }
+    }
     async addDocument(arg0: CaseID, arg1: Document): Promise<void> {
         if (this.processError) {
             try {
@@ -354,6 +377,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.getCaseActivities(arg0);
             return from_candid_vec_n26(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async getCaseComments(arg0: CaseID): Promise<Array<Comment>> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getCaseComments(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getCaseComments(arg0);
+            return result;
         }
     }
     async getCaseDocuments(arg0: CaseID): Promise<Array<Document>> {

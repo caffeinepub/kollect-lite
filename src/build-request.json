@@ -1,37 +1,106 @@
 {
   "kind": "build_request",
-  "title": "Make Add Comment button interactive only when comment field is filled",
+  "title": "Redesign Activity Timeline with Pills and Structured Layout",
+  "projectName": "Kollect Lite",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Disable the 'Add Comment' button in the ActivitySection component when the comment textarea is empty",
+      "text": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-last"
+          "msg-latest"
         ],
         "quotes": [
-          "make the 'Add Comment, button interactive i.e. only after filling in the comment field"
+          "use the UI in the uploaded image to display the activity timeline showing the sub-header 'Activity Timeline'"
         ]
       },
       "acceptanceCriteria": [
-        "The 'Add Comment' button is disabled when the comment textarea contains only whitespace or is empty",
-        "The button becomes enabled as soon as the user types any non-whitespace character in the comment field",
-        "The button's disabled state has appropriate visual styling to indicate it cannot be clicked",
-        "The button functionality remains unchanged when enabled - it still submits activities successfully"
+        "Sub-header 'Activity Timeline' is visible at the top of the activity timeline",
+        "Sub-header uses appropriate typography hierarchy"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "below it display date and timestamp"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Each activity entry shows date and timestamp",
+        "Date and timestamp are positioned directly below the sub-header",
+        "Timestamp format is consistent across all entries"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "below that display horizontally arranged action pill and outcome pill"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Action pill and outcome pill are displayed side by side horizontally",
+        "Pills appear below the date/timestamp",
+        "Pills use appropriate styling to distinguish them as pills (rounded, colored backgrounds)",
+        "Pills display relevant action and outcome text"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Display the comment text below the horizontally arranged pills for each activity entry",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ],
+        "quotes": [
+          "then display the comment below the pills"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Comment text is displayed below the action and outcome pills",
+        "Comment text is readable and properly formatted",
+        "Layout maintains vertical flow: sub-header → date/timestamp → pills → comment"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-latest"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend Comment type includes action and outcome fields",
+        "Frontend can fetch and display action and outcome data for each comment",
+        "Data flows correctly from backend to frontend timeline display"
       ]
     }
   ],
   "constraints": [
-    "Do not modify the backend logic or API endpoints",
-    "Preserve existing form submission behavior when the button is enabled",
-    "Maintain the current layout and styling of the ActivitySection component"
+    "Maintain existing ActivityTimeline component structure and integrate new layout",
+    "Preserve existing comment fetching logic using useGetCaseComments",
+    "Keep color-coded timeline styling consistent with current design"
   ],
   "nonGoals": [
-    "Validating other form fields (action, outcome dropdowns)",
-    "Adding form validation error messages",
-    "Changing the ActivityTimeline display logic"
+    "Changing the comment submission functionality in ActivitySection",
+    "Modifying the cases, activities, or documents data structures",
+    "Altering authentication or authorization logic"
   ],
   "imageRequirements": {
     "required": [],

@@ -58,6 +58,13 @@ export const Case = IDL.Record({
   'paidAmount' : IDL.Float64,
   'contractId' : IDL.Text,
 });
+export const Comment = IDL.Record({
+  'action' : IDL.Text,
+  'author' : IDL.Principal,
+  'message' : IDL.Text,
+  'timestamp' : Time,
+  'outcome' : IDL.Text,
+});
 
 export const idlService = IDL.Service({
   '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -88,12 +95,14 @@ export const idlService = IDL.Service({
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'addActivity' : IDL.Func([CaseID, Activity], [], []),
+  'addComment' : IDL.Func([CaseID, IDL.Text, IDL.Text, IDL.Text], [], []),
   'addDocument' : IDL.Func([CaseID, Document], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'createCase' : IDL.Func([Case], [], []),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getCase' : IDL.Func([CaseID], [IDL.Opt(Case)], ['query']),
   'getCaseActivities' : IDL.Func([CaseID], [IDL.Vec(Activity)], ['query']),
+  'getCaseComments' : IDL.Func([CaseID], [IDL.Vec(Comment)], ['query']),
   'getCaseDocuments' : IDL.Func([CaseID], [IDL.Vec(Document)], ['query']),
   'getCases' : IDL.Func([], [IDL.Vec(Case)], ['query']),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
@@ -152,6 +161,13 @@ export const idlFactory = ({ IDL }) => {
     'paidAmount' : IDL.Float64,
     'contractId' : IDL.Text,
   });
+  const Comment = IDL.Record({
+    'action' : IDL.Text,
+    'author' : IDL.Principal,
+    'message' : IDL.Text,
+    'timestamp' : Time,
+    'outcome' : IDL.Text,
+  });
   
   return IDL.Service({
     '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -182,12 +198,14 @@ export const idlFactory = ({ IDL }) => {
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'addActivity' : IDL.Func([CaseID, Activity], [], []),
+    'addComment' : IDL.Func([CaseID, IDL.Text, IDL.Text, IDL.Text], [], []),
     'addDocument' : IDL.Func([CaseID, Document], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'createCase' : IDL.Func([Case], [], []),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getCase' : IDL.Func([CaseID], [IDL.Opt(Case)], ['query']),
     'getCaseActivities' : IDL.Func([CaseID], [IDL.Vec(Activity)], ['query']),
+    'getCaseComments' : IDL.Func([CaseID], [IDL.Vec(Comment)], ['query']),
     'getCaseDocuments' : IDL.Func([CaseID], [IDL.Vec(Document)], ['query']),
     'getCases' : IDL.Func([], [IDL.Vec(Case)], ['query']),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),

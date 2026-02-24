@@ -1,11 +1,14 @@
 # Specification
 
 ## Summary
-**Goal:** Make the Add Comment button interactive only when the comment field is filled.
+**Goal:** Redesign the Activity Timeline to display a structured layout with sub-header, date/timestamp, action/outcome pills, and comments.
 
 **Planned changes:**
-- Disable the 'Add Comment' button when the comment textarea is empty or contains only whitespace
-- Enable the button when user types non-whitespace characters
-- Add visual styling to indicate the disabled state
+- Add 'Activity Timeline' sub-header at the top of the timeline section
+- Display date and timestamp below the sub-header for each activity entry
+- Show action pill and outcome pill horizontally arranged below the date/timestamp
+- Display comment text below the pills
+- Update backend Comment type to include action and outcome fields if needed
+- Ensure useGetCaseComments query returns action and outcome data
 
-**User-visible outcome:** Users will see that the 'Add Comment' button is disabled (grayed out) until they type content in the comment field, providing clear feedback about when the button can be used.
+**User-visible outcome:** Users will see a more organized activity timeline with clear visual hierarchy: sub-header, date/timestamp, color-coded action and outcome pills displayed horizontally, followed by the comment text.

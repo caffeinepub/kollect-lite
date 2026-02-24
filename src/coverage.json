@@ -1,34 +1,86 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-22T16:28:48.144Z",
+  "generatedAt": "2026-02-24T07:35:24.522Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 5,
+    "implemented": 5,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Disable the 'Add Comment' button in the ActivitySection component when the comment textarea is empty",
+        "summary": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/ActivitySection.tsx"
+          "frontend/src/components/ActivityTimeline.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/ActivitySection.tsx"
+          "frontend/src/components/ActivityTimeline.tsx"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ]
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ]
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Display the comment text below the horizontally arranged pills for each activity entry",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ActivityTimeline.tsx"
+        ]
+      },
+      {
+        "id": "REQ-5",
+        "summary": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
     "frontend/src/components/ActivitySection.tsx",
+    "frontend/src/components/ActivityTimeline.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

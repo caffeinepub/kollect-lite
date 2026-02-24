@@ -11,7 +11,9 @@ import Storage "blob-storage/Storage";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
 import AccessControl "authorization/access-control";
+import Migration "migration";
 
+(with migration = Migration.run)
 actor {
   type CaseID = Text;
   type DocumentID = Text;
@@ -37,7 +39,7 @@ actor {
 
   public type Activity = {
     timestamp : Time.Time;
-    actionType : Text; // e.g. "Email", "PTP"
+    actionType : Text;
     outcome : Text;
     paymentDetails : ?Text;
     comments : ?Text;
@@ -50,10 +52,19 @@ actor {
     blobReference : Storage.ExternalBlob;
   };
 
+  public type Comment = {
+    author : Principal;
+    message : Text;
+    timestamp : Time.Time;
+    action : Text; // This field captures the action taken
+    outcome : Text; // This field captures the outcome of the action
+  };
+
   // Persistent state
   let cases = Map.empty<CaseID, Case>();
   let activitiesMap = Map.empty<CaseID, List.List<Activity>>();
   let documentsMap = Map.empty<CaseID, List.List<Document>>();
+  let commentsMap = Map.empty<CaseID, List.List<Comment>>();
 
   // Initialize authorization and storage components
   let accessControlState = AccessControl.initState();
@@ -67,10 +78,8 @@ actor {
     };
   };
 
-  // Public functions
-
   public query ({ caller }) func getCases() : async [Case] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can view cases");
     };
 
@@ -79,7 +88,7 @@ actor {
   };
 
   public query ({ caller }) func getCase(caseId : CaseID) : async ?Case {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can view case details");
     };
 
@@ -87,7 +96,7 @@ actor {
   };
 
   public query ({ caller }) func getCaseActivities(caseId : CaseID) : async [Activity] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can view activities");
     };
 
@@ -98,7 +107,7 @@ actor {
   };
 
   public shared ({ caller }) func addActivity(caseId : CaseID, activity : Activity) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can add activities");
     };
 
@@ -112,7 +121,7 @@ actor {
   };
 
   public query ({ caller }) func getCaseDocuments(caseId : CaseID) : async [Document] {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can view documents");
     };
 
@@ -123,7 +132,7 @@ actor {
   };
 
   public shared ({ caller }) func addDocument(caseId : CaseID, document : Document) : async () {
-    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
       Runtime.trap("Unauthorized: Only users can add documents");
     };
 
@@ -136,12 +145,49 @@ actor {
     documentsMap.add(caseId, currentDocuments);
   };
 
-  // Utility function to create a new case
   public shared ({ caller }) func createCase(newCase : Case) : async () {
-    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+    if (not AccessControl.isAdmin(accessControlState, caller)) {
       Runtime.trap("Unauthorized: Only admins can create cases");
     };
 
     cases.add(newCase.id, newCase);
+  };
+
+  public query ({ caller }) func getCaseComments(caseId : CaseID) : async [Comment] {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+      Runtime.trap("Unauthorized: Only users can view comments");
+    };
+
+    switch (commentsMap.get(caseId)) {
+      case (null) { [] };
+      case (?comments) { comments.toArray() };
+    };
+  };
+
+  public shared ({ caller }) func addComment(
+    caseId : CaseID,
+    message : Text,
+    action : Text,
+    outcome : Text,
+  ) : async () {
+    if (not AccessControl.hasPermission(accessControlState, caller, #user)) {
+      Runtime.trap("Unauthorized: Only users can add comments");
+    };
+
+    let comment : Comment = {
+      author = caller;
+      message;
+      timestamp = Time.now();
+      action;
+      outcome;
+    };
+
+    let currentComments = switch (commentsMap.get(caseId)) {
+      case (null) { List.empty<Comment>() };
+      case (?comments) { comments };
+    };
+
+    currentComments.add(comment);
+    commentsMap.add(caseId, currentComments);
   };
 };

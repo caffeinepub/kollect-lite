@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
-import { Case, Activity, Document } from '../backend';
+import { Case, Activity, Document, Comment } from '../backend';
 
 export function useGetCases() {
   const { actor, isFetching } = useActor();
@@ -32,7 +32,7 @@ export function useGetCaseActivities(caseId: string) {
   const { actor, isFetching } = useActor();
 
   return useQuery<Activity[]>({
-    queryKey: ['activities', caseId],
+    queryKey: ['caseActivities', caseId],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getCaseActivities(caseId);
@@ -51,7 +51,7 @@ export function useAddActivity() {
       return actor.addActivity(caseId, activity);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['activities', variables.caseId] });
+      queryClient.invalidateQueries({ queryKey: ['caseActivities', variables.caseId] });
     },
   });
 }
@@ -80,6 +80,45 @@ export function useAddDocument() {
     },
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['documents', variables.caseId] });
+    },
+  });
+}
+
+export function useGetCaseComments(caseId: string) {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<Comment[]>({
+    queryKey: ['caseComments', caseId],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getCaseComments(caseId);
+    },
+    enabled: !!actor && !isFetching && !!caseId,
+  });
+}
+
+export function useAddComment() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ 
+      caseId, 
+      message, 
+      action, 
+      outcome 
+    }: { 
+      caseId: string; 
+      message: string;
+      action: string;
+      outcome: string;
+    }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.addComment(caseId, message, action, outcome);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['caseComments', variables.caseId] });
+      queryClient.invalidateQueries({ queryKey: ['caseActivities', variables.caseId] });
     },
   });
 }

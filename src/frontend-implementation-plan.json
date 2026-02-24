@@ -1,22 +1,85 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Make Add Comment button interactive only when comment field is filled",
+  "title": "Redesign Activity Timeline with Pills and Structured Layout",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Disable the 'Add Comment' button when the comment textarea is empty",
+      "summary": "Add 'Activity Timeline' sub-header at the top of the timeline section",
       "acceptanceCriteria": [
-        "The 'Add Comment' button is disabled when the comment textarea contains only whitespace or is empty",
-        "The button becomes enabled as soon as the user types any non-whitespace character in the comment field",
-        "The button's disabled state has appropriate visual styling to indicate it cannot be clicked",
-        "The button functionality remains unchanged when enabled - it still submits activities successfully"
+        "Sub-header 'Activity Timeline' is visible at the top of the activity timeline",
+        "Sub-header uses appropriate typography hierarchy"
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ActivitySection.tsx",
+          "path": "frontend/src/components/ActivityTimeline.tsx",
           "operation": "modify",
-          "description": "Add state management to track the comment field value and compute whether it contains only whitespace. Add a disabled prop to the 'Add Comment' button that evaluates to true when the comment field is empty or contains only whitespace. Apply appropriate visual styling (opacity-50, cursor-not-allowed) to the button when disabled to clearly indicate its non-interactive state. Ensure the button remains fully functional when enabled."
+          "description": "Add 'Activity Timeline' as a sub-header at the top of the timeline component using appropriate typography (e.g., text-lg font-semibold). Position it above the existing comment list rendering logic."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Display date and timestamp below the sub-header for each activity entry",
+      "acceptanceCriteria": [
+        "Each activity entry shows date and timestamp",
+        "Date and timestamp are positioned directly below the sub-header",
+        "Timestamp format is consistent across all entries"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ActivityTimeline.tsx",
+          "operation": "modify",
+          "description": "Update the comment rendering logic to display formatted date and timestamp at the top of each activity entry. Use consistent date formatting (e.g., 'MMM DD, YYYY HH:mm') and position it prominently below the 'Activity Timeline' header for each entry."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Display action pill and outcome pill horizontally below date/timestamp",
+      "acceptanceCriteria": [
+        "Action pill and outcome pill are displayed side by side horizontally",
+        "Pills appear below the date/timestamp",
+        "Pills use appropriate styling to distinguish them as pills (rounded, colored backgrounds)",
+        "Pills display relevant action and outcome text"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ActivityTimeline.tsx",
+          "operation": "modify",
+          "description": "Add horizontal pill layout below the date/timestamp for each comment entry. Create two pill components displaying comment.action and comment.outcome with rounded styling (e.g., rounded-full or rounded-lg), colored backgrounds (differentiate action vs outcome with distinct colors), and appropriate padding. Arrange them horizontally using flexbox."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Display comment text below the horizontally arranged pills",
+      "acceptanceCriteria": [
+        "Comment text is displayed below the action and outcome pills",
+        "Comment text is readable and properly formatted",
+        "Layout maintains vertical flow: sub-header → date/timestamp → pills → comment"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ActivityTimeline.tsx",
+          "operation": "modify",
+          "description": "Reposition the comment message text to appear below the action and outcome pills. Ensure the vertical layout flows: 'Activity Timeline' header → date/timestamp → horizontal pills (action + outcome) → comment message. Maintain readability with appropriate spacing and text styling."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Update Comment type to include action and outcome fields and ensure data flows from backend to frontend",
+      "acceptanceCriteria": [
+        "Backend Comment type includes action and outcome fields",
+        "Frontend can fetch and display action and outcome data for each comment",
+        "Data flows correctly from backend to frontend timeline display"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Verify that useGetCaseComments query correctly maps the Comment type from backend.d.ts (which already includes action and outcome fields) to the frontend. Ensure the query returns comments with action and outcome properties available for display in ActivityTimeline component."
         }
       ]
     }

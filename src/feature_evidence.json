@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-disable-the-add-comment-button-in-the-activitysection-component-when-the-comment-textarea-is-empty",
-      "featureTitle": "Disable the 'Add Comment' button in the ActivitySection component when the comment textarea is empty",
+      "featureId": "feature-update-activitytimeline-component-to-display-activity-timeline-as-a-sub-header-at-the-top-of-the-timeline-section",
+      "featureTitle": "Update ActivityTimeline component to display 'Activity Timeline' as a sub-header at the top of the timeline section",
       "files": [
-        "frontend/src/components/ActivitySection.tsx"
+        "frontend/src/components/ActivityTimeline.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -18,6 +18,86 @@
       ],
       "testIds": [
         "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-date-and-timestamp-below-the-activity-timeline-sub-header-for-each-activity-entry",
+      "featureTitle": "Display date and timestamp below the 'Activity Timeline' sub-header for each activity entry",
+      "files": [
+        "frontend/src/components/ActivityTimeline.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-action-pill-and-outcome-pill-horizontally-arranged-below-the-date-timestamp-for-each-activity-entry",
+      "featureTitle": "Display action pill and outcome pill horizontally arranged below the date/timestamp for each activity entry",
+      "files": [
+        "frontend/src/components/ActivityTimeline.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-display-the-comment-text-below-the-horizontally-arranged-pills-for-each-activity-entry",
+      "featureTitle": "Display the comment text below the horizontally arranged pills for each activity entry",
+      "files": [
+        "frontend/src/components/ActivityTimeline.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-modify-the-comment-type-in-backend-main-mo-to-include-action-and-outcome-fields-if-not-already-present-and-update-usegetcasecomments-query-to-return-these-fields",
+      "featureTitle": "Modify the Comment type in backend/main.mo to include action and outcome fields if not already present, and update useGetCaseComments query to return these fields",
+      "files": [
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
       ],
       "confidence": "high"
     }

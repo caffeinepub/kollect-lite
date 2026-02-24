@@ -22,6 +22,13 @@ export interface Activity {
     outcome: string;
 }
 export type Time = bigint;
+export interface Comment {
+    action: string;
+    author: Principal;
+    message: string;
+    timestamp: Time;
+    outcome: string;
+}
 export interface Document {
     id: DocumentID;
     name: string;
@@ -54,12 +61,14 @@ export enum UserRole {
 }
 export interface backendInterface {
     addActivity(caseId: CaseID, activity: Activity): Promise<void>;
+    addComment(caseId: CaseID, message: string, action: string, outcome: string): Promise<void>;
     addDocument(caseId: CaseID, document: Document): Promise<void>;
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     createCase(newCase: Case): Promise<void>;
     getCallerUserRole(): Promise<UserRole>;
     getCase(caseId: CaseID): Promise<Case | null>;
     getCaseActivities(caseId: CaseID): Promise<Array<Activity>>;
+    getCaseComments(caseId: CaseID): Promise<Array<Comment>>;
     getCaseDocuments(caseId: CaseID): Promise<Array<Document>>;
     getCases(): Promise<Array<Case>>;
     isCallerAdmin(): Promise<boolean>;
