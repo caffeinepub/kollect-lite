@@ -1,42 +1,104 @@
 {
   "kind": "build_request",
-  "title": "Make 'Add Comment' button interactive",
+  "title": "Redesign Login Page and Add Landing Page for Kollect Lite",
   "projectName": "Kollect Lite",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Make the 'Add Comment' button in CommentHistorySection functional: clicking it should open an input form (inline or modal) allowing the user to type a comment, select a PTP status, and submit the new comment so it appears in the comment timeline.",
+      "text": "Redesign the LoginPrompt component (frontend/src/components/LoginPrompt.tsx) with a clean, modern aesthetic. The login page should feature a bold hero area with the Kollect Lite logo/wordmark, a concise tagline, and a prominently styled 'Login with Internet Identity' button. Use the app's existing teal brand color as the primary accent, layered on a deep charcoal or off-white background with generous whitespace and refined typography.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-8"
         ],
         "quotes": [
-          "make add 'comment button' interactive"
+          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
         ]
       },
       "acceptanceCriteria": [
-        "Clicking the 'Add Comment' button reveals a comment input form (text area + PTP status selector).",
-        "The user can type a comment and select a PTP status from the available options (ptp_made, ptp_honored, ptp_broken, not_reached, disputed).",
-        "Submitting the form appends the new comment to the displayed comment timeline for the current case.",
-        "The new comment is color-coded according to the selected PTP status, consistent with the existing color-coding scheme.",
-        "The input form can be dismissed/cancelled without submitting.",
-        "The 'Add Comment' button is disabled or shows a loading state while submission is in progress."
+        "Login page displays the Kollect Lite logo/wordmark prominently.",
+        "A short, descriptive tagline is visible below the logo.",
+        "The Internet Identity login button is clearly styled with the teal accent color.",
+        "Layout is centered, uses generous whitespace, and feels uncluttered.",
+        "Design is visually consistent with the teal + charcoal color palette."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Create a new landing page component (frontend/src/pages/LandingPage.tsx) for Kollect Lite that is shown to unauthenticated visitors before they log in. The landing page must include: (1) a hero section with the app logo, headline, and a call-to-action 'Get Started' button that triggers Internet Identity login; (2) a features section highlighting 3–4 core capabilities of the app (e.g., Case Management, Activity Tracking, Document Handling, Role-Based Access) with icon cards; (3) a minimal footer with copyright. Apply the same clean teal + charcoal visual theme as the login page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-8"
+        ],
+        "quotes": [
+          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Landing page is rendered when the user is unauthenticated (in place of or alongside the login page).",
+        "Hero section contains the Kollect Lite branding, a headline, and a CTA button.",
+        "Features section shows at least 3 feature cards with icons and short descriptions.",
+        "Footer includes copyright text.",
+        "Page design is clean, aesthetic, and uses the teal + charcoal brand palette consistently."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Update the router in frontend/src/App.tsx to display the new LandingPage for unauthenticated users as the root route, ensuring that logging in transitions the user to the Task Queue as before.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-8"
+        ],
+        "quotes": [
+          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Unauthenticated users see the LandingPage at the root route.",
+        "After logging in via Internet Identity, users are redirected to the Task Queue.",
+        "Authenticated users are not shown the landing page."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Apply a cohesive visual theme across the login and landing pages: use a deep charcoal (#1A1F2E or similar dark tone) as the background, the existing brand teal (oklch-based CSS variable) as the primary accent color, clean sans-serif typography with clear hierarchy (large hero titles, medium subheadings, small body), subtle card shadows, and smooth hover transitions on interactive elements.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-8"
+        ],
+        "quotes": [
+          "make it clean and aesthetic"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Both pages use the same color palette (charcoal background, teal accents).",
+        "Typography hierarchy is clear and consistent across headings and body text.",
+        "Interactive elements (buttons, cards) have visible hover/focus states.",
+        "No visual inconsistencies between the login and landing pages."
       ]
     }
   ],
   "constraints": [
-    "Do not modify files under frontend/src/hooks/ or frontend/src/components/ui.",
-    "New comments must follow the existing Comment type and color-coding conventions defined in frontend/src/data/dummyComments.ts and CommentHistorySection.tsx."
+    "Do not modify any files under frontend/src/hooks/ (immutable paths).",
+    "Do not modify frontend/src/main.tsx or frontend/src/components/ui/.",
+    "Internet Identity remains the sole authentication mechanism — do not introduce any other auth flows.",
+    "Do not alter backend logic or data models."
   ],
   "nonGoals": [
-    "Persisting new comments to the backend (use local/dummy state unless backend integration is explicitly requested).",
-    "Changing the existing color legend or color-coding logic.",
-    "Modifying the ActivitySection comment flow."
+    "Adding new backend endpoints or modifying backend/main.mo.",
+    "Building new authenticated app features beyond routing to the existing Task Queue.",
+    "Adding animations or heavy motion libraries.",
+    "Multi-language or i18n support."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Minimalist abstract geometric logo mark for Kollect Lite — teal and white angular shapes on a transparent background (kollect-lite-logo.dim_256x256.png)",
+      "Subtle dark textured hero background with faint grid or dot pattern in deep charcoal tones (hero-bg.dim_1440x900.png)"
+    ],
     "edits": []
   }
 }

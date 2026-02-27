@@ -4,23 +4,8 @@ import CaseCard from '../components/CaseCard';
 import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
 
-// Dummy data for 20 realistic collection cases
+// Dummy data for 19 realistic collection cases (Michael Johnson / CASE-001 removed)
 const DUMMY_CASES: Case[] = [
-  {
-    id: 'CASE-001',
-    debtorName: 'Michael Johnson',
-    status: CaseStatus.escalated,
-    contractId: 'CNT-45821',
-    customerId: 'CUST-10234',
-    dpd: BigInt(185),
-    phoneNumber: '254-712-345678',
-    amountDue: 12500,
-    paidAmount: 2000,
-    payoffBalance: 10500,
-    primaryContact: '254-712-345678',
-    secondaryContact: '254-722-111222',
-    productType: 'Loan',
-  },
   {
     id: 'CASE-002',
     debtorName: 'Sarah Williams',
@@ -351,7 +336,7 @@ export default function TaskQueue() {
             className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
               activeFilter === 'workload'
                 ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
             }`}
           >
             Workload ({workloadCount})
@@ -361,7 +346,7 @@ export default function TaskQueue() {
             className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
               activeFilter === 'priority'
                 ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
             }`}
           >
             Priority ({priorityCount})
@@ -371,7 +356,7 @@ export default function TaskQueue() {
             className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
               activeFilter === 'notContacted'
                 ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
             }`}
           >
             Not Contacted ({notContactedCount})
@@ -380,26 +365,34 @@ export default function TaskQueue() {
 
         {/* Search bar */}
         <div className="relative mb-3">
-          <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400" />
+          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search account, mobile number..."
+            placeholder="Search cases..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-dark focus:border-transparent text-xs"
+            className="w-full pl-7 pr-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-teal-dark focus:border-teal-dark"
           />
         </div>
 
-        {displayedCases.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
-            <p className="text-gray-500 text-sm">No cases found for this filter</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {displayedCases.map((caseItem) => (
+        {/* Case list */}
+        <div className="space-y-2">
+          {displayedCases
+            .filter((c) =>
+              searchQuery
+                ? c.debtorName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  c.customerId.toLowerCase().includes(searchQuery.toLowerCase())
+                : true
+            )
+            .map((caseItem) => (
               <CaseCard key={caseItem.id} caseData={caseItem} />
             ))}
-          </div>
+        </div>
+
+        {filteredCases.length > 10 && (
+          <p className="text-center text-[10px] text-gray-400 mt-2">
+            Showing 10 of {filteredCases.length} cases
+          </p>
         )}
       </div>
     </PhoneMockup>

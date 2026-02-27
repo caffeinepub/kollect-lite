@@ -1,13 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Make the "Add Comment" button in the CommentHistorySection fully interactive so users can add new comments to a case's timeline.
+**Goal:** Redesign the login page and add a landing page for Kollect Lite with a clean, modern teal + charcoal visual theme.
 
 **Planned changes:**
-- Clicking the "Add Comment" button reveals an inline or modal input form with a text area and a PTP status selector (options: ptp_made, ptp_honored, ptp_broken, not_reached, disputed).
-- Submitting the form appends the new comment to the displayed comment timeline using local state, following the existing Comment type and color-coding conventions.
-- The new comment is color-coded according to the selected PTP status, consistent with the existing scheme.
-- The form can be cancelled/dismissed without submitting.
-- The "Add Comment" button is disabled or shows a loading state while submission is in progress.
+- Redesign `LoginPrompt.tsx` with a bold hero area featuring the Kollect Lite logo, a tagline, and a prominently styled "Login with Internet Identity" button using the teal accent color on a deep charcoal background.
+- Create a new `LandingPage.tsx` for unauthenticated visitors, including a hero section with logo, headline, and "Get Started" CTA button; a features section with 3–4 icon cards (Case Management, Activity Tracking, Document Handling, Role-Based Access); and a minimal footer with copyright.
+- Update `App.tsx` router so unauthenticated users see `LandingPage` at the root route, and authenticated users are redirected to the Task Queue.
+- Apply a cohesive visual theme across both pages: deep charcoal background, teal accents, clear typographic hierarchy, subtle card shadows, and hover transitions on interactive elements.
 
-**User-visible outcome:** Users can click "Add Comment" on a case, fill in a comment and PTP status, submit it, and immediately see the new comment appear in the comment timeline with the appropriate color coding.
+**User-visible outcome:** Unauthenticated visitors see a polished landing page and login experience with consistent Kollect Lite branding, and are redirected to the Task Queue upon logging in.

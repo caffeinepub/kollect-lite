@@ -1,24 +1,74 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Make 'Add Comment' button interactive",
+  "title": "Redesign Login Page and Add Landing Page for Kollect Lite",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Make the 'Add Comment' button in CommentHistorySection functional to allow users to add new comments with PTP status selection that appear in the timeline",
+      "summary": "Redesign the LoginPrompt component with a clean, modern aesthetic featuring bold hero area, Kollect Lite branding, tagline, and prominently styled Internet Identity login button using teal accent on deep charcoal background",
       "acceptanceCriteria": [
-        "Clicking the 'Add Comment' button reveals a comment input form (text area + PTP status selector).",
-        "The user can type a comment and select a PTP status from the available options (ptp_made, ptp_honored, ptp_broken, not_reached, disputed).",
-        "Submitting the form appends the new comment to the displayed comment timeline for the current case.",
-        "The new comment is color-coded according to the selected PTP status, consistent with the existing color-coding scheme.",
-        "The input form can be dismissed/cancelled without submitting.",
-        "The 'Add Comment' button is disabled or shows a loading state while submission is in progress."
+        "Login page displays the Kollect Lite logo/wordmark prominently.",
+        "A short, descriptive tagline is visible below the logo.",
+        "The Internet Identity login button is clearly styled with the teal accent color.",
+        "Layout is centered, uses generous whitespace, and feels uncluttered.",
+        "Design is visually consistent with the teal + charcoal color palette."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/CommentHistorySection.tsx",
+          "path": "frontend/src/components/LoginPrompt.tsx",
           "operation": "modify",
-          "description": "Add local state management for new comments and implement an inline comment input form that appears when 'Add Comment' is clicked. The form includes a textarea for comment text and a dropdown/select for PTP status (ptp_made, ptp_honored, ptp_broken, not_reached, disputed). On submit, add the new comment to local state with the current timestamp and selected PTP status. Apply the existing color-coding logic from the color map (green for ptp_made and ptp_honored, red for ptp_broken, gray for not_reached, orange for disputed). Include form validation, cancel/dismiss functionality, and disable the 'Add Comment' button during submission. Follow the existing Comment type structure from frontend/src/data/dummyComments.ts and maintain consistency with the color legend display."
+          "description": "Redesign the component with a hero section containing the Kollect Lite logo (frontend/public/assets/generated/kollect-lite-logo.dim_256x256.png), a concise tagline, and a styled 'Login with Internet Identity' button. Apply deep charcoal background (#1A1F2E), teal accent color from CSS variables, centered layout with generous whitespace, and refined sans-serif typography with clear hierarchy."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Create a new LandingPage component for unauthenticated visitors with hero section (logo, headline, CTA button), features section (3–4 capability cards with icons), and minimal footer, all using clean teal + charcoal theme",
+      "acceptanceCriteria": [
+        "Landing page is rendered when the user is unauthenticated (in place of or alongside the login page).",
+        "Hero section contains the Kollect Lite branding, a headline, and a CTA button.",
+        "Features section shows at least 3 feature cards with icons and short descriptions.",
+        "Footer includes copyright text.",
+        "Page design is clean, aesthetic, and uses the teal + charcoal brand palette consistently."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "create",
+          "description": "Create a new landing page component featuring: (1) a hero section with background image (frontend/public/assets/generated/hero-bg.dim_1440x900.png), Kollect Lite logo (frontend/public/assets/generated/kollect-lite-logo.dim_256x256.png), headline, and 'Get Started' CTA button that triggers Internet Identity login via useInternetIdentity hook; (2) a features section with 3–4 icon cards highlighting Case Management, Activity Tracking, Document Handling, and Role-Based Access capabilities; (3) a minimal footer with copyright text. Use deep charcoal background (#1A1F2E), teal accent color from CSS variables, clean sans-serif typography with hierarchy, card shadows, and smooth hover transitions."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Update router to display LandingPage for unauthenticated users at root route, transitioning to Task Queue after login",
+      "acceptanceCriteria": [
+        "Unauthenticated users see the LandingPage at the root route.",
+        "After logging in via Internet Identity, users are redirected to the Task Queue.",
+        "Authenticated users are not shown the landing page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update the router configuration to display the LandingPage component as the root route ('/') for unauthenticated users. When users are authenticated (identity exists), redirect them to the TaskQueue route. Ensure the existing TaskQueue and CaseDetail routes remain intact and accessible only to authenticated users. Import the new LandingPage component and wire it into the routing logic using the Internet Identity authentication state."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Apply cohesive visual theme across login and landing pages using deep charcoal background, teal accent, clear typography hierarchy, subtle shadows, and smooth hover transitions",
+      "acceptanceCriteria": [
+        "Both pages use the same color palette (charcoal background, teal accents).",
+        "Typography hierarchy is clear and consistent across headings and body text.",
+        "Interactive elements (buttons, cards) have visible hover/focus states.",
+        "No visual inconsistencies between the login and landing pages."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Add custom CSS classes or extend existing Tailwind utilities to establish a cohesive theme: define deep charcoal background color (#1A1F2E or CSS variable), ensure teal accent color is available and consistent, establish typography scale with clear hierarchy (large hero titles, medium subheadings, small body text), add subtle card shadow utilities, and define smooth hover/focus transition classes for interactive elements. Ensure these styles are reusable across both LoginPrompt and LandingPage components."
         }
       ]
     }

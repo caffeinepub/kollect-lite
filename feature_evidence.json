@@ -2,10 +2,10 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-make-the-add-comment-button-in-commenthistorysection-functional-clicking-it-should-open-an-input-form-inline-or-modal-allowing-the-user-to-type-a-comment-select-a-ptp-status-and-submit-the-new-comment-so-it-appears-in-the-comment-timeline",
-      "featureTitle": "Make the 'Add Comment' button in CommentHistorySection functional: clicking it should open an input form (inline or modal) allowing the user to type a comment, select a PTP status, and submit the new comment so it appears in the comment timeline.",
+      "featureId": "feature-redesign-the-loginprompt-component-frontend-src-components-loginprompt-tsx-with-a-clean-modern-aesthetic-the-login-page-should-feature-a-bold-hero-area-with-the-kollect-lite-logo-wordmark-a-concise-tagline-and-a-prominently-styled-login-with-internet-identity-button-use-the-app-s-existing-teal-brand-color-as-the-primary-accent-layered-on-a-deep-charcoal-or-off-white-background-with-generous-whitespace-and-refined-typography",
+      "featureTitle": "Redesign the LoginPrompt component (frontend/src/components/LoginPrompt.tsx) with a clean, modern aesthetic. The login page should feature a bold hero area with the Kollect Lite logo/wordmark, a concise tagline, and a prominently styled 'Login with Internet Identity' button. Use the app's existing teal brand color as the primary accent, layered on a deep charcoal or off-white background with generous whitespace and refined typography.",
       "files": [
-        "frontend/src/components/CommentHistorySection.tsx"
+        "frontend/src/components/LoginPrompt.tsx"
       ],
       "components": [
         "authorization@4.0.0",
@@ -18,6 +18,66 @@
       ],
       "testIds": [
         "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-new-landing-page-component-frontend-src-pages-landingpage-tsx-for-kollect-lite-that-is-shown-to-unauthenticated-visitors-before-they-log-in-the-landing-page-must-include-1-a-hero-section-with-the-app-logo-headline-and-a-call-to-action-get-started-button-that-triggers-internet-identity-login-2-a-features-section-highlighting-3-4-core-capabilities-of-the-app-e-g-case-management-activity-tracking-document-handling-role-based-access-with-icon-cards-3-a-minimal-footer-with-copyright-apply-the-same-clean-teal-charcoal-visual-theme-as-the-login-page",
+      "featureTitle": "Create a new landing page component (frontend/src/pages/LandingPage.tsx) for Kollect Lite that is shown to unauthenticated visitors before they log in. The landing page must include: (1) a hero section with the app logo, headline, and a call-to-action 'Get Started' button that triggers Internet Identity login; (2) a features section highlighting 3–4 core capabilities of the app (e.g., Case Management, Activity Tracking, Document Handling, Role-Based Access) with icon cards; (3) a minimal footer with copyright. Apply the same clean teal + charcoal visual theme as the login page.",
+      "files": [
+        "frontend/src/pages/LandingPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-router-in-frontend-src-app-tsx-to-display-the-new-landingpage-for-unauthenticated-users-as-the-root-route-ensuring-that-logging-in-transitions-the-user-to-the-task-queue-as-before",
+      "featureTitle": "Update the router in frontend/src/App.tsx to display the new LandingPage for unauthenticated users as the root route, ensuring that logging in transitions the user to the Task Queue as before.",
+      "files": [
+        "frontend/src/App.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-apply-a-cohesive-visual-theme-across-the-login-and-landing-pages-use-a-deep-charcoal-1a1f2e-or-similar-dark-tone-as-the-background-the-existing-brand-teal-oklch-based-css-variable-as-the-primary-accent-color-clean-sans-serif-typography-with-clear-hierarchy-large-hero-titles-medium-subheadings-small-body-subtle-card-shadows-and-smooth-hover-transitions-on-interactive-elements",
+      "featureTitle": "Apply a cohesive visual theme across the login and landing pages: use a deep charcoal (#1A1F2E or similar dark tone) as the background, the existing brand teal (oklch-based CSS variable) as the primary accent color, clean sans-serif typography with clear hierarchy (large hero titles, medium subheadings, small body), subtle card shadows, and smooth hover transitions on interactive elements.",
+      "files": [
+        "frontend/src/index.css"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
       ],
       "confidence": "high"
     }

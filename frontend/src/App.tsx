@@ -3,7 +3,7 @@ import { useInternetIdentity } from './hooks/useInternetIdentity';
 import Layout from './components/Layout';
 import TaskQueue from './pages/TaskQueue';
 import CaseDetail from './pages/CaseDetail';
-import LoginPrompt from './components/LoginPrompt';
+import LandingPage from './pages/LandingPage';
 
 const rootRoute = createRootRoute({
   component: Layout,
@@ -38,17 +38,17 @@ export default function App() {
 
   if (isInitializing) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center bg-charcoal">
         <div className="text-center">
-          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-4 border-teal-dark border-t-transparent mx-auto"></div>
-          <p className="text-muted-foreground">Loading...</p>
+          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-teal/20 border-t-teal mx-auto" />
+          <p className="text-slate-400 text-sm">Loading…</p>
         </div>
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    return <LoginPrompt />;
+    return <LandingPage />;
   }
 
   return <RouterProvider router={router} />;

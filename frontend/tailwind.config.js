@@ -15,6 +15,9 @@ export default {
             }
         },
         extend: {
+            fontFamily: {
+                sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            },
             colors: {
                 border: 'oklch(var(--border))',
                 input: 'oklch(var(--input))',
@@ -56,6 +59,21 @@ export default {
                     4: 'oklch(var(--chart-4))',
                     5: 'oklch(var(--chart-5))'
                 },
+                // Teal brand palette
+                teal: {
+                    DEFAULT: 'oklch(var(--teal))',
+                    light: 'oklch(var(--teal-light))',
+                    dark: 'oklch(var(--teal-dark))',
+                    darker: 'oklch(var(--teal-darker))',
+                },
+                // Charcoal dark palette
+                charcoal: {
+                    DEFAULT: 'oklch(var(--charcoal))',
+                    surface: 'oklch(var(--charcoal-surface))',
+                    card: 'oklch(var(--charcoal-card))',
+                    foreground: 'oklch(var(--charcoal-foreground))',
+                },
+                // Legacy aliases
                 'teal-dark': 'oklch(var(--teal-dark))',
                 'teal-darker': 'oklch(var(--teal-darker))',
                 'gray-50': '#F8F9FA',
@@ -63,11 +81,16 @@ export default {
             borderRadius: {
                 lg: 'var(--radius)',
                 md: 'calc(var(--radius) - 2px)',
-                sm: 'calc(var(--radius) - 4px)'
+                sm: 'calc(var(--radius) - 4px)',
+                xl: 'calc(var(--radius) + 4px)',
+                '2xl': 'calc(var(--radius) + 8px)',
+                '3xl': 'calc(var(--radius) + 14px)',
             },
             boxShadow: {
                 xs: '0 1px 2px 0 rgba(0,0,0,0.05)',
                 sm: '0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06)',
+                'teal': '0 0 20px oklch(0.62 0.14 195 / 0.25)',
+                'teal-lg': '0 0 40px oklch(0.62 0.14 195 / 0.20), 0 4px 16px oklch(0.62 0.14 195 / 0.15)',
             },
             keyframes: {
                 'accordion-down': {
@@ -87,4 +110,3 @@ export default {
     },
     plugins: [typography, containerQueries, animate]
 };
-

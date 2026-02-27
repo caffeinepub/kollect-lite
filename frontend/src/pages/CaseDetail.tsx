@@ -13,23 +13,8 @@ import PhoneMockup from '../components/PhoneMockup';
 import { Case, CaseStatus } from '../backend';
 import { useState, useEffect } from 'react';
 
-// Dummy case data lookup
+// Dummy case data lookup (Michael Johnson / CASE-001 removed)
 const DUMMY_CASES_MAP: Record<string, Case> = {
-  'CASE-001': {
-    id: 'CASE-001',
-    debtorName: 'Michael Johnson',
-    status: CaseStatus.escalated,
-    contractId: 'CNT-45821',
-    customerId: 'CUST-10234',
-    dpd: BigInt(185),
-    phoneNumber: '254-712-345678',
-    amountDue: 12500,
-    paidAmount: 2000,
-    payoffBalance: 10500,
-    primaryContact: '254-712-345678',
-    secondaryContact: '254-722-111222',
-    productType: 'Loan',
-  },
   'CASE-002': {
     id: 'CASE-002',
     debtorName: 'Sarah Williams',
