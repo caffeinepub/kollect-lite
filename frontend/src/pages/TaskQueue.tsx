@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Search } from 'lucide-react';
+import { Search, AlertCircle, UserCheck } from 'lucide-react';
 import CaseCard from '../components/CaseCard';
 import PhoneMockup from '../components/PhoneMockup';
+import TaskQueueHeader from '../components/TaskQueueHeader';
+import TaskQueueTabs, { TabId } from '../components/TaskQueueTabs';
 import { Case, CaseStatus } from '../backend';
 
-// Dummy data for 19 realistic collection cases (Michael Johnson / CASE-001 removed)
+// Dummy data for 19 realistic collection cases
 const DUMMY_CASES: Case[] = [
   {
     id: 'CASE-002',
@@ -298,85 +300,95 @@ type FilterType = 'workload' | 'priority' | 'notContacted';
 export default function TaskQueue() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<FilterType>('workload');
-  
+  const [activeTab, setActiveTab] = useState<TabId>('queue');
+
   const cases = DUMMY_CASES;
 
-  // Apply filters based on active filter
   const filteredCases = useMemo(() => {
     let filtered = cases;
-
     if (activeFilter === 'priority') {
-      // Filter cases with DPD >= 90
       filtered = cases.filter((c) => Number(c.dpd) >= 90);
     } else if (activeFilter === 'notContacted') {
-      // Filter cases that have not been contacted (status is active)
       filtered = cases.filter((c) => c.status === CaseStatus.active);
     }
-    // 'workload' shows all cases
-
     return filtered;
   }, [cases, activeFilter]);
 
   const displayedCases = filteredCases.slice(0, 10);
 
-  // Calculate counts for filter buttons
   const workloadCount = cases.length;
   const priorityCount = cases.filter((c) => Number(c.dpd) >= 90).length;
   const notContactedCount = cases.filter((c) => c.status === CaseStatus.active).length;
 
   return (
     <PhoneMockup>
-      <div className="p-3">
-        <h1 className="text-base font-bold text-gray-900 mb-2">Individual workload</h1>
-        
-        {/* Filter buttons */}
-        <div className="flex items-center gap-1.5 mb-2">
-          <button
-            onClick={() => setActiveFilter('workload')}
-            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
-              activeFilter === 'workload'
-                ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
-            }`}
-          >
-            Workload ({workloadCount})
-          </button>
-          <button
-            onClick={() => setActiveFilter('priority')}
-            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
-              activeFilter === 'priority'
-                ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
-            }`}
-          >
-            Priority ({priorityCount})
-          </button>
-          <button
-            onClick={() => setActiveFilter('notContacted')}
-            className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
-              activeFilter === 'notContacted'
-                ? 'border-teal-dark bg-teal-dark text-white'
-                : 'border-gray-300 bg-white text-gray-600 hover:border-teal-dark'
-            }`}
-          >
-            Not Contacted ({notContactedCount})
-          </button>
-        </div>
+      {/*
+        Sticky top section: brand header + tab bar + (filter chips + search bar when Queue tab active).
+        position:sticky top-0 inside the phone's overflow-y-auto scroll container keeps this
+        entire block pinned while only the content below scrolls.
+      */}
+      <div className="sticky top-0 z-20">
+        {/* Brand header */}
+        <TaskQueueHeader />
 
-        {/* Search bar */}
-        <div className="relative mb-3">
-          <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search cases..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-7 pr-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-teal-dark focus:border-teal-dark"
-          />
-        </div>
+        {/* Tab bar (controlled) */}
+        <TaskQueueTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {/* Case list */}
-        <div className="space-y-2">
+        {/* Filter chips + search bar — only shown when Queue tab is active */}
+        {activeTab === 'queue' && (
+          <div className="bg-gray-50 border-b border-gray-200 px-3 pt-2.5 pb-2 shadow-sm">
+            {/* Filter buttons */}
+            <div className="flex items-center gap-1.5 mb-2">
+              <button
+                onClick={() => setActiveFilter('workload')}
+                className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+                  activeFilter === 'workload'
+                    ? 'border-forest-base bg-forest-base text-white'
+                    : 'border-gray-300 bg-white text-gray-600 hover:border-forest-base'
+                }`}
+              >
+                Workload ({workloadCount})
+              </button>
+              <button
+                onClick={() => setActiveFilter('priority')}
+                className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+                  activeFilter === 'priority'
+                    ? 'border-forest-base bg-forest-base text-white'
+                    : 'border-gray-300 bg-white text-gray-600 hover:border-forest-base'
+                }`}
+              >
+                Priority ({priorityCount})
+              </button>
+              <button
+                onClick={() => setActiveFilter('notContacted')}
+                className={`px-2 py-0.5 text-[10px] rounded-full border-2 font-medium transition-colors ${
+                  activeFilter === 'notContacted'
+                    ? 'border-forest-base bg-forest-base text-white'
+                    : 'border-gray-300 bg-white text-gray-600 hover:border-forest-base'
+                }`}
+              >
+                Not Contacted ({notContactedCount})
+              </button>
+            </div>
+
+            {/* Search bar */}
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search cases..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-7 pr-3 py-1.5 text-xs border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-forest-base focus:border-forest-base bg-white"
+              />
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Scrollable tab content — flows below the sticky section */}
+      {activeTab === 'queue' && (
+        <div className="p-3 space-y-2">
           {displayedCases
             .filter((c) =>
               searchQuery
@@ -387,14 +399,44 @@ export default function TaskQueue() {
             .map((caseItem) => (
               <CaseCard key={caseItem.id} caseData={caseItem} />
             ))}
-        </div>
 
-        {filteredCases.length > 10 && (
-          <p className="text-center text-[10px] text-gray-400 mt-2">
-            Showing 10 of {filteredCases.length} cases
+          {displayedCases.length === 0 && (
+            <div className="text-center py-8 text-sm text-gray-500">
+              No cases found
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'dispute' && (
+        <div className="p-4 flex flex-col items-center justify-center min-h-[300px] text-center">
+          <div className="w-14 h-14 rounded-full bg-forest-pale border-2 border-teal-pill-border flex items-center justify-center mb-4">
+            <AlertCircle className="w-7 h-7 text-forest-base" />
+          </div>
+          <h2 className="text-base font-bold text-gray-800 mb-1">Dispute Creation</h2>
+          <p className="text-xs text-gray-500 max-w-[220px]">
+            Raise and manage disputes for collection cases. This workflow is coming soon.
           </p>
-        )}
-      </div>
+          <div className="mt-4 px-4 py-2 rounded-full bg-teal-pill border border-teal-pill-border text-[10px] font-semibold text-forest-dark tracking-widest uppercase">
+            Coming Soon
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'profile' && (
+        <div className="p-4 flex flex-col items-center justify-center min-h-[300px] text-center">
+          <div className="w-14 h-14 rounded-full bg-forest-pale border-2 border-teal-pill-border flex items-center justify-center mb-4">
+            <UserCheck className="w-7 h-7 text-forest-base" />
+          </div>
+          <h2 className="text-base font-bold text-gray-800 mb-1">Collector Performance</h2>
+          <p className="text-xs text-gray-500 max-w-[220px]">
+            View your collection metrics, targets, and performance history. Coming soon.
+          </p>
+          <div className="mt-4 px-4 py-2 rounded-full bg-teal-pill border border-teal-pill-border text-[10px] font-semibold text-forest-dark tracking-widest uppercase">
+            Coming Soon
+          </div>
+        </div>
+      )}
     </PhoneMockup>
   );
 }

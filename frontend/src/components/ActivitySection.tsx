@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { RotateCcw, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Textarea } from './ui/textarea';
@@ -28,7 +28,6 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       return;
     }
 
-    // Validate PTP fields if outcome is "Promised to Pay"
     if (outcome === 'Promised to Pay') {
       if (!ptpAmount || !ptpDate) {
         toast.error('Please enter PTP Amount and PTP Date');
@@ -40,7 +39,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       await addActivityMutation.mutateAsync({
         caseId,
         activity: {
-          timestamp: BigInt(Date.now() * 1000000), // Convert to nanoseconds
+          timestamp: BigInt(Date.now() * 1000000),
           actionType,
           outcome,
           comments: comments || undefined,
@@ -50,16 +49,13 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
         },
       });
 
-      // Reset form
       setActionType('');
       setOutcome('');
       setComments('');
       setPtpAmount('');
       setPtpDate('');
-      
+
       toast.success('Activity added successfully');
-      
-      // Show history after adding
       setShowHistory(true);
     } catch (error) {
       console.error('Error adding activity:', error);
@@ -75,7 +71,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
         <span className="text-lg">⚡</span>
         Activity
       </h2>
-      
+
       <div className="space-y-3">
         {/* Action and Outcome side by side */}
         <div className="grid grid-cols-2 gap-3">
@@ -84,7 +80,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
               Action
             </label>
             <Select value={actionType} onValueChange={setActionType}>
-              <SelectTrigger className="h-9 text-sm">
+              <SelectTrigger className="h-9 text-sm focus:ring-forest-base focus:border-forest-base">
                 <SelectValue placeholder="Select action" />
               </SelectTrigger>
               <SelectContent>
@@ -101,38 +97,35 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
               Outcome
             </label>
             <Select value={outcome} onValueChange={setOutcome}>
-              <SelectTrigger className="h-9 text-sm">
+              <SelectTrigger className="h-9 text-sm focus:ring-forest-base focus:border-forest-base">
                 <SelectValue placeholder="Select outcome" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="Contacted">Contacted</SelectItem>
-                <SelectItem value="Not Reached">Not Reached</SelectItem>
+                <SelectItem value="Not Reachable">Not Reachable</SelectItem>
                 <SelectItem value="Promised to Pay">Promised to Pay</SelectItem>
-                <SelectItem value="Paid">Paid</SelectItem>
-                <SelectItem value="Disputed">Disputed</SelectItem>
+                <SelectItem value="Refused to Pay">Refused to Pay</SelectItem>
+                <SelectItem value="Left Message">Left Message</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        {/* Conditional PTP fields */}
+        {/* PTP fields - conditional */}
         {isPTP && (
-          <div className="grid grid-cols-2 gap-3 bg-teal-50 border border-teal-200 rounded-lg p-3">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-1.5">
                 PTP Amount
               </label>
               <Input
                 type="number"
+                placeholder="0.00"
                 value={ptpAmount}
                 onChange={(e) => setPtpAmount(e.target.value)}
-                placeholder="0.00"
-                className="h-9 text-sm"
-                step="0.01"
-                min="0"
+                className="h-9 text-sm focus:ring-forest-base focus:border-forest-base"
               />
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-900 mb-1.5">
                 PTP Date
@@ -141,43 +134,52 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
                 type="date"
                 value={ptpDate}
                 onChange={(e) => setPtpDate(e.target.value)}
-                className="h-9 text-sm"
+                className="h-9 text-sm focus:ring-forest-base focus:border-forest-base"
               />
             </div>
           </div>
         )}
 
-        {/* Comments label and History link on same line */}
-        <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-gray-900">
+        {/* Comments */}
+        <div>
+          <label className="block text-sm font-medium text-gray-900 mb-1.5">
             Comments
           </label>
-          <button
-            onClick={() => setShowHistory(!showHistory)}
-            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
-          >
-            <RotateCcw className="w-4 h-4" />
-            History
-          </button>
+          <Textarea
+            placeholder="Add a comment..."
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            className="text-sm resize-none focus:ring-forest-base focus:border-forest-base"
+            rows={3}
+          />
         </div>
 
-        {/* Comments textarea */}
-        <Textarea
-          value={comments}
-          onChange={(e) => setComments(e.target.value)}
-          placeholder="Enter your comment here..."
-          className="min-h-[100px] text-sm resize-none"
-        />
-
-        {/* Add Comment button with light background */}
+        {/* Add Comment button */}
         <Button
           onClick={handleAddComment}
-          disabled={!actionType || !outcome || addActivityMutation.isPending}
-          className="w-full h-10 text-sm bg-teal-50 hover:bg-teal-100 text-teal-dark border border-teal-200 flex items-center justify-center gap-2"
+          disabled={addActivityMutation.isPending}
+          className="w-full h-9 text-sm bg-forest-base hover:bg-forest-medium text-white"
         >
-          <Plus className="w-4 h-4" />
-          {addActivityMutation.isPending ? 'Adding...' : 'Add Comment'}
+          {addActivityMutation.isPending ? (
+            <span className="flex items-center gap-2">
+              <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              Adding...
+            </span>
+          ) : (
+            <span className="flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Add Comment
+            </span>
+          )}
         </Button>
+
+        {/* History toggle */}
+        <button
+          onClick={() => setShowHistory(!showHistory)}
+          className="w-full text-xs text-forest-base hover:text-forest-dark font-medium py-1 transition-colors"
+        >
+          {showHistory ? '▲ Hide History' : '▼ Show History'}
+        </button>
 
         {showHistory && <ActivityTimeline caseId={caseId} />}
       </div>

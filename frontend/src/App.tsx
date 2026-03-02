@@ -1,17 +1,30 @@
 import { RouterProvider, createRouter, createRoute, createRootRoute } from '@tanstack/react-router';
-import { useInternetIdentity } from './hooks/useInternetIdentity';
 import Layout from './components/Layout';
 import TaskQueue from './pages/TaskQueue';
 import CaseDetail from './pages/CaseDetail';
-import LandingPage from './pages/LandingPage';
+import Splash from './pages/Splash';
+import Login from './pages/Login';
 
+// Splash route (no layout wrapper — full screen)
 const rootRoute = createRootRoute({
   component: Layout,
 });
 
-const indexRoute = createRoute({
+const splashRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
+  component: Splash,
+});
+
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/login',
+  component: Login,
+});
+
+const tasksRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/tasks',
   component: TaskQueue,
 });
 
@@ -21,7 +34,7 @@ const caseDetailRoute = createRoute({
   component: CaseDetail,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, caseDetailRoute]);
+const routeTree = rootRoute.addChildren([splashRoute, loginRoute, tasksRoute, caseDetailRoute]);
 
 const router = createRouter({ routeTree });
 
@@ -32,24 +45,5 @@ declare module '@tanstack/react-router' {
 }
 
 export default function App() {
-  const { identity, isInitializing } = useInternetIdentity();
-
-  const isAuthenticated = !!identity;
-
-  if (isInitializing) {
-    return (
-      <div className="flex h-screen items-center justify-center bg-charcoal">
-        <div className="text-center">
-          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-teal/20 border-t-teal mx-auto" />
-          <p className="text-slate-400 text-sm">Loading…</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return <LandingPage />;
-  }
-
   return <RouterProvider router={router} />;
 }

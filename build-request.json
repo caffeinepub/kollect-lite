@@ -1,104 +1,64 @@
 {
   "kind": "build_request",
-  "title": "Redesign Login Page and Add Landing Page for Kollect Lite",
+  "title": "Sticky top section + phone mockup for splash/logo screens",
   "projectName": "Kollect Lite",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Redesign the LoginPrompt component (frontend/src/components/LoginPrompt.tsx) with a clean, modern aesthetic. The login page should feature a bold hero area with the Kollect Lite logo/wordmark, a concise tagline, and a prominently styled 'Login with Internet Identity' button. Use the app's existing teal brand color as the primary accent, layered on a deep charcoal or off-white background with generous whitespace and refined typography.",
+      "text": "Make the entire top section of the TaskQueue page sticky. This section includes: the brand header (Kollect Lite logo, user name, user ID, logout button), the tab bar (Queue / Dispute / Profile), the workload filter chips (Workload, Priority, Not Contacted), and the search bar. All four sub-sections must remain fixed at the top of the viewport while the case list below scrolls independently.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-4"
         ],
         "quotes": [
-          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
+          "make the entire section in the uploaded image sticky"
         ]
       },
       "acceptanceCriteria": [
-        "Login page displays the Kollect Lite logo/wordmark prominently.",
-        "A short, descriptive tagline is visible below the logo.",
-        "The Internet Identity login button is clearly styled with the teal accent color.",
-        "Layout is centered, uses generous whitespace, and feels uncluttered.",
-        "Design is visually consistent with the teal + charcoal color palette."
+        "The brand header (TaskQueueHeader) does not scroll out of view when the case list is scrolled.",
+        "The tab bar (TaskQueueTabs) does not scroll out of view when the case list is scrolled.",
+        "The workload filter chips row does not scroll out of view when the case list is scrolled.",
+        "The search bar does not scroll out of view when the case list is scrolled.",
+        "The case list (CaseCards) scrolls independently beneath the sticky section.",
+        "No layout overlap or z-index clash between the sticky section and the scrolling list."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Create a new landing page component (frontend/src/pages/LandingPage.tsx) for Kollect Lite that is shown to unauthenticated visitors before they log in. The landing page must include: (1) a hero section with the app logo, headline, and a call-to-action 'Get Started' button that triggers Internet Identity login; (2) a features section highlighting 3–4 core capabilities of the app (e.g., Case Management, Activity Tracking, Document Handling, Role-Based Access) with icon cards; (3) a minimal footer with copyright. Apply the same clean teal + charcoal visual theme as the login page.",
+      "text": "Enclose both the animated crosshair logo screen (Splash page) and the static logo/login screen (Login page) inside the existing PhoneMockup component so they render within a phone frame by default. The TaskQueue page and CaseDetail page should remain unaffected and continue to render full-width.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-8"
+          "msg-4"
         ],
         "quotes": [
-          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
+          "enclose/confine all the new screens , i.e. the animated crosshair logo screen and logo screen within the phone screen so i can test how it will look like in a phone screen view, by default"
         ]
       },
       "acceptanceCriteria": [
-        "Landing page is rendered when the user is unauthenticated (in place of or alongside the login page).",
-        "Hero section contains the Kollect Lite branding, a headline, and a CTA button.",
-        "Features section shows at least 3 feature cards with icons and short descriptions.",
-        "Footer includes copyright text.",
-        "Page design is clean, aesthetic, and uses the teal + charcoal brand palette consistently."
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "text": "Update the router in frontend/src/App.tsx to display the new LandingPage for unauthenticated users as the root route, ensuring that logging in transitions the user to the Task Queue as before.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-8"
-        ],
-        "quotes": [
-          "generate a UI design for a login page and a landing page for the Kollect Lite app. make it clean and aesthetic"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Unauthenticated users see the LandingPage at the root route.",
-        "After logging in via Internet Identity, users are redirected to the Task Queue.",
-        "Authenticated users are not shown the landing page."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Apply a cohesive visual theme across the login and landing pages: use a deep charcoal (#1A1F2E or similar dark tone) as the background, the existing brand teal (oklch-based CSS variable) as the primary accent color, clean sans-serif typography with clear hierarchy (large hero titles, medium subheadings, small body), subtle card shadows, and smooth hover transitions on interactive elements.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-8"
-        ],
-        "quotes": [
-          "make it clean and aesthetic"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Both pages use the same color palette (charcoal background, teal accents).",
-        "Typography hierarchy is clear and consistent across headings and body text.",
-        "Interactive elements (buttons, cards) have visible hover/focus states.",
-        "No visual inconsistencies between the login and landing pages."
+        "The Splash page (/) is wrapped inside PhoneMockup and renders centered within the phone frame on desktop viewport.",
+        "The Login page (/login) is wrapped inside PhoneMockup and renders centered within the phone frame on desktop viewport.",
+        "The animated crosshair/logo animation on the Splash page plays correctly inside the phone frame.",
+        "The Login form on the Login page is fully usable (inputs, button) inside the phone frame.",
+        "The TaskQueue (/tasks) and CaseDetail (/case/$caseId) pages are NOT wrapped in PhoneMockup and continue to render as before.",
+        "The page background outside the phone frame is visually distinct (e.g., neutral/dark) to emphasise the mockup."
       ]
     }
   ],
   "constraints": [
-    "Do not modify any files under frontend/src/hooks/ (immutable paths).",
-    "Do not modify frontend/src/main.tsx or frontend/src/components/ui/.",
-    "Internet Identity remains the sole authentication mechanism — do not introduce any other auth flows.",
-    "Do not alter backend logic or data models."
+    "Do not modify any files under frontend/src/hooks/ or frontend/src/components/ui/.",
+    "The PhoneMockup component already exists at frontend/src/components/PhoneMockup.tsx — reuse it without altering its core structure.",
+    "TaskQueue and CaseDetail pages must not be wrapped in PhoneMockup."
   ],
   "nonGoals": [
-    "Adding new backend endpoints or modifying backend/main.mo.",
-    "Building new authenticated app features beyond routing to the existing Task Queue.",
-    "Adding animations or heavy motion libraries.",
-    "Multi-language or i18n support."
+    "Redesigning or restyling the Splash or Login pages beyond placing them inside the phone mockup.",
+    "Adding new filter chips or changing filter logic.",
+    "Any backend changes."
   ],
   "imageRequirements": {
-    "required": [
-      "Minimalist abstract geometric logo mark for Kollect Lite — teal and white angular shapes on a transparent background (kollect-lite-logo.dim_256x256.png)",
-      "Subtle dark textured hero background with faint grid or dot pattern in deep charcoal tones (hero-bg.dim_1440x900.png)"
-    ],
+    "required": [],
     "edits": []
   }
 }

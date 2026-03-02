@@ -1,41 +1,24 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Kollect Lite app — generating UI designs for a clean and aesthetic login page and landing page.",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Minimalist abstract geometric logo mark for Kollect Lite — teal and white angular shapes on a transparent background (kollect-lite-logo.dim_256x256.png)\n- Subtle dark textured hero background with faint grid or dot pattern in deep charcoal tones (hero-bg.dim_1440x900.png)",
   "existing_features": [
     {
-      "id": "feature-redesign-the-loginprompt-component-frontend-src-components-loginprompt-tsx-with-a-clean-modern-aesthetic-the-login-page-should-feature-a-bold-hero-area-with-the-kollect-lite-logo-wordmark-a-concise-tagline-and-a-prominently-styled-login-with-internet-identity-button-use-the-app-s-existing-teal-brand-color-as-the-primary-accent-layered-on-a-deep-charcoal-or-off-white-background-with-generous-whitespace-and-refined-typography",
-      "title": "Redesign the LoginPrompt component (frontend/src/components/LoginPrompt.tsx) with a clean, modern aesthetic. The login page should feature a bold hero area with the Kollect Lite logo/wordmark, a concise tagline, and a prominently styled 'Login with Internet Identity' button. Use the app's existing teal brand color as the primary accent, layered on a deep charcoal or off-white background with generous whitespace and refined typography.",
+      "id": "feature-make-the-entire-top-section-of-the-taskqueue-page-sticky-this-section-includes-the-brand-header-kollect-lite-logo-user-name-user-id-logout-button-the-tab-bar-queue-dispute-profile-the-workload-filter-chips-workload-priority-not-contacted-and-the-search-bar-all-four-sub-sections-must-remain-fixed-at-the-top-of-the-viewport-while-the-case-list-below-scrolls-independently",
+      "title": "Make the entire top section of the TaskQueue page sticky. This section includes: the brand header (Kollect Lite logo, user name, user ID, logout button), the tab bar (Queue / Dispute / Profile), the workload filter chips (Workload, Priority, Not Contacted), and the search bar. All four sub-sections must remain fixed at the top of the viewport while the case list below scrolls independently.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-create-a-new-landing-page-component-frontend-src-pages-landingpage-tsx-for-kollect-lite-that-is-shown-to-unauthenticated-visitors-before-they-log-in-the-landing-page-must-include-1-a-hero-section-with-the-app-logo-headline-and-a-call-to-action-get-started-button-that-triggers-internet-identity-login-2-a-features-section-highlighting-3-4-core-capabilities-of-the-app-e-g-case-management-activity-tracking-document-handling-role-based-access-with-icon-cards-3-a-minimal-footer-with-copyright-apply-the-same-clean-teal-charcoal-visual-theme-as-the-login-page",
-      "title": "Create a new landing page component (frontend/src/pages/LandingPage.tsx) for Kollect Lite that is shown to unauthenticated visitors before they log in. The landing page must include: (1) a hero section with the app logo, headline, and a call-to-action 'Get Started' button that triggers Internet Identity login; (2) a features section highlighting 3–4 core capabilities of the app (e.g., Case Management, Activity Tracking, Document Handling, Role-Based Access) with icon cards; (3) a minimal footer with copyright. Apply the same clean teal + charcoal visual theme as the login page.",
+      "id": "feature-enclose-both-the-animated-crosshair-logo-screen-splash-page-and-the-static-logo-login-screen-login-page-inside-the-existing-phonemockup-component-so-they-render-within-a-phone-frame-by-default-the-taskqueue-page-and-casedetail-page-should-remain-unaffected-and-continue-to-render-full-width",
+      "title": "Enclose both the animated crosshair logo screen (Splash page) and the static logo/login screen (Login page) inside the existing PhoneMockup component so they render within a phone frame by default. The TaskQueue page and CaseDetail page should remain unaffected and continue to render full-width.",
       "reqIds": [
         "REQ-2"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-update-the-router-in-frontend-src-app-tsx-to-display-the-new-landingpage-for-unauthenticated-users-as-the-root-route-ensuring-that-logging-in-transitions-the-user-to-the-task-queue-as-before",
-      "title": "Update the router in frontend/src/App.tsx to display the new LandingPage for unauthenticated users as the root route, ensuring that logging in transitions the user to the Task Queue as before.",
-      "reqIds": [
-        "REQ-3"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-cohesive-visual-theme-across-the-login-and-landing-pages-use-a-deep-charcoal-1a1f2e-or-similar-dark-tone-as-the-background-the-existing-brand-teal-oklch-based-css-variable-as-the-primary-accent-color-clean-sans-serif-typography-with-clear-hierarchy-large-hero-titles-medium-subheadings-small-body-subtle-card-shadows-and-smooth-hover-transitions-on-interactive-elements",
-      "title": "Apply a cohesive visual theme across the login and landing pages: use a deep charcoal (#1A1F2E or similar dark tone) as the background, the existing brand teal (oklch-based CSS variable) as the primary accent color, clean sans-serif typography with clear hierarchy (large hero titles, medium subheadings, small body), subtle card shadows, and smooth hover transitions on interactive elements.",
-      "reqIds": [
-        "REQ-4"
       ],
       "version": 1
     }
@@ -43,18 +26,17 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Clean and aesthetic login page UI design",
+      "summary": "Make the entire section shown in uploaded image sticky",
       "reqIds": [],
       "status": "pending"
     },
     {
       "id": "AR-2",
-      "summary": "Clean and aesthetic landing page UI design",
+      "summary": "Enclose/confine animated crosshair logo screen and logo screen within a phone screen preview by default",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "gameProjectType": "none",
   "projectName": "Kollect Lite",
   "clarification_mode": "instant",
   "clarification_rounds": 0

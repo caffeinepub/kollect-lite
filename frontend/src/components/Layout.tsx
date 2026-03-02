@@ -1,7 +1,17 @@
-import { Outlet } from '@tanstack/react-router';
+import { Outlet, useRouterState } from '@tanstack/react-router';
 import Header from './Header';
 
 export default function Layout() {
+  const routerState = useRouterState();
+  const currentPath = routerState.location.pathname;
+
+  // Splash and Login pages are full-screen — no header/footer wrapper
+  const isFullScreen = currentPath === '/' || currentPath === '/login';
+
+  if (isFullScreen) {
+    return <Outlet />;
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />

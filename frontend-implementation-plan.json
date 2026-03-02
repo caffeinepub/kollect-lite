@@ -1,74 +1,48 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Redesign Login Page and Add Landing Page for Kollect Lite",
+  "title": "Sticky top section + phone mockup for splash/login screens",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Redesign the LoginPrompt component with a clean, modern aesthetic featuring bold hero area, Kollect Lite branding, tagline, and prominently styled Internet Identity login button using teal accent on deep charcoal background",
+      "summary": "Make the entire top section of the TaskQueue page sticky, including brand header, tab bar, workload filter chips, and search bar, while the case list scrolls independently beneath it",
       "acceptanceCriteria": [
-        "Login page displays the Kollect Lite logo/wordmark prominently.",
-        "A short, descriptive tagline is visible below the logo.",
-        "The Internet Identity login button is clearly styled with the teal accent color.",
-        "Layout is centered, uses generous whitespace, and feels uncluttered.",
-        "Design is visually consistent with the teal + charcoal color palette."
+        "The brand header (TaskQueueHeader) does not scroll out of view when the case list is scrolled.",
+        "The tab bar (TaskQueueTabs) does not scroll out of view when the case list is scrolled.",
+        "The workload filter chips row does not scroll out of view when the case list is scrolled.",
+        "The search bar does not scroll out of view when the case list is scrolled.",
+        "The case list (CaseCards) scrolls independently beneath the sticky section.",
+        "No layout overlap or z-index clash between the sticky section and the scrolling list."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/LoginPrompt.tsx",
+          "path": "frontend/src/pages/TaskQueue.tsx",
           "operation": "modify",
-          "description": "Redesign the component with a hero section containing the Kollect Lite logo (frontend/public/assets/generated/kollect-lite-logo.dim_256x256.png), a concise tagline, and a styled 'Login with Internet Identity' button. Apply deep charcoal background (#1A1F2E), teal accent color from CSS variables, centered layout with generous whitespace, and refined sans-serif typography with clear hierarchy."
+          "description": "Restructure the TaskQueue page layout to create a sticky top section containing TaskQueueHeader, TaskQueueTabs (with filter chips and search bar passed as content), and ensure the case list scrolls independently. Apply position:sticky to the top section container with appropriate z-index. Adjust the main container to use flexbox with overflow handling so the sticky section remains fixed while CaseCards scroll below."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Create a new LandingPage component for unauthenticated visitors with hero section (logo, headline, CTA button), features section (3–4 capability cards with icons), and minimal footer, all using clean teal + charcoal theme",
+      "summary": "Wrap the Splash and Login pages inside the PhoneMockup component so they render within a phone frame by default, while TaskQueue and CaseDetail pages remain full-width",
       "acceptanceCriteria": [
-        "Landing page is rendered when the user is unauthenticated (in place of or alongside the login page).",
-        "Hero section contains the Kollect Lite branding, a headline, and a CTA button.",
-        "Features section shows at least 3 feature cards with icons and short descriptions.",
-        "Footer includes copyright text.",
-        "Page design is clean, aesthetic, and uses the teal + charcoal brand palette consistently."
+        "The Splash page (/) is wrapped inside PhoneMockup and renders centered within the phone frame on desktop viewport.",
+        "The Login page (/login) is wrapped inside PhoneMockup and renders centered within the phone frame on desktop viewport.",
+        "The animated crosshair/logo animation on the Splash page plays correctly inside the phone frame.",
+        "The Login form on the Login page is fully usable (inputs, button) inside the phone frame.",
+        "The TaskQueue (/tasks) and CaseDetail (/case/$caseId) pages are NOT wrapped in PhoneMockup and continue to render as before.",
+        "The page background outside the phone frame is visually distinct (e.g., neutral/dark) to emphasise the mockup."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/LandingPage.tsx",
-          "operation": "create",
-          "description": "Create a new landing page component featuring: (1) a hero section with background image (frontend/public/assets/generated/hero-bg.dim_1440x900.png), Kollect Lite logo (frontend/public/assets/generated/kollect-lite-logo.dim_256x256.png), headline, and 'Get Started' CTA button that triggers Internet Identity login via useInternetIdentity hook; (2) a features section with 3–4 icon cards highlighting Case Management, Activity Tracking, Document Handling, and Role-Based Access capabilities; (3) a minimal footer with copyright text. Use deep charcoal background (#1A1F2E), teal accent color from CSS variables, clean sans-serif typography with hierarchy, card shadows, and smooth hover transitions."
-        }
-      ]
-    },
-    {
-      "id": "REQ-3",
-      "summary": "Update router to display LandingPage for unauthenticated users at root route, transitioning to Task Queue after login",
-      "acceptanceCriteria": [
-        "Unauthenticated users see the LandingPage at the root route.",
-        "After logging in via Internet Identity, users are redirected to the Task Queue.",
-        "Authenticated users are not shown the landing page."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/App.tsx",
+          "path": "frontend/src/pages/Splash.tsx",
           "operation": "modify",
-          "description": "Update the router configuration to display the LandingPage component as the root route ('/') for unauthenticated users. When users are authenticated (identity exists), redirect them to the TaskQueue route. Ensure the existing TaskQueue and CaseDetail routes remain intact and accessible only to authenticated users. Import the new LandingPage component and wire it into the routing logic using the Internet Identity authentication state."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Apply cohesive visual theme across login and landing pages using deep charcoal background, teal accent, clear typography hierarchy, subtle shadows, and smooth hover transitions",
-      "acceptanceCriteria": [
-        "Both pages use the same color palette (charcoal background, teal accents).",
-        "Typography hierarchy is clear and consistent across headings and body text.",
-        "Interactive elements (buttons, cards) have visible hover/focus states.",
-        "No visual inconsistencies between the login and landing pages."
-      ],
-      "file_operations": [
+          "description": "Wrap the entire splash screen content (animated crosshair logo, tagline, feature pills) inside the existing PhoneMockup component located at frontend/src/components/PhoneMockup.tsx. Import PhoneMockup and enclose the splash content as children. Ensure the animation (keyframes defined in frontend/src/index.css) plays correctly within the phone frame. Add a centered layout wrapper outside the PhoneMockup with a neutral or dark background to emphasise the phone frame on desktop viewports."
+        },
         {
-          "path": "frontend/src/index.css",
+          "path": "frontend/src/pages/Login.tsx",
           "operation": "modify",
-          "description": "Add custom CSS classes or extend existing Tailwind utilities to establish a cohesive theme: define deep charcoal background color (#1A1F2E or CSS variable), ensure teal accent color is available and consistent, establish typography scale with clear hierarchy (large hero titles, medium subheadings, small body text), add subtle card shadow utilities, and define smooth hover/focus transition classes for interactive elements. Ensure these styles are reusable across both LoginPrompt and LandingPage components."
+          "description": "Wrap the entire login form content (email/password inputs, submit button) inside the existing PhoneMockup component located at frontend/src/components/PhoneMockup.tsx. Import PhoneMockup and enclose the login form as children. Ensure all form interactions remain fully functional inside the phone frame. Add a centered layout wrapper outside the PhoneMockup with a neutral or dark background to emphasise the phone frame on desktop viewports."
         }
       ]
     }
