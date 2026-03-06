@@ -22,7 +22,9 @@ export const _CaffeineStorageRefillResult = IDL.Record({
 export const CaseID = IDL.Text;
 export const Time = IDL.Int;
 export const Activity = IDL.Record({
+  'ptpDate' : IDL.Opt(IDL.Text),
   'actionType' : IDL.Text,
+  'ptpAmount' : IDL.Opt(IDL.Float64),
   'paymentDetails' : IDL.Opt(IDL.Text),
   'timestamp' : Time,
   'comments' : IDL.Opt(IDL.Text),
@@ -127,7 +129,9 @@ export const idlFactory = ({ IDL }) => {
   const CaseID = IDL.Text;
   const Time = IDL.Int;
   const Activity = IDL.Record({
+    'ptpDate' : IDL.Opt(IDL.Text),
     'actionType' : IDL.Text,
+    'ptpAmount' : IDL.Opt(IDL.Float64),
     'paymentDetails' : IDL.Opt(IDL.Text),
     'timestamp' : Time,
     'comments' : IDL.Opt(IDL.Text),

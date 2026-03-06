@@ -1,5 +1,5 @@
-import { Badge } from './ui/badge';
-import { useGetCaseActivities } from '../hooks/useQueries';
+import { useGetCaseActivities } from "../hooks/useQueries";
+import { Badge } from "./ui/badge";
 
 interface ActivityTimelineProps {
   caseId: string;
@@ -33,21 +33,25 @@ export default function ActivityTimeline({ caseId }: ActivityTimelineProps) {
 
   return (
     <div className="space-y-2 max-h-[200px] overflow-y-auto">
-      {sortedActivities.map((activity, index) => {
+      {sortedActivities.map((activity) => {
         // Convert nanoseconds to milliseconds
         const timestamp = new Date(Number(activity.timestamp) / 1000000);
-        
+
         return (
           <div
-            key={index}
+            key={activity.timestamp.toString()}
             className="border-l-2 border-teal-dark pl-2 pb-2 last:pb-0"
           >
             <div className="flex items-center gap-1.5 mb-1">
               <span className="text-[10px] text-gray-500">
-                {timestamp.toLocaleDateString()} {timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                {timestamp.toLocaleDateString()}{" "}
+                {timestamp.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </span>
             </div>
-            
+
             <div className="flex gap-1 mb-1">
               <Badge variant="outline" className="text-[9px] px-1 py-0 h-4">
                 {activity.actionType}
@@ -58,9 +62,26 @@ export default function ActivityTimeline({ caseId }: ActivityTimelineProps) {
             </div>
 
             {activity.paymentDetails && (
-              <div className="bg-green-50 border border-green-200 rounded px-1.5 py-0.5 mb-1">
-                <p className="text-[10px] text-green-800 font-medium">
+              <div className="bg-blue-50 border border-blue-200 rounded px-1.5 py-0.5 mb-1">
+                <p className="text-[10px] text-blue-800 font-medium">
                   💰 {activity.paymentDetails}
+                </p>
+              </div>
+            )}
+
+            {(activity.ptpAmount !== undefined || activity.ptpDate) && (
+              <div className="bg-teal-pill border border-teal-pill-border rounded px-1.5 py-0.5 mb-1">
+                <p className="text-[10px] text-forest-dark font-medium">
+                  🤝 PTP:{" "}
+                  {activity.ptpAmount !== undefined
+                    ? `$${activity.ptpAmount.toFixed(2)}`
+                    : ""}
+                  {activity.ptpAmount !== undefined && activity.ptpDate
+                    ? " - "
+                    : ""}
+                  {activity.ptpDate
+                    ? new Date(activity.ptpDate).toLocaleDateString()
+                    : ""}
                 </p>
               </div>
             )}

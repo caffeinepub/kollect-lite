@@ -1,12 +1,12 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useActor } from './useActor';
-import { Case, Activity, Document } from '../backend';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { Activity, Case, Document } from "../backend";
+import { useActor } from "./useActor";
 
 export function useGetCases() {
   const { actor, isFetching } = useActor();
 
   return useQuery<Case[]>({
-    queryKey: ['cases'],
+    queryKey: ["cases"],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getCases();
@@ -19,7 +19,7 @@ export function useGetCase(caseId: string) {
   const { actor, isFetching } = useActor();
 
   return useQuery<Case | null>({
-    queryKey: ['case', caseId],
+    queryKey: ["case", caseId],
     queryFn: async () => {
       if (!actor) return null;
       return actor.getCase(caseId);
@@ -32,7 +32,7 @@ export function useGetCaseActivities(caseId: string) {
   const { actor, isFetching } = useActor();
 
   return useQuery<Activity[]>({
-    queryKey: ['activities', caseId],
+    queryKey: ["activities", caseId],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getCaseActivities(caseId);
@@ -46,12 +46,17 @@ export function useAddActivity() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ caseId, activity }: { caseId: string; activity: Activity }) => {
-      if (!actor) throw new Error('Actor not available');
+    mutationFn: async ({
+      caseId,
+      activity,
+    }: { caseId: string; activity: Activity }) => {
+      if (!actor) throw new Error("Actor not available");
       return actor.addActivity(caseId, activity);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['activities', variables.caseId] });
+      queryClient.invalidateQueries({
+        queryKey: ["activities", variables.caseId],
+      });
     },
   });
 }
@@ -60,7 +65,7 @@ export function useGetCaseDocuments(caseId: string) {
   const { actor, isFetching } = useActor();
 
   return useQuery<Document[]>({
-    queryKey: ['documents', caseId],
+    queryKey: ["documents", caseId],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getCaseDocuments(caseId);
@@ -74,12 +79,17 @@ export function useAddDocument() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ caseId, document }: { caseId: string; document: Document }) => {
-      if (!actor) throw new Error('Actor not available');
+    mutationFn: async ({
+      caseId,
+      document,
+    }: { caseId: string; document: Document }) => {
+      if (!actor) throw new Error("Actor not available");
       return actor.addDocument(caseId, document);
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['documents', variables.caseId] });
+      queryClient.invalidateQueries({
+        queryKey: ["documents", variables.caseId],
+      });
     },
   });
 }

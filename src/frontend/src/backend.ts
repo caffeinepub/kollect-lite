@@ -105,7 +105,9 @@ export interface Case {
     contractId: string;
 }
 export interface Activity {
+    ptpDate?: string;
     actionType: string;
+    ptpAmount?: number;
     paymentDetails?: string;
     timestamp: Time;
     comments?: string;
@@ -383,28 +385,28 @@ export class Backend implements backendInterface {
         if (this.processError) {
             try {
                 const result = await this.actor.getCaseDocuments(arg0);
-                return from_candid_vec_n31(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n32(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getCaseDocuments(arg0);
-            return from_candid_vec_n31(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n32(this._uploadFile, this._downloadFile, result);
         }
     }
     async getCases(): Promise<Array<Case>> {
         if (this.processError) {
             try {
                 const result = await this.actor.getCases();
-                return from_candid_vec_n35(this._uploadFile, this._downloadFile, result);
+                return from_candid_vec_n36(this._uploadFile, this._downloadFile, result);
             } catch (e) {
                 this.processError(e);
                 throw new Error("unreachable");
             }
         } else {
             const result = await this.actor.getCases();
-            return from_candid_vec_n35(this._uploadFile, this._downloadFile, result);
+            return from_candid_vec_n36(this._uploadFile, this._downloadFile, result);
         }
     }
     async getUserProfile(arg0: Principal): Promise<UserProfile | null> {
@@ -459,10 +461,10 @@ function from_candid_CaseStatus_n25(_uploadFile: (file: ExternalBlob) => Promise
 function from_candid_Case_n23(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Case): Case {
     return from_candid_record_n24(_uploadFile, _downloadFile, value);
 }
-async function from_candid_Document_n32(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Document): Promise<Document> {
-    return await from_candid_record_n33(_uploadFile, _downloadFile, value);
+async function from_candid_Document_n33(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Document): Promise<Document> {
+    return await from_candid_record_n34(_uploadFile, _downloadFile, value);
 }
-async function from_candid_ExternalBlob_n34(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ExternalBlob): Promise<ExternalBlob> {
+async function from_candid_ExternalBlob_n35(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _ExternalBlob): Promise<ExternalBlob> {
     return await _downloadFile(value);
 }
 function from_candid_UserRole_n20(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _UserRole): UserRole {
@@ -478,6 +480,9 @@ function from_candid_opt_n22(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
     return value.length === 0 ? null : from_candid_Case_n23(_uploadFile, _downloadFile, value[0]);
 }
 function from_candid_opt_n30(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [string]): string | null {
+    return value.length === 0 ? null : value[0];
+}
+function from_candid_opt_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [number]): number | null {
     return value.length === 0 ? null : value[0];
 }
 function from_candid_opt_n6(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: [] | [boolean]): boolean | null {
@@ -532,27 +537,33 @@ function from_candid_record_n24(_uploadFile: (file: ExternalBlob) => Promise<Uin
     };
 }
 function from_candid_record_n29(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    ptpDate: [] | [string];
     actionType: string;
+    ptpAmount: [] | [number];
     paymentDetails: [] | [string];
     timestamp: _Time;
     comments: [] | [string];
     outcome: string;
 }): {
+    ptpDate?: string;
     actionType: string;
+    ptpAmount?: number;
     paymentDetails?: string;
     timestamp: Time;
     comments?: string;
     outcome: string;
 } {
     return {
+        ptpDate: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.ptpDate)),
         actionType: value.actionType,
+        ptpAmount: record_opt_to_undefined(from_candid_opt_n31(_uploadFile, _downloadFile, value.ptpAmount)),
         paymentDetails: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.paymentDetails)),
         timestamp: value.timestamp,
         comments: record_opt_to_undefined(from_candid_opt_n30(_uploadFile, _downloadFile, value.comments)),
         outcome: value.outcome
     };
 }
-async function from_candid_record_n33(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+async function from_candid_record_n34(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
     id: _DocumentID;
     name: string;
     fileType: string;
@@ -567,7 +578,7 @@ async function from_candid_record_n33(_uploadFile: (file: ExternalBlob) => Promi
         id: value.id,
         name: value.name,
         fileType: value.fileType,
-        blobReference: await from_candid_ExternalBlob_n34(_uploadFile, _downloadFile, value.blobReference)
+        blobReference: await from_candid_ExternalBlob_n35(_uploadFile, _downloadFile, value.blobReference)
     };
 }
 function from_candid_record_n5(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
@@ -603,10 +614,10 @@ function from_candid_variant_n26(_uploadFile: (file: ExternalBlob) => Promise<Ui
 function from_candid_vec_n27(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Activity>): Array<Activity> {
     return value.map((x)=>from_candid_Activity_n28(_uploadFile, _downloadFile, x));
 }
-async function from_candid_vec_n31(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Document>): Promise<Array<Document>> {
-    return await Promise.all(value.map(async (x)=>await from_candid_Document_n32(_uploadFile, _downloadFile, x)));
+async function from_candid_vec_n32(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Document>): Promise<Array<Document>> {
+    return await Promise.all(value.map(async (x)=>await from_candid_Document_n33(_uploadFile, _downloadFile, x)));
 }
-function from_candid_vec_n35(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Case>): Array<Case> {
+function from_candid_vec_n36(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Array<_Case>): Array<Case> {
     return value.map((x)=>from_candid_Case_n23(_uploadFile, _downloadFile, x));
 }
 function to_candid_Activity_n8(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: Activity): _Activity {
@@ -706,20 +717,26 @@ function to_candid_record_n3(_uploadFile: (file: ExternalBlob) => Promise<Uint8A
     };
 }
 function to_candid_record_n9(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: {
+    ptpDate?: string;
     actionType: string;
+    ptpAmount?: number;
     paymentDetails?: string;
     timestamp: Time;
     comments?: string;
     outcome: string;
 }): {
+    ptpDate: [] | [string];
     actionType: string;
+    ptpAmount: [] | [number];
     paymentDetails: [] | [string];
     timestamp: _Time;
     comments: [] | [string];
     outcome: string;
 } {
     return {
+        ptpDate: value.ptpDate ? candid_some(value.ptpDate) : candid_none(),
         actionType: value.actionType,
+        ptpAmount: value.ptpAmount ? candid_some(value.ptpAmount) : candid_none(),
         paymentDetails: value.paymentDetails ? candid_some(value.paymentDetails) : candid_none(),
         timestamp: value.timestamp,
         comments: value.comments ? candid_some(value.comments) : candid_none(),

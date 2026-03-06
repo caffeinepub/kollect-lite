@@ -11,7 +11,9 @@ import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
 export interface Activity {
+  'ptpDate' : [] | [string],
   'actionType' : string,
+  'ptpAmount' : [] | [number],
   'paymentDetails' : [] | [string],
   'timestamp' : Time,
   'comments' : [] | [string],

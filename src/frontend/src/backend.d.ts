@@ -30,7 +30,9 @@ export interface Case {
     contractId: string;
 }
 export interface Activity {
+    ptpDate?: string;
     actionType: string;
+    ptpAmount?: number;
     paymentDetails?: string;
     timestamp: Time;
     comments?: string;

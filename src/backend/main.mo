@@ -11,9 +11,9 @@ import Storage "blob-storage/Storage";
 import MixinAuthorization "authorization/MixinAuthorization";
 import MixinStorage "blob-storage/Mixin";
 import AccessControl "authorization/access-control";
-import Migration "migration";
 
-(with migration = Migration.run)
+
+
 actor {
   type CaseID = Text;
   type DocumentID = Text;
@@ -46,6 +46,8 @@ actor {
     outcome : Text;
     paymentDetails : ?Text;
     comments : ?Text;
+    ptpAmount : ?Float;
+    ptpDate : ?Text;
   };
 
   public type Document = {
@@ -181,4 +183,3 @@ actor {
     documentsMap.add(caseId, currentDocuments);
   };
 };
-
