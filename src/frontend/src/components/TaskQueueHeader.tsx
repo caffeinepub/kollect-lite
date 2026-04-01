@@ -1,10 +1,8 @@
 import { useNavigate } from "@tanstack/react-router";
-import { LogOut, Moon, Sun, User } from "lucide-react";
-import { useDarkMode } from "../hooks/useDarkMode";
+import { LogOut, User } from "lucide-react";
 
 export default function TaskQueueHeader() {
   const navigate = useNavigate();
-  const { isDark, toggle } = useDarkMode();
 
   const handleLogout = () => {
     navigate({ to: "/login" });
@@ -35,7 +33,7 @@ export default function TaskQueueHeader() {
         {/* Vertical divider */}
         <div className="w-px bg-white/15 self-stretch mx-1" />
 
-        {/* RIGHT: User info + actions */}
+        {/* RIGHT: User info + logout */}
         <div className="flex items-center gap-3 flex-1 justify-end">
           {/* User avatar circle */}
           <div className="w-8 h-8 rounded-full bg-header-accent/20 border border-header-accent/40 flex items-center justify-center flex-shrink-0">
@@ -52,29 +50,11 @@ export default function TaskQueueHeader() {
             </span>
           </div>
 
-          {/* Dark mode toggle */}
-          <button
-            type="button"
-            onClick={toggle}
-            className="flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
-            aria-label="Toggle dark mode"
-            data-ocid="header.dark_mode.toggle"
-          >
-            {isDark ? (
-              <Sun className="w-3.5 h-3.5 text-header-muted" />
-            ) : (
-              <Moon className="w-3.5 h-3.5 text-header-muted" />
-            )}
-            <span className="text-[10px] text-header-muted font-medium">
-              {isDark ? "Light" : "Dark"}
-            </span>
-          </button>
-
           {/* Logout button */}
           <button
             type="button"
             onClick={handleLogout}
-            className="flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
+            className="ml-1 flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
             aria-label="Logout"
           >
             <LogOut className="w-3.5 h-3.5 text-header-muted" />

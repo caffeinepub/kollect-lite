@@ -640,12 +640,14 @@ export default function CaseDetail() {
           <div className="mt-2 pt-2 border-t border-gray-200 grid grid-cols-2 gap-2 text-center">
             <div>
               <p className="text-[10px] text-gray-500 mb-0.5">Product Type</p>
+              {/* bolder value */}
               <p className="text-xs font-bold text-gray-900">
                 {caseData.productType}
               </p>
             </div>
             <div>
               <p className="text-[10px] text-gray-500 mb-0.5">Product Name</p>
+              {/* bolder value */}
               <p className="text-[9px] font-bold text-gray-900 leading-tight">
                 {caseData.productName}
               </p>

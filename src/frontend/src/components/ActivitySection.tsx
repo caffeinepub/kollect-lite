@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, Send } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAddActivity } from "../hooks/useQueries";
@@ -52,7 +52,7 @@ export default function ActivitySection({
 
   const addActivityMutation = useAddActivity();
 
-  const handleAddComment = async () => {
+  const _handleAddComment = async () => {
     if (!actionType || !outcome) {
       toast.error("Please select both action and outcome");
       return;
@@ -310,7 +310,7 @@ export default function ActivitySection({
             </div>
           </div>
 
-          {/* Comment with inline send button */}
+          {/* Comment */}
           <div>
             <label
               htmlFor="activity-comment"
@@ -318,32 +318,15 @@ export default function ActivitySection({
             >
               Comment
             </label>
-            <div className="relative">
-              <Textarea
-                id="activity-comment"
-                placeholder="Add a comment..."
-                value={comments}
-                onChange={(e) => setComments(e.target.value)}
-                className="text-xs resize-none pr-8"
-                rows={3}
-                data-ocid="activity.comment.textarea"
-              />
-              <Button
-                type="button"
-                size="sm"
-                onClick={handleAddComment}
-                disabled={!comments.trim() || addActivityMutation.isPending}
-                className="absolute bottom-2 right-2 h-6 w-6 p-0 bg-transparent hover:bg-blue-50 border-0 shadow-none disabled:opacity-30"
-                data-ocid="activity.send.button"
-                aria-label="Submit comment"
-              >
-                {addActivityMutation.isPending ? (
-                  <span className="w-3 h-3 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
-                ) : (
-                  <Send className="w-4 h-4 text-blue-600" />
-                )}
-              </Button>
-            </div>
+            <Textarea
+              id="activity-comment"
+              placeholder="Add a comment..."
+              value={comments}
+              onChange={(e) => setComments(e.target.value)}
+              className="text-xs resize-none"
+              rows={3}
+              data-ocid="activity.comment.textarea"
+            />
           </div>
         </div>
       )}
