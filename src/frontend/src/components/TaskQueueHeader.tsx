@@ -1,8 +1,10 @@
 import { useNavigate } from "@tanstack/react-router";
-import { LogOut, User } from "lucide-react";
+import { LogOut, Moon, Sun, User } from "lucide-react";
+import { useDarkMode } from "../hooks/useDarkMode";
 
 export default function TaskQueueHeader() {
   const navigate = useNavigate();
+  const { isDark, toggle } = useDarkMode();
 
   const handleLogout = () => {
     navigate({ to: "/login" });
@@ -17,30 +19,27 @@ export default function TaskQueueHeader() {
       </div>
 
       {/* Main header content */}
-      <div className="relative px-5 pt-6 pb-5 flex items-stretch justify-between gap-4">
+      <div className="relative px-5 pt-4 pb-4 flex items-center justify-between gap-3">
         {/* LEFT: Brand block */}
         <div className="flex flex-col justify-center">
           <div className="flex items-baseline gap-2">
-            <span className="text-[26px] font-black tracking-tight text-white uppercase leading-none">
+            <span className="text-[22px] font-black tracking-tight text-white uppercase leading-none">
               KOLLECT
             </span>
-            <span className="text-[26px] font-black tracking-tight text-header-accent uppercase leading-none">
+            <span className="text-[22px] font-black tracking-tight text-header-accent uppercase leading-none">
               LITE
             </span>
           </div>
-          <p className="text-[10px] text-header-muted font-medium tracking-[0.14em] uppercase mt-1.5">
-            Recovery. One Tap Away.
-          </p>
         </div>
 
         {/* Vertical divider */}
         <div className="w-px bg-white/15 self-stretch mx-1" />
 
-        {/* RIGHT: User info + logout */}
+        {/* RIGHT: User info + actions */}
         <div className="flex items-center gap-3 flex-1 justify-end">
           {/* User avatar circle */}
-          <div className="w-10 h-10 rounded-full bg-header-accent/20 border border-header-accent/40 flex items-center justify-center flex-shrink-0">
-            <User className="w-5 h-5 text-header-accent" />
+          <div className="w-8 h-8 rounded-full bg-header-accent/20 border border-header-accent/40 flex items-center justify-center flex-shrink-0">
+            <User className="w-4 h-4 text-header-accent" />
           </div>
 
           {/* Name + ID */}
@@ -53,11 +52,29 @@ export default function TaskQueueHeader() {
             </span>
           </div>
 
+          {/* Dark mode toggle */}
+          <button
+            type="button"
+            onClick={toggle}
+            className="flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
+            aria-label="Toggle dark mode"
+            data-ocid="header.dark_mode.toggle"
+          >
+            {isDark ? (
+              <Sun className="w-3.5 h-3.5 text-header-muted" />
+            ) : (
+              <Moon className="w-3.5 h-3.5 text-header-muted" />
+            )}
+            <span className="text-[10px] text-header-muted font-medium">
+              {isDark ? "Light" : "Dark"}
+            </span>
+          </button>
+
           {/* Logout button */}
           <button
             type="button"
             onClick={handleLogout}
-            className="ml-1 flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-2 rounded-md bg-white/10 hover:bg-white/20 active:bg-white/25 transition-colors border border-white/10 flex-shrink-0"
             aria-label="Logout"
           >
             <LogOut className="w-3.5 h-3.5 text-header-muted" />

@@ -1,8 +1,7 @@
-import { ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { ChevronDown, ChevronUp, Send } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useAddActivity } from "../hooks/useQueries";
-import ActivityTimeline from "./ActivityTimeline";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -14,13 +13,35 @@ import {
 } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 
-interface ActivitySectionProps {
-  caseId: string;
+export interface NewActivityEntry {
+  id: string;
+  date: string;
+  time: string;
+  action: string;
+  outcome: string;
+  comment: string;
+  officer: string;
+  nextReviewDate: string;
 }
 
-export default function ActivitySection({ caseId }: ActivitySectionProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showHistory, setShowHistory] = useState(false);
+interface ActivitySectionProps {
+  caseId: string;
+  isCollapsed?: boolean;
+  onToggle?: () => void;
+  onCommentAdded?: (entry: NewActivityEntry) => void;
+}
+
+export default function ActivitySection({
+  caseId,
+  isCollapsed: controlledCollapsed,
+  onToggle,
+  onCommentAdded,
+}: ActivitySectionProps) {
+  const [internalCollapsed, setInternalCollapsed] = useState(false);
+  const isCollapsed =
+    controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
+  const handleToggle = onToggle ?? (() => setInternalCollapsed((p) => !p));
+
   const [actionType, setActionType] = useState("");
   const [outcome, setOutcome] = useState("");
   const [comments, setComments] = useState("");
@@ -36,14 +57,10 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       toast.error("Please select both action and outcome");
       return;
     }
-
-    if (outcome === "PTP") {
-      if (!ptpAmount || !ptpDate) {
-        toast.error("Please enter PTP Amount and PTP Date");
-        return;
-      }
+    if (outcome === "PTP" && (!ptpAmount || !ptpDate)) {
+      toast.error("Please enter PTP Amount and PTP Date");
+      return;
     }
-
     try {
       await addActivityMutation.mutateAsync({
         caseId,
@@ -61,6 +78,34 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
         },
       });
 
+      // Build a debt-card activity entry and bubble it up
+      if (onCommentAdded) {
+        const now = new Date();
+        const reviewDate = new Date(now);
+        reviewDate.setDate(reviewDate.getDate() + 7);
+        const fmt = (d: Date) =>
+          d.toLocaleDateString("en-GB", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+        const timeFmt = now.toLocaleTimeString("en-GB", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        });
+        onCommentAdded({
+          id: `new-${Date.now()}`,
+          date: fmt(now),
+          time: timeFmt,
+          action: actionType,
+          outcome,
+          comment: comments,
+          officer: "Sarah Mitchell",
+          nextReviewDate: fmt(reviewDate),
+        });
+      }
+
       setActionType("");
       setOutcome("");
       setComments("");
@@ -68,9 +113,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       setPtpDate("");
       setCapturedBy("");
       setRecommendationSummary("");
-
       toast.success("Activity added successfully");
-      setShowHistory(true);
     } catch (error) {
       console.error("Error adding activity:", error);
       toast.error("Failed to add activity");
@@ -80,15 +123,14 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
   const isPTP = outcome === "PTP";
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <button
         type="button"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full flex items-center justify-between mb-0"
+        onClick={handleToggle}
+        className="w-full flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-200"
         data-ocid="activity.collapse.toggle"
       >
-        <h2 className="text-base font-semibold text-gray-900 flex items-center gap-2">
-          <span className="text-lg">⚡</span>
+        <h2 className="text-xs font-semibold text-gray-700 tracking-wide uppercase">
           Activity
         </h2>
         {isCollapsed ? (
@@ -99,7 +141,7 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
       </button>
 
       {!isCollapsed && (
-        <div className="space-y-3 mt-3">
+        <div className="space-y-3 p-3">
           {/* Action and Outcome side by side */}
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -139,7 +181,8 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
                 >
                   <SelectValue placeholder="Select outcome" />
                 </SelectTrigger>
-                <SelectContent>
+                {/* max-h limits to ~6 items (each ~32px) with scroll */}
+                <SelectContent className="max-h-[192px] overflow-y-auto">
                   <SelectItem value="PTP">PTP</SelectItem>
                   <SelectItem value="Deceased">Deceased</SelectItem>
                   <SelectItem value="FNF">FNF</SelectItem>
@@ -267,56 +310,41 @@ export default function ActivitySection({ caseId }: ActivitySectionProps) {
             </div>
           </div>
 
-          {/* Comment label row — label left, Show History toggle right */}
-          <div className="flex items-center justify-between">
+          {/* Comment with inline send button */}
+          <div>
             <label
               htmlFor="activity-comment"
-              className="text-xs font-medium text-gray-700"
+              className="text-xs font-medium text-gray-700 block mb-1"
             >
               Comment
             </label>
-            <button
-              type="button"
-              onClick={() => setShowHistory(!showHistory)}
-              className="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors flex items-center gap-1"
-              data-ocid="activity.history.toggle"
-            >
-              {showHistory ? "▲ Hide History" : "▼ Show History"}
-            </button>
+            <div className="relative">
+              <Textarea
+                id="activity-comment"
+                placeholder="Add a comment..."
+                value={comments}
+                onChange={(e) => setComments(e.target.value)}
+                className="text-xs resize-none pr-8"
+                rows={3}
+                data-ocid="activity.comment.textarea"
+              />
+              <Button
+                type="button"
+                size="sm"
+                onClick={handleAddComment}
+                disabled={!comments.trim() || addActivityMutation.isPending}
+                className="absolute bottom-2 right-2 h-6 w-6 p-0 bg-transparent hover:bg-blue-50 border-0 shadow-none disabled:opacity-30"
+                data-ocid="activity.send.button"
+                aria-label="Submit comment"
+              >
+                {addActivityMutation.isPending ? (
+                  <span className="w-3 h-3 border-2 border-blue-600/30 border-t-blue-600 rounded-full animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4 text-blue-600" />
+                )}
+              </Button>
+            </div>
           </div>
-
-          {/* Comment textarea */}
-          <Textarea
-            id="activity-comment"
-            placeholder="Add a comment..."
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
-            className="text-xs resize-none"
-            rows={3}
-            data-ocid="activity.comment.textarea"
-          />
-
-          {/* Add Comment button */}
-          <Button
-            onClick={handleAddComment}
-            disabled={!comments.trim() || addActivityMutation.isPending}
-            className="w-full h-8 text-xs bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-40"
-            data-ocid="activity.add_comment.button"
-          >
-            {addActivityMutation.isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                Adding...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                <Plus className="w-3.5 h-3.5" />
-                Add Comment
-              </span>
-            )}
-          </Button>
-
-          {showHistory && <ActivityTimeline caseId={caseId} />}
         </div>
       )}
     </div>

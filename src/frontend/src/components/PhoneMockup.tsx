@@ -3,11 +3,16 @@ import type { ReactNode } from "react";
 interface PhoneMockupProps {
   children: ReactNode;
   bottomNav?: ReactNode;
+  overlay?: ReactNode;
 }
 
-export default function PhoneMockup({ children, bottomNav }: PhoneMockupProps) {
+export default function PhoneMockup({
+  children,
+  bottomNav,
+  overlay,
+}: PhoneMockupProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 p-8">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:bg-[#111827] dark:from-[#111827] dark:to-[#111827] p-8">
       <div className="relative">
         {/* iPhone frame */}
         <div className="relative w-[375px] h-[812px] bg-black rounded-[3rem] shadow-2xl p-3">
@@ -15,13 +20,15 @@ export default function PhoneMockup({ children, bottomNav }: PhoneMockupProps) {
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-40 h-7 bg-black rounded-b-3xl z-10" />
 
           {/* Screen */}
-          <div className="relative w-full h-full bg-white rounded-[2.5rem] overflow-hidden">
+          <div className="relative w-full h-full bg-white dark:bg-[#0E1A2E] rounded-[2.5rem] overflow-hidden">
             {/* Status bar */}
-            <div className="absolute top-0 left-0 right-0 h-11 bg-white z-10 flex items-center justify-between px-6 pt-2">
-              <span className="text-xs font-semibold">9:41</span>
+            <div className="absolute top-0 left-0 right-0 h-11 bg-white dark:bg-[#0E1A2E] z-10 flex items-center justify-between px-6 pt-2">
+              <span className="text-xs font-semibold dark:text-white">
+                9:41
+              </span>
               <div className="flex items-center gap-1">
                 <svg
-                  className="w-4 h-3"
+                  className="w-4 h-3 dark:text-white"
                   viewBox="0 0 16 12"
                   fill="none"
                   aria-label="Battery"
@@ -53,6 +60,9 @@ export default function PhoneMockup({ children, bottomNav }: PhoneMockupProps) {
                 {bottomNav}
               </div>
             )}
+
+            {/* Full-screen overlay — rendered above everything, anchored to the screen */}
+            {overlay && <div className="absolute inset-0 z-50">{overlay}</div>}
           </div>
         </div>
       </div>

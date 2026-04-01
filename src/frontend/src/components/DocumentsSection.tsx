@@ -13,43 +13,41 @@ import {
 import { useState } from "react";
 import { Button } from "./ui/button";
 
-// Dummy documents
-const DUMMY_DOCUMENTS = [
-  {
-    id: "1",
-    name: "Contract_Agreement.pdf",
-    fileType: "PDF",
-    uploadDate: "2024-01-10",
-  },
-  {
-    id: "2",
-    name: "Payment_Receipt.pdf",
-    fileType: "PDF",
-    uploadDate: "2024-01-15",
-  },
-];
+interface UploadedDoc {
+  id: string;
+  name: string;
+  fileType: string;
+  uploadDate: string;
+}
 
-// Helper function to get the appropriate icon based on file type
 const getDocumentIcon = (fileType: string) => {
   const type = fileType.toLowerCase();
+  if (type === "image" || type === "jpg" || type === "jpeg" || type === "png") {
+    return Image;
+  }
   if (type === "pdf" || type === "doc" || type === "docx" || type === "txt") {
     return FileText;
-  }
-  if (
-    type === "jpg" ||
-    type === "jpeg" ||
-    type === "png" ||
-    type === "gif" ||
-    type === "image"
-  ) {
-    return Image;
   }
   return File;
 };
 
-export default function DocumentsSection(_props: { caseId: string }) {
+interface DocumentsSectionProps {
+  caseId: string;
+  isCollapsed?: boolean;
+  onToggle?: () => void;
+}
+
+export default function DocumentsSection({
+  isCollapsed: controlledCollapsed,
+  onToggle,
+}: DocumentsSectionProps) {
+  const [internalCollapsed, setInternalCollapsed] = useState(true);
+  const isCollapsed =
+    controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
+  const handleToggle = onToggle ?? (() => setInternalCollapsed((p) => !p));
+
   const [pendingFile, setPendingFile] = useState<File | null>(null);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [uploadedDocs, setUploadedDocs] = useState<UploadedDoc[]>([]);
 
   const handlePreview = (docId: string) => {
     console.log("Preview document:", docId);
@@ -61,31 +59,41 @@ export default function DocumentsSection(_props: { caseId: string }) {
     input.accept = ".pdf,.doc,.docx,.jpg,.jpeg,.png";
     input.onchange = (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
-      if (file) {
-        setPendingFile(file);
-      }
+      if (file) setPendingFile(file);
     };
     input.click();
   };
 
-  const handleCancel = () => {
-    setPendingFile(null);
-  };
+  const handleCancel = () => setPendingFile(null);
 
   const handleSubmit = () => {
-    // Submit logic will be wired to backend when ready
+    if (!pendingFile) return;
+    const ext = pendingFile.name.split(".").pop()?.toUpperCase() ?? "FILE";
+    const newDoc: UploadedDoc = {
+      id: Date.now().toString(),
+      name: pendingFile.name,
+      fileType: ext,
+      uploadDate: new Date().toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
+    };
+    setUploadedDocs((prev) => [newDoc, ...prev]);
     setPendingFile(null);
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <button
         type="button"
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="w-full flex items-center justify-between mb-0"
+        onClick={handleToggle}
+        className="w-full flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-200"
         data-ocid="documents.collapse.toggle"
       >
-        <h2 className="text-base font-semibold text-gray-900">Documents</h2>
+        <h2 className="text-xs font-semibold text-gray-700 tracking-wide uppercase">
+          Documents
+        </h2>
         {isCollapsed ? (
           <ChevronDown className="w-4 h-4 text-gray-500" />
         ) : (
@@ -94,10 +102,10 @@ export default function DocumentsSection(_props: { caseId: string }) {
       </button>
 
       {!isCollapsed && (
-        <div className="space-y-3 mt-3">
-          {DUMMY_DOCUMENTS.length > 0 ? (
+        <div className="space-y-3 p-3">
+          {uploadedDocs.length > 0 ? (
             <div className="space-y-2">
-              {DUMMY_DOCUMENTS.map((doc) => {
+              {uploadedDocs.map((doc) => {
                 const IconComponent = getDocumentIcon(doc.fileType);
                 return (
                   <div
@@ -132,9 +140,11 @@ export default function DocumentsSection(_props: { caseId: string }) {
               })}
             </div>
           ) : (
-            <div className="text-center py-6 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-              <FileText className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-500">No documents uploaded yet</p>
+            <div className="text-center py-5 px-4 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+              <FileText className="w-7 h-7 text-gray-400 mx-auto mb-1.5" />
+              <p className="text-xs text-gray-500">
+                No documents uploaded for this action yet
+              </p>
             </div>
           )}
 
@@ -157,7 +167,6 @@ export default function DocumentsSection(_props: { caseId: string }) {
 
           {/* Action buttons */}
           {pendingFile ? (
-            /* Cancel + Submit pair when a file is staged */
             <div className="flex gap-2 pt-1">
               <Button
                 variant="outline"
@@ -171,14 +180,13 @@ export default function DocumentsSection(_props: { caseId: string }) {
               <Button
                 size="sm"
                 onClick={handleSubmit}
-                className="flex-1 h-9 text-sm font-medium bg-forest-base hover:bg-forest-medium text-white transition-colors"
+                className="flex-1 h-9 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
               >
                 <CheckCircle className="w-4 h-4 mr-1.5" />
                 Submit
               </Button>
             </div>
           ) : (
-            /* Upload + Scan pair when no file is staged */
             <div className="flex gap-2 pt-1">
               <Button
                 variant="outline"

@@ -7,12 +7,17 @@ import {
   Mail,
   MessageSquare,
   Phone,
-  Shield,
   Users,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { type Case as BaseCase, CaseStatus } from "../backend";
-import ActivitySection from "../components/ActivitySection";
+import ActivitySection, {
+  type NewActivityEntry,
+} from "../components/ActivitySection";
+import DebtCardModal, {
+  type DebtCardActivity,
+} from "../components/DebtCardModal";
+import DocumentHistoryModal from "../components/DocumentHistoryModal";
 import DocumentsSection from "../components/DocumentsSection";
 import PhoneMockup from "../components/PhoneMockup";
 import { Button } from "../components/ui/button";
@@ -28,112 +33,8 @@ import {
   PopoverTrigger,
 } from "../components/ui/popover";
 
-// Extend the base Case type to include productName
 type Case = BaseCase & { productName?: string };
 
-interface Guarantor {
-  memberNo: string;
-  name: string;
-  guaranteedAmount: number;
-  savingsAmount: number;
-  shareAvailable: number;
-  guarantorStatus: "Attached" | "Cancelled";
-}
-
-const DUMMY_GUARANTORS: Record<string, Guarantor[]> = {
-  "CASE-002": [
-    {
-      memberNo: "147",
-      name: "Joseph Njoroge",
-      guaranteedAmount: 8000,
-      savingsAmount: 3500,
-      shareAvailable: 2200,
-      guarantorStatus: "Attached",
-    },
-    {
-      memberNo: "283",
-      name: "Alice Mwangi",
-      guaranteedAmount: 5500,
-      savingsAmount: 2800,
-      shareAvailable: 1600,
-      guarantorStatus: "Attached",
-    },
-    {
-      memberNo: "391",
-      name: "Kenneth Otieno",
-      guaranteedAmount: 3000,
-      savingsAmount: 1200,
-      shareAvailable: 800,
-      guarantorStatus: "Cancelled",
-    },
-  ],
-  "CASE-003": [
-    {
-      memberNo: "512",
-      name: "Rebecca Wanjiku",
-      guaranteedAmount: 5000,
-      savingsAmount: 2000,
-      shareAvailable: 1500,
-      guarantorStatus: "Attached",
-    },
-    {
-      memberNo: "634",
-      name: "Samuel Kamau",
-      guaranteedAmount: 4200,
-      savingsAmount: 1800,
-      shareAvailable: 1100,
-      guarantorStatus: "Attached",
-    },
-  ],
-  "CASE-004": [
-    {
-      memberNo: "728",
-      name: "Hannah Chebet",
-      guaranteedAmount: 12000,
-      savingsAmount: 5500,
-      shareAvailable: 3800,
-      guarantorStatus: "Attached",
-    },
-    {
-      memberNo: "845",
-      name: "Philip Odhiambo",
-      guaranteedAmount: 9000,
-      savingsAmount: 4200,
-      shareAvailable: 2900,
-      guarantorStatus: "Attached",
-    },
-    {
-      memberNo: "963",
-      name: "Esther Kariuki",
-      guaranteedAmount: 6500,
-      savingsAmount: 3100,
-      shareAvailable: 2000,
-      guarantorStatus: "Cancelled",
-    },
-  ],
-};
-
-// Default guarantors for cases not explicitly listed
-const DEFAULT_GUARANTORS: Guarantor[] = [
-  {
-    memberNo: "217",
-    name: "Michael Kimani",
-    guaranteedAmount: 7000,
-    savingsAmount: 3200,
-    shareAvailable: 2100,
-    guarantorStatus: "Attached",
-  },
-  {
-    memberNo: "459",
-    name: "Priscilla Akinyi",
-    guaranteedAmount: 4800,
-    savingsAmount: 2100,
-    shareAvailable: 1400,
-    guarantorStatus: "Attached",
-  },
-];
-
-// Dummy case data lookup (Michael Johnson / CASE-001 removed)
 const DUMMY_CASES_MAP: Record<string, Case> = {
   "CASE-002": {
     id: "CASE-002",
@@ -447,19 +348,41 @@ export default function CaseDetail() {
   const [copiedCustomerId, setCopiedCustomerId] = useState(false);
   const [selectedMobile, setSelectedMobile] = useState("");
   const [contactPopoverOpen, setContactPopoverOpen] = useState(false);
-  const [guarantorPopoverOpen, setGuarantorPopoverOpen] = useState(false);
-  const [selectedGuarantorMemberNo, setSelectedGuarantorMemberNo] =
-    useState("");
-  const [selectedAction, setSelectedAction] = useState<string | null>(null);
+  const [showDebtCard, setShowDebtCard] = useState(false);
+  const [showDocHistory, setShowDocHistory] = useState(false);
+  const [extraDebtCardActivities, setExtraDebtCardActivities] = useState<
+    DebtCardActivity[]
+  >([]);
+
+  const handleCommentAdded = (entry: NewActivityEntry) => {
+    setExtraDebtCardActivities((prev) => [entry, ...prev]);
+  };
+
+  const [activityCollapsed, setActivityCollapsed] = useState(false);
+  const [docsCollapsed, setDocsCollapsed] = useState(true);
+
+  const handleToggleActivity = () => {
+    if (!activityCollapsed) {
+      setActivityCollapsed(true);
+      setDocsCollapsed(false);
+    } else {
+      setActivityCollapsed(false);
+    }
+  };
+
+  const handleToggleDocs = () => {
+    if (!docsCollapsed) {
+      setDocsCollapsed(true);
+      setActivityCollapsed(false);
+    } else {
+      setDocsCollapsed(false);
+    }
+  };
 
   const caseData = DUMMY_CASES_MAP[caseId];
-  const guarantors = DUMMY_GUARANTORS[caseId] || DEFAULT_GUARANTORS;
 
-  // Set primary contact as default when case data loads
   useEffect(() => {
-    if (caseData) {
-      setSelectedMobile(caseData.primaryContact);
-    }
+    if (caseData) setSelectedMobile(caseData.primaryContact);
   }, [caseData]);
 
   if (!caseData) {
@@ -472,9 +395,7 @@ export default function CaseDetail() {
     );
   }
 
-  const handleBack = () => {
-    navigate({ to: "/tasks" });
-  };
+  const handleBack = () => navigate({ to: "/tasks" });
 
   const handleCopyCustomerId = async () => {
     try {
@@ -491,11 +412,51 @@ export default function CaseDetail() {
     setContactPopoverOpen(false);
   };
 
+  // Determine active overlay
+  let overlay: React.ReactNode | undefined;
+  if (showDebtCard) {
+    overlay = (
+      <DebtCardModal
+        caseId={caseData.id}
+        debtorName={caseData.debtorName}
+        onClose={() => setShowDebtCard(false)}
+        extraActivities={extraDebtCardActivities}
+      />
+    );
+  } else if (showDocHistory) {
+    overlay = (
+      <DocumentHistoryModal
+        debtorName={caseData.debtorName}
+        onClose={() => setShowDocHistory(false)}
+      />
+    );
+  }
+
+  // Sticky Cancel / Submit footer
+  const stickyFooter = (
+    <div className="flex gap-2 px-3 py-2.5 bg-white border-t border-gray-200">
+      <Button
+        variant="outline"
+        className="flex-1 h-9 text-sm border-gray-300 text-gray-700 hover:bg-gray-50"
+        onClick={handleBack}
+        data-ocid="case_detail.cancel.button"
+      >
+        Cancel
+      </Button>
+      <Button
+        className="flex-1 h-9 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm"
+        data-ocid="case_detail.submit.button"
+      >
+        Submit
+      </Button>
+    </div>
+  );
+
   return (
-    <PhoneMockup>
-      <div className="p-3">
+    <PhoneMockup overlay={overlay} bottomNav={stickyFooter}>
+      <div className="p-3 pb-2">
         {/* Header */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-3 border-t border-b border-black/10 py-2 -mx-3 px-3">
           <button
             type="button"
             onClick={handleBack}
@@ -511,50 +472,61 @@ export default function CaseDetail() {
                 className="h-7 px-2.5 text-xs bg-blue-600 hover:bg-blue-700 text-white font-semibold flex items-center gap-1"
                 data-ocid="case_detail.action.dropdown_menu"
               >
-                {selectedAction ?? "Action"}
+                Action
                 <ChevronDown className="w-3 h-3" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-36">
               <DropdownMenuItem
-                onClick={() => setSelectedAction("360 View")}
-                className="text-xs cursor-pointer"
-                data-ocid="case_detail.action.360_view.button"
-              >
-                360 View
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setSelectedAction("Debt Card")}
+                onClick={() => setShowDebtCard(true)}
                 className="text-xs cursor-pointer"
                 data-ocid="case_detail.action.debt_card.button"
               >
                 Debt Card
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setShowDocHistory(true)}
+                className="text-xs cursor-pointer"
+                data-ocid="case_detail.action.documents.button"
+              >
+                Documents
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
 
         {/* Customer Info */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 mb-3">
-          {/* Name and Action Buttons Row */}
-          <div className="flex items-center justify-between mb-3">
-            <h2 className="text-base font-bold text-gray-900">
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-3">
+          <div className="flex items-center justify-between px-3 py-2 bg-gray-50 border-b border-gray-200">
+            <h2 className="text-xs font-semibold text-gray-700 tracking-wide uppercase">
               {caseData.debtorName}
             </h2>
             <div className="flex items-center gap-1.5">
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <Phone className="w-3.5 h-3.5" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 w-6 p-0 border-gray-300 bg-white hover:bg-blue-50 text-gray-600"
+              >
+                <Phone className="w-3 h-3" />
               </Button>
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <MessageSquare className="w-3.5 h-3.5" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 w-6 p-0 border-gray-300 bg-white hover:bg-blue-50 text-gray-600"
+              >
+                <MessageSquare className="w-3 h-3" />
               </Button>
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0">
-                <Mail className="w-3.5 h-3.5" />
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-6 w-6 p-0 border-gray-300 bg-white hover:bg-blue-50 text-gray-600"
+              >
+                <Mail className="w-3 h-3" />
               </Button>
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="p-3 space-y-2">
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium text-gray-500 w-24">
                 Customer ID:
@@ -602,173 +574,39 @@ export default function CaseDetail() {
                   </PopoverTrigger>
                   <PopoverContent className="w-56 p-2 shadow-lg" align="start">
                     <div className="space-y-1.5">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleSelectContact(caseData.primaryContact)
-                        }
-                        className={`w-full text-left px-2 py-1.5 rounded-md transition-all ${
-                          selectedMobile === caseData.primaryContact
-                            ? "bg-teal-50 border border-teal-500"
-                            : "bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-0.5">
-                          <span className="text-[11px] font-semibold text-gray-900">
-                            Primary
-                          </span>
-                          {selectedMobile === caseData.primaryContact && (
-                            <Check className="w-3 h-3 text-teal-600" />
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Phone className="w-2.5 h-2.5 text-gray-500" />
-                          <span className="text-[11px] text-gray-700 font-medium">
-                            {caseData.primaryContact}
-                          </span>
-                        </div>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          handleSelectContact(caseData.secondaryContact)
-                        }
-                        className={`w-full text-left px-2 py-1.5 rounded-md transition-all ${
-                          selectedMobile === caseData.secondaryContact
-                            ? "bg-teal-50 border border-teal-500"
-                            : "bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between mb-0.5">
-                          <span className="text-[11px] font-semibold text-gray-900">
-                            Secondary
-                          </span>
-                          {selectedMobile === caseData.secondaryContact && (
-                            <Check className="w-3 h-3 text-teal-600" />
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Phone className="w-2.5 h-2.5 text-gray-500" />
-                          <span className="text-[11px] text-gray-700 font-medium">
-                            {caseData.secondaryContact}
-                          </span>
-                        </div>
-                      </button>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </div>
-            </div>
-
-            {/* Guarantor Details */}
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium text-gray-500 w-24">
-                Guarantor:
-              </span>
-              <div className="flex items-center gap-1 flex-1">
-                <div className="flex items-center gap-1.5 px-2 py-1 bg-gray-50 border border-gray-200 rounded flex-1">
-                  <span className="text-xs text-gray-700 font-mono">
-                    {selectedGuarantorMemberNo || (
-                      <span className="text-gray-400 italic">
-                        None selected
-                      </span>
-                    )}
-                  </span>
-                </div>
-                <Popover
-                  open={guarantorPopoverOpen}
-                  onOpenChange={setGuarantorPopoverOpen}
-                >
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="h-7 w-7 p-0 border-blue-200 hover:bg-blue-50"
-                      data-ocid="customer.guarantor_picker.open_modal_button"
-                    >
-                      <Shield className="w-3.5 h-3.5 text-blue-600" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-72 p-0 shadow-xl"
-                    align="start"
-                    side="bottom"
-                  >
-                    <div className="bg-blue-600 px-3 py-2 rounded-t-md">
-                      <p className="text-xs font-semibold text-white">
-                        Guarantors
-                      </p>
-                    </div>
-                    <div className="divide-y divide-gray-100">
-                      {/* Table header */}
-                      <div className="grid grid-cols-5 gap-1 px-2 py-1.5 bg-gray-50">
-                        <span className="text-[9px] font-semibold text-gray-500 col-span-1">
-                          Member No
-                        </span>
-                        <span className="text-[9px] font-semibold text-gray-500 col-span-1">
-                          Name
-                        </span>
-                        <span className="text-[9px] font-semibold text-gray-500 text-right">
-                          Gtd Amt
-                        </span>
-                        <span className="text-[9px] font-semibold text-gray-500 text-center">
-                          Status
-                        </span>
-                        <span className="text-[9px] font-semibold text-gray-500 text-center">
-                          Select
-                        </span>
-                      </div>
-                      {guarantors.map((g) => (
-                        <div
-                          key={g.memberNo}
-                          className="grid grid-cols-5 gap-1 px-2 py-2 items-center hover:bg-gray-50 transition-colors"
+                      {[
+                        { label: "Primary", value: caseData.primaryContact },
+                        {
+                          label: "Secondary",
+                          value: caseData.secondaryContact,
+                        },
+                      ].map((c) => (
+                        <button
+                          key={c.label}
+                          type="button"
+                          onClick={() => handleSelectContact(c.value)}
+                          className={`w-full text-left px-2 py-1.5 rounded-md transition-all ${
+                            selectedMobile === c.value
+                              ? "bg-teal-50 border border-teal-500"
+                              : "bg-white border border-gray-200 hover:bg-gray-50 hover:border-gray-300"
+                          }`}
                         >
-                          <span className="text-[9px] font-mono text-blue-700 col-span-1 truncate">
-                            {g.memberNo}
-                          </span>
-                          <span className="text-[9px] text-gray-800 font-medium col-span-1 truncate">
-                            {g.name}
-                          </span>
-                          <span className="text-[9px] text-gray-700 text-right">
-                            {g.guaranteedAmount.toLocaleString()}
-                          </span>
-                          <span className="flex justify-center">
-                            <span
-                              className={`text-[8px] font-semibold px-1.5 py-0.5 rounded-full ${
-                                g.guarantorStatus === "Attached"
-                                  ? "bg-green-100 text-green-700"
-                                  : "bg-gray-200 text-gray-500"
-                              }`}
-                            >
-                              {g.guarantorStatus}
+                          <div className="flex items-center justify-between mb-0.5">
+                            <span className="text-[11px] font-semibold text-gray-900">
+                              {c.label}
                             </span>
-                          </span>
-                          <div className="flex justify-center">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedGuarantorMemberNo(g.memberNo);
-                                setGuarantorPopoverOpen(false);
-                              }}
-                              className={`text-[9px] font-semibold px-2 py-0.5 rounded border transition-all ${
-                                selectedGuarantorMemberNo === g.memberNo
-                                  ? "bg-blue-600 border-blue-600 text-white"
-                                  : "bg-white border-blue-300 text-blue-600 hover:bg-blue-50"
-                              }`}
-                              data-ocid="guarantor.select.button"
-                            >
-                              {selectedGuarantorMemberNo === g.memberNo
-                                ? "✓"
-                                : "Select"}
-                            </button>
+                            {selectedMobile === c.value && (
+                              <Check className="w-3 h-3 text-teal-600" />
+                            )}
                           </div>
-                        </div>
+                          <div className="flex items-center gap-1">
+                            <Phone className="w-2.5 h-2.5 text-gray-500" />
+                            <span className="text-[11px] text-gray-700 font-medium">
+                              {c.value}
+                            </span>
+                          </div>
+                        </button>
                       ))}
-                    </div>
-                    <div className="px-3 py-2 bg-gray-50 border-t border-gray-100 rounded-b-md">
-                      <p className="text-[9px] text-gray-400">
-                        Savings shown in KES · Click Select to populate field
-                      </p>
                     </div>
                   </PopoverContent>
                 </Popover>
@@ -816,27 +654,20 @@ export default function CaseDetail() {
         </div>
 
         {/* Activity Section */}
-        <ActivitySection caseId={caseData.id} />
+        <ActivitySection
+          caseId={caseData.id}
+          isCollapsed={activityCollapsed}
+          onToggle={handleToggleActivity}
+          onCommentAdded={handleCommentAdded}
+        />
 
         {/* Documents Section */}
-        <DocumentsSection caseId={caseData.id} />
-
-        {/* Action Buttons */}
-        <div className="flex gap-2 mt-3">
-          <Button
-            variant="outline"
-            className="flex-1 h-9 text-sm border-gray-300 text-gray-700 hover:bg-gray-50"
-            onClick={handleBack}
-            data-ocid="case_detail.cancel.button"
-          >
-            Cancel
-          </Button>
-          <Button
-            className="flex-1 h-9 text-sm bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-sm"
-            data-ocid="case_detail.submit.button"
-          >
-            Submit
-          </Button>
+        <div className="mt-3">
+          <DocumentsSection
+            caseId={caseData.id}
+            isCollapsed={docsCollapsed}
+            onToggle={handleToggleDocs}
+          />
         </div>
       </div>
     </PhoneMockup>
